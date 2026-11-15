@@ -1,0 +1,154 @@
+{
+  "checks": [
+    "frozen input hashes and dimensions match",
+    "final test evaluated once and model selection freeze unchanged",
+    "external evaluation manifest validated",
+    "INAMHI yearbook rows/checkpoint hashes/source PDF hashes reconcile independently where supplied",
+    "no local external datasets, NASA datasets, model binaries, credential files, or CEDIA paths in release outputs",
+    "aggregate output checksums match the public summary"
+  ],
+  "created_at_utc": "2026-11-15T23:21:11.914489+00:00",
+  "external_evaluation": {
+    "manifest_sha256": "f043ef3b522b66f8f38bed09c450bf12af55e87bda3ecf146763a354ba996922",
+    "status": "EVALUATED_WITH_SOURCE_LIMITS"
+  },
+  "final_test": {
+    "manifest_sha256": "d1969de1833ba9d26f7701a151932799e765cd22951c19ba469a28117dddbc95",
+    "read_count": 1,
+    "status": "FINAL_TEST_EVALUATED_ONCE"
+  },
+  "frozen_inputs": {
+    "forecast": {
+      "bytes": 280450,
+      "path": "data/gold/kuntur_ecuador_pilot_bbox_forecast_plus1_v1.parquet",
+      "sha256": "67c69236a8516b11b900b90f63926c1047aae3af991b726c567b5c85020ce2ff"
+    },
+    "gold": {
+      "bytes": 332337,
+      "path": "data/gold/kuntur_ecuador_pilot_bbox_monthly_v1.parquet",
+      "sha256": "5883fe2f7af8a8d0a58dd87c6bc90340a157c71e0d3fed51fff3a850eb2368b2"
+    },
+    "original_split": {
+      "bytes": 6075,
+      "path": "data/gold/kuntur_forecast_split_indices_v1.parquet",
+      "sha256": "c2fbca4ac9636622a08e778913e2edfb23cc210453bf05114e1b3775b9b0726c"
+    }
+  },
+  "inamhi_local_validation": {
+    "checkpoint_manifest_sha256": "dd4b365af9f196080c05c805b862cc7a3cb8d6d6131ae109779aa3f31fec6faf",
+    "station_month_rows": 11412,
+    "status": "INDEPENDENT_YEAR_CHECKS_PASSED",
+    "years": [
+      {
+        "checkpoint_sha256": "03c558c09fef2276009ebe7d0ae91e837871dbb36127a7017f544e8ea9d29635",
+        "rows": 864,
+        "source_pdf_sha256": "2b1d96061691b4c63e7fbb1a278827a7d446f54d9137d7d93b172c1b9b8a997f",
+        "year": 2002
+      },
+      {
+        "checkpoint_sha256": "53b2d1c555957c8f2593a3208fc928a99dead6d4433cb9350acc62185c226bde",
+        "rows": 864,
+        "source_pdf_sha256": "2814dc14aa684aeb8ce8869f50c6df4a16a425b1d27064dd0910bb67e6673b2c",
+        "year": 2003
+      },
+      {
+        "checkpoint_sha256": "4afa5696de58688602aed7a055cd9425705bf67122294353080a4e8cce3099a0",
+        "rows": 804,
+        "source_pdf_sha256": "61526d28e9e95a5dda416a52f2b31105f7ec1a963372a0c9c57be439671be29b",
+        "year": 2004
+      },
+      {
+        "checkpoint_sha256": "404708133cb203e7382393fb07ef495b7989a86375563f23e2e3e260b97ab93c",
+        "rows": 840,
+        "source_pdf_sha256": "15dbc15f8097e5f971dad04f8fde4eb141df15b34aba0fd057f5d76173552ff1",
+        "year": 2005
+      },
+      {
+        "checkpoint_sha256": "f5984f1e50a1c476b45d1a8f519efc640ab69cd6d5513f405b67a31855207be7",
+        "rows": 936,
+        "source_pdf_sha256": "ccf5c9124123cd641a7ea6f91685fd4063d5f993cce5edf911a12243bc1b2a1c",
+        "year": 2006
+      },
+      {
+        "checkpoint_sha256": "32382ba59b214820914d5282249b62553e8358ff5f3d1df0e366b3cef755542d",
+        "rows": 1164,
+        "source_pdf_sha256": "f6f22d143a96f1266eec24803623d3c97791f39885f7785508410f4d981b39fb",
+        "year": 2007
+      },
+      {
+        "checkpoint_sha256": "d3da7ed9c1b5ab164e5aa0ffd923e9c6c6a219cb5f878a9ce2b3ef8a0f48131f",
+        "rows": 1212,
+        "source_pdf_sha256": "230dae55b501ed1af62f25ab169a9e02942301756fed990656e3fc43a4ec387e",
+        "year": 2008
+      },
+      {
+        "checkpoint_sha256": "0d0871f24fe16779b930ddc7daca24e09dd8d82dac922b630d9529671e2baf1e",
+        "rows": 1104,
+        "source_pdf_sha256": "79c62ec18826754beb5087a46657438d8bb83bcc980dd97dbebdf7f31c07faae",
+        "year": 2009
+      },
+      {
+        "checkpoint_sha256": "1d86c76a1e2008d0d5a310c3cb1fe27daa4e8d056d12729d30d86fd65b3681bb",
+        "rows": 1152,
+        "source_pdf_sha256": "37660693951c83ad1212a892689c126a31a6a61a99ed63f90cdf42919bf9e467",
+        "year": 2010
+      },
+      {
+        "checkpoint_sha256": "cddb1b03c5dc2c1f0a41d7edabc3cdd2a5a0d0770db75c580e8882aad1727991",
+        "rows": 1212,
+        "source_pdf_sha256": "43e353aa75afd7e6093c70d194525f7ab495f747c5880b116cd1cd979ac32ba0",
+        "year": 2011
+      },
+      {
+        "checkpoint_sha256": "fa8c9d7d68c9a36e2186ad694be9415bd919036a38eedf17c22649acda9fb057",
+        "rows": 1260,
+        "source_pdf_sha256": "d39ec1fa25e8dfc535894c75c191486ea9fec883a624d9a64b32b0580635b943",
+        "year": 2012
+      }
+    ]
+  },
+  "manifest_version": "1.0.0",
+  "release_files": {
+    "reports/phase2/PHASE2_HANDOFF_v1.md": {
+      "bytes": 12376,
+      "sha256": "b6eb37daa290031cda4c195d507564962aa79bd03c526a39e201d35fbe08b905"
+    },
+    "results/phase2/public/analytical_robustness_v1.csv": {
+      "bytes": 67265,
+      "sha256": "3c6325cce7921a3265955465f4103db60ed3830999a7295ed4760e0b169e4ba5"
+    },
+    "results/phase2/public/analytical_synthetic_reference_checks_v1.json": {
+      "bytes": 779,
+      "sha256": "bbfde677049eed195b804a8b246251091bd56846d46a2929961d459bbf99a277"
+    },
+    "results/phase2/public/analytical_trends_v1.csv": {
+      "bytes": 7414,
+      "sha256": "6387fa1aa63ea737aacd0c25a000fd2e9d054c57931b290c1d28de223a810608"
+    },
+    "results/phase2/public/external_comparison_summary_v1.csv": {
+      "bytes": 1936,
+      "sha256": "c47ab28bc542d90cbcafb53a70817b09d624c893046bf7dfd53dc31ff411128d"
+    },
+    "results/phase2/public/final_test_metrics_v1.csv": {
+      "bytes": 1502,
+      "sha256": "b1e2c0d5748ccc3cf868673bf85363efb8583cc17c0d8d327b8903b8cd082fff"
+    },
+    "results/phase2/public/ingestion_cache_benchmark_v1.csv": {
+      "bytes": 4877,
+      "sha256": "69641285e079c7629279e9656769de87e521c9e765ca494a18e605985e6a58fc"
+    },
+    "results/phase2/public/phase2_aggregate_summary_v1.json": {
+      "bytes": 65868,
+      "sha256": "a64cd59d84c634adae3471de21767440577e12f6a9b878c7a6f33302c98bea9a"
+    },
+    "results/phase2/public/robustness_scenario_summary_v1.csv": {
+      "bytes": 61307,
+      "sha256": "7a0a3045d9d1f12b9d43c479a65a3fd751a96ca6d60e69b2be98d1096b532c12"
+    },
+    "results/phase2/public/validation_benchmark_v1.csv": {
+      "bytes": 3060,
+      "sha256": "e89cfafe5d3b5845fe1014547b32f816993129fa121d4c940fb480382fe34355"
+    }
+  },
+  "status": "PASSED"
+}

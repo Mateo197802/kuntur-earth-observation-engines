@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software, cite the KUNTUR Competition v1.0 code release."
+title: "KUNTUR Earth Observation Engines"
+version: 1.0.0
+date-released: 2026-11-15
+type: software
+authors:
+  - name: "KUNTUR Project Team"
+abstract: >-
+  Research-stage software for quality-aware Earth observation time-series
+  processing, robustness evaluation, external product comparison, and
+  one-month regional temperature forecasting. Underlying satellite and
+  station observations are not included.

@@ -1,0 +1,378 @@
+{
+  "contract_sha256": "76353e01f8254924ec0c9d8c5f9937a5ded491d94fada69520b7036783e6c16c",
+  "dictionary_version": "1.0.0",
+  "region": {
+    "bbox_order": "west,south,east,north",
+    "bbox_wsen": [
+      -81.5,
+      -5.1,
+      -75.0,
+      1.7
+    ],
+    "claim_policy": "This rectangle is a pilot extraction area; it is not an administrative or watershed boundary and does not represent Coast, Andes, or Amazon masks.",
+    "crs": "EPSG:4326",
+    "region_id": "ecuador_pilot_bbox",
+    "status": "PRELIMINARY_EXTRACTION_AREA"
+  },
+  "variables": [
+    {
+      "dataset_id": "M2TMNXSLV.5.12.4",
+      "domain": "atmosphere",
+      "name": "2 m air temperature (native units)",
+      "quality_policy": "source fill/missing and source valid range if present; otherwise contract screen",
+      "screen_type": "broad physical plausibility screen; not a NASA-declared range",
+      "source_id": "merra2_monthly_slv",
+      "source_variable_name": "T2M",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "monthly_mean",
+      "transform_id": "identity_t2m_kelvin_v1",
+      "units": "K",
+      "valid_range_screen": [
+        150,
+        360
+      ],
+      "variable_id": "merra2_t2m_k"
+    },
+    {
+      "dataset_id": "M2TMNXSLV.5.12.4",
+      "domain": "atmosphere",
+      "name": "2 m air temperature",
+      "quality_policy": "same validity mask as merra2_t2m_k; Celsius = Kelvin - 273.15",
+      "screen_type": "inherited from source Kelvin field",
+      "source_id": "merra2_monthly_slv",
+      "source_variable_name": "T2M",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "monthly_mean",
+      "transform_id": "kelvin_to_celsius_v1",
+      "units": "degC",
+      "valid_range_screen": [
+        150,
+        360
+      ],
+      "variable_id": "merra2_t2m_c"
+    },
+    {
+      "dataset_id": "M2TMNXSLV.5.12.4",
+      "domain": "atmosphere",
+      "name": "2 m specific humidity",
+      "quality_policy": "source fill/missing and source valid range if present; otherwise contract screen",
+      "screen_type": "broad physical plausibility screen",
+      "source_id": "merra2_monthly_slv",
+      "source_variable_name": "QV2M",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "monthly_mean",
+      "transform_id": "identity_qv2m_v1",
+      "units": "kg kg-1",
+      "valid_range_screen": [
+        0,
+        0.1
+      ],
+      "variable_id": "merra2_qv2m"
+    },
+    {
+      "dataset_id": "M2TMNXSLV.5.12.4",
+      "domain": "atmosphere",
+      "name": "2 m eastward wind component",
+      "quality_policy": "source fill/missing and source valid range if present; otherwise contract screen",
+      "screen_type": "broad physical plausibility screen",
+      "source_id": "merra2_monthly_slv",
+      "source_variable_name": "U2M",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "monthly_mean",
+      "transform_id": "identity_u2m_v1",
+      "units": "m s-1",
+      "valid_range_screen": [
+        -150,
+        150
+      ],
+      "variable_id": "merra2_u2m"
+    },
+    {
+      "dataset_id": "M2TMNXSLV.5.12.4",
+      "domain": "atmosphere",
+      "name": "2 m northward wind component",
+      "quality_policy": "source fill/missing and source valid range if present; otherwise contract screen",
+      "screen_type": "broad physical plausibility screen",
+      "source_id": "merra2_monthly_slv",
+      "source_variable_name": "V2M",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "monthly_mean",
+      "transform_id": "identity_v2m_v1",
+      "units": "m s-1",
+      "valid_range_screen": [
+        -150,
+        150
+      ],
+      "variable_id": "merra2_v2m"
+    },
+    {
+      "dataset_id": "M2TMNXSLV.5.12.4",
+      "domain": "atmosphere",
+      "name": "surface pressure",
+      "quality_policy": "source fill/missing and source valid range if present; otherwise contract screen",
+      "screen_type": "broad physical plausibility screen",
+      "source_id": "merra2_monthly_slv",
+      "source_variable_name": "PS",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "monthly_mean",
+      "transform_id": "identity_ps_v1",
+      "units": "Pa",
+      "valid_range_screen": [
+        10000,
+        120000
+      ],
+      "variable_id": "merra2_ps"
+    },
+    {
+      "dataset_id": "GPM_3IMERGM.07",
+      "domain": "hydrology",
+      "name": "Final merged satellite-gauge monthly mean precipitation rate",
+      "quality_policy": "source fill/missing and source valid range if present; does not mask precipitation using quality index",
+      "screen_type": "broad physical plausibility screen",
+      "source_id": "gpm_imerg_monthly_final",
+      "source_variable_name": "precipitation",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "monthly_mean_rate",
+      "transform_id": "identity_imerg_rate_v1",
+      "units": "mm hr-1",
+      "valid_range_screen": [
+        0,
+        200
+      ],
+      "variable_id": "imerg_precip_rate"
+    },
+    {
+      "dataset_id": "GPM_3IMERGM.07",
+      "domain": "hydrology",
+      "name": "Precipitation accumulation derived from monthly mean rate",
+      "quality_policy": "monthly mean rate multiplied by exact proleptic Gregorian calendar hours; separate from NASA-provided rate",
+      "screen_type": "inherited from rate field",
+      "source_id": "gpm_imerg_monthly_final",
+      "source_variable_name": "precipitation",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "calendar_month_accumulation",
+      "transform_id": "imerg_rate_to_calendar_month_total_v1",
+      "units": "mm",
+      "valid_range_screen": [
+        0,
+        200
+      ],
+      "variable_id": "imerg_precip_monthly_total"
+    },
+    {
+      "dataset_id": "GPM_3IMERGM.07",
+      "domain": "hydrology",
+      "name": "IMERG random error estimate",
+      "quality_policy": "retain as source uncertainty context; not a confidence interval for the regional mean",
+      "screen_type": "broad physical plausibility screen",
+      "source_id": "gpm_imerg_monthly_final",
+      "source_variable_name": "randomError",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "monthly_error_field",
+      "transform_id": "identity_imerg_random_error_v1",
+      "units": "mm hr-1",
+      "valid_range_screen": [
+        0,
+        200
+      ],
+      "variable_id": "imerg_random_error"
+    },
+    {
+      "dataset_id": "GPM_3IMERGM.07",
+      "domain": "quality_context",
+      "name": "IMERG precipitation quality index",
+      "quality_policy": "reported as an index; never interpreted as a probability or used to mask precipitation",
+      "screen_type": "nonnegative sanity screen only; no quality threshold imposed",
+      "source_id": "gpm_imerg_monthly_final",
+      "source_variable_name": "precipitationQualityIndex",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean_of_stored_index",
+      "temporal_statistic": "monthly_quality_context",
+      "transform_id": "identity_imerg_quality_index_v1",
+      "units": "index (source units retained in metadata)",
+      "valid_range_screen": [
+        0,
+        1000000
+      ],
+      "variable_id": "imerg_quality_index"
+    },
+    {
+      "dataset_id": "GLDAS_NOAH025_M.2.1",
+      "domain": "hydrology",
+      "name": "0-10 cm soil moisture",
+      "quality_policy": "verify source cell_methods includes time: mean; do not sum",
+      "screen_type": "layer water-mass capacity screen, 100 kg m-2 maximum",
+      "source_id": "gldas_noah025_monthly",
+      "source_variable_name": "SoilMoi0_10cm_inst",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "published_monthly_time_mean",
+      "transform_id": "identity_gldas_v1",
+      "units": "kg m-2",
+      "valid_range_screen": [
+        0,
+        100
+      ],
+      "variable_id": "gldas_soil_moisture_0_10cm"
+    },
+    {
+      "dataset_id": "GLDAS_NOAH025_M.2.1",
+      "domain": "hydrology",
+      "name": "10-40 cm soil moisture",
+      "quality_policy": "verify source cell_methods includes time: mean; do not sum",
+      "screen_type": "layer water-mass capacity screen, 300 kg m-2 maximum",
+      "source_id": "gldas_noah025_monthly",
+      "source_variable_name": "SoilMoi10_40cm_inst",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "published_monthly_time_mean",
+      "transform_id": "identity_gldas_v1",
+      "units": "kg m-2",
+      "valid_range_screen": [
+        0,
+        300
+      ],
+      "variable_id": "gldas_soil_moisture_10_40cm"
+    },
+    {
+      "dataset_id": "GLDAS_NOAH025_M.2.1",
+      "domain": "hydrology",
+      "name": "40-100 cm soil moisture",
+      "quality_policy": "verify source cell_methods includes time: mean; do not sum",
+      "screen_type": "layer water-mass capacity screen, 600 kg m-2 maximum",
+      "source_id": "gldas_noah025_monthly",
+      "source_variable_name": "SoilMoi40_100cm_inst",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "published_monthly_time_mean",
+      "transform_id": "identity_gldas_v1",
+      "units": "kg m-2",
+      "valid_range_screen": [
+        0,
+        600
+      ],
+      "variable_id": "gldas_soil_moisture_40_100cm"
+    },
+    {
+      "dataset_id": "GLDAS_NOAH025_M.2.1",
+      "domain": "hydrology",
+      "name": "100-200 cm soil moisture",
+      "quality_policy": "verify source cell_methods includes time: mean; do not sum",
+      "screen_type": "layer water-mass capacity screen, 1000 kg m-2 maximum",
+      "source_id": "gldas_noah025_monthly",
+      "source_variable_name": "SoilMoi100_200cm_inst",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "published_monthly_time_mean",
+      "transform_id": "identity_gldas_v1",
+      "units": "kg m-2",
+      "valid_range_screen": [
+        0,
+        1000
+      ],
+      "variable_id": "gldas_soil_moisture_100_200cm"
+    },
+    {
+      "dataset_id": "GLDAS_NOAH025_M.2.1",
+      "domain": "hydrology",
+      "name": "Evapotranspiration rate",
+      "quality_policy": "verify source cell_methods includes time: mean; do not sum or multiply by month duration",
+      "screen_type": "source valid range only; no unsupported sign assumption",
+      "source_id": "gldas_noah025_monthly",
+      "source_variable_name": "Evap_tavg",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "published_monthly_time_mean",
+      "transform_id": "identity_gldas_v1",
+      "units": "kg m-2 s-1",
+      "valid_range_screen": null,
+      "variable_id": "gldas_evapotranspiration_rate"
+    },
+    {
+      "dataset_id": "GLDAS_NOAH025_M.2.1",
+      "domain": "hydrology",
+      "name": "Storm surface runoff model field",
+      "quality_policy": "source variable has acc suffix but monthly payload cell_methods must say time: mean; retain monthly mean and do not sum",
+      "screen_type": "broad nonnegative plausibility screen",
+      "source_id": "gldas_noah025_monthly",
+      "source_variable_name": "Qs_acc",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "published_monthly_time_mean",
+      "transform_id": "identity_gldas_v1",
+      "units": "kg m-2",
+      "valid_range_screen": [
+        0,
+        1000
+      ],
+      "variable_id": "gldas_storm_surface_runoff"
+    },
+    {
+      "dataset_id": "GLDAS_NOAH025_M.2.1",
+      "domain": "hydrology",
+      "name": "Baseflow-groundwater runoff model field",
+      "quality_policy": "source variable has acc suffix but monthly payload cell_methods must say time: mean; retain monthly mean and do not sum",
+      "screen_type": "broad nonnegative plausibility screen",
+      "source_id": "gldas_noah025_monthly",
+      "source_variable_name": "Qsb_acc",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "published_monthly_time_mean",
+      "transform_id": "identity_gldas_v1",
+      "units": "kg m-2",
+      "valid_range_screen": [
+        0,
+        1000
+      ],
+      "variable_id": "gldas_baseflow_runoff"
+    },
+    {
+      "dataset_id": "GLDAS_NOAH025_M.2.1",
+      "domain": "hydrology",
+      "name": "Snowmelt model field",
+      "quality_policy": "source variable has acc suffix but monthly payload cell_methods must say time: mean; retain monthly mean and do not sum",
+      "screen_type": "broad nonnegative plausibility screen",
+      "source_id": "gldas_noah025_monthly",
+      "source_variable_name": "Qsm_acc",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean",
+      "temporal_statistic": "published_monthly_time_mean",
+      "transform_id": "identity_gldas_v1",
+      "units": "kg m-2",
+      "valid_range_screen": [
+        0,
+        1000
+      ],
+      "variable_id": "gldas_snowmelt"
+    },
+    {
+      "dataset_id": "MOD13C2.061",
+      "domain": "biosphere",
+      "fill_value": -3000,
+      "name": "Normalized Difference Vegetation Index",
+      "quality_policy": "raw range/fill; MODLAND good; usefulness 0 or 1; pixel reliability 0; land-only; no adjacent/mixed cloud; geospatial bits retained as context",
+      "scale_factor": 0.0001,
+      "source_id": "modis_mod13c2_monthly_ndvi",
+      "source_variable_name": "CMG 0.05 Deg Monthly NDVI",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean_after_strict_QA",
+      "temporal_statistic": "monthly_composite",
+      "transform_id": "mod13c2_ndvi_scale_and_qa_v1",
+      "units": "1",
+      "valid_range_screen": [
+        -2000,
+        10000
+      ],
+      "variable_id": "modis_ndvi"
+    },
+    {
+      "dataset_id": "MOD13C2.061",
+      "domain": "biosphere",
+      "fill_value": -3000,
+      "name": "Enhanced Vegetation Index",
+      "quality_policy": "raw range/fill; MODLAND good; usefulness 0 or 1; pixel reliability 0; land-only; no adjacent/mixed cloud; geospatial bits retained as context",
+      "scale_factor": 0.0001,
+      "source_id": "modis_mod13c2_monthly_ndvi",
+      "source_variable_name": "CMG 0.05 Deg Monthly EVI",
+      "spatial_aggregation": "spherical_cell_area_weighted_mean_after_strict_QA",
+      "temporal_statistic": "monthly_composite",
+      "transform_id": "mod13c2_evi_scale_and_qa_v1",
+      "units": "1",
+      "valid_range_screen": [
+        -2000,
+        10000
+      ],
+      "variable_id": "modis_evi"
+    }
+  ]
+}

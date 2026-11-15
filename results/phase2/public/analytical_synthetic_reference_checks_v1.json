@@ -1,0 +1,26 @@
+{
+  "injected_trend": {
+    "clopper_pearson_95_detection_rate": [
+      0.9817246596448638,
+      1.0
+    ],
+    "detection_rate_at_0_05": 1.0,
+    "hac_ci_contains_true_rate": 0.89,
+    "mean_absolute_error_slope_per_decade": 0.029079833641371806,
+    "mean_estimated_slope_per_decade": 0.4975217659249795,
+    "median_estimated_slope_per_decade": 0.4977609526529212,
+    "synthetic_fixture_only": true,
+    "true_slope_per_decade": 0.5
+  },
+  "null_trend": {
+    "clopper_pearson_95": [
+      0.017424808994480595,
+      0.07729196822601608
+    ],
+    "false_positive_rate_at_0_05": 0.04,
+    "median_abs_slope_per_decade": 0.015550792322233012,
+    "p_value_median": 0.463255394145253,
+    "synthetic_fixture_only": true
+  },
+  "repetitions": 200
+}
