@@ -2,7 +2,7 @@
   "candidate_registry_rows": 106,
   "current_selection_progress": [
     {
-      "checkpoint_sha256": "77f6584643070498d0c7498bb1e267c9b3f8df7ba7fa6184856b90d552a06569",
+      "checkpoint_sha256": "e76660f621e7e698847f6614dc79737189e9c6d2233873f391d26eeb23cf15c0",
       "convergence_failures": null,
       "coverage_95": null,
       "coverage_mc95_high": null,
@@ -18,25 +18,25 @@
       "power_mc95_high": null,
       "power_mc95_low": null,
       "process": "ar1_060_mcar20",
-      "replications_completed": 350,
+      "replications_completed": 125,
       "replications_requested": 500,
       "replications_valid": null,
       "round_manifest_sha256": null,
-      "scenario_id": "ar1_060_mcar20|n=276|slope=0.0",
-      "seed": 23022026,
+      "scenario_id": "ar1_060_mcar20|n=276|slope=0.25",
+      "seed": 23022028,
       "slope_bias_per_decade": null,
       "slope_rmse_per_decade": null,
       "source": "results/statistical_correction/selection/checkpoints",
       "source_table_sha256": null,
       "status": "RUNNING_INCOMPLETE",
-      "true_slope_per_decade": 0.0,
+      "true_slope_per_decade": 0.25,
       "type1_fpr_005": null,
       "type1_mc95_high": null,
       "type1_mc95_low": null
     }
   ],
-  "experiment_registry_rows": 349,
-  "generated_at_utc": "2026-11-16T06:07:09.150785+00:00",
+  "experiment_registry_rows": 365,
+  "generated_at_utc": "2026-11-16T06:11:23.157611+00:00",
   "independent_validation_status": "NOT_STARTED_SELECTION_IN_PROGRESS",
   "inputs": {
     "descriptive_trend_estimates_sha256": "43ee306cd8e1d93b541d5b2d3d7a6b6a5fd854b09788b315a271b58f4ee4ca60",
@@ -70,9 +70,9 @@
       "sha256": "e968a86612370e6a85d065476e46204431bce43789e817da770025194147b63f"
     },
     "experiment_registry": {
-      "bytes": 742795,
+      "bytes": 771239,
       "path": "results/optimization/experiment_registry.jsonl",
-      "sha256": "e9ecbb606ac7c3cfcff31ad190f0f76ab8d7771a13e86d403ff3450637c29f58"
+      "sha256": "b30f9c9660ed2f1f409a02e84afcb5a88eb72b8bd3d1703dbc1c7f5c3d60432f"
     },
     "frozen_test_manifest": {
       "bytes": 4382,
@@ -81,7 +81,7 @@
     },
     "metric_dashboard": {
       "path": "reports/optimization/metric_dashboard.html",
-      "sha256": "2d162467b90342635f36752964336fcf045bfef1de680717a8f6780f94fa6829"
+      "sha256": "4facea77c2588212180f87bbcbefbcc3d732c389350635e773c441e956f44601"
     },
     "metric_history": {
       "path": "results/optimization/metric_history.parquet",
@@ -89,7 +89,7 @@
     },
     "model_comparison": {
       "path": "results/optimization/model_comparison.csv",
-      "sha256": "6f2b3d471ddf0528a508de304806b234ffdd5386bdb9ac3fc5c7a3bfa38acc44"
+      "sha256": "851d988c061ab2fdc2833e1deba7500b1b3b4330d64a8b73d8c28a20e696d9c5"
     },
     "native_grid_collocation_summary": {
       "bytes": 151874,
@@ -112,9 +112,9 @@
       "sha256": "5d524bacea80e4c6c42144e143d6096d5ebba249c661f8d82501ce0bda324f19"
     },
     "statistical_calibration": {
-      "bytes": 142392,
+      "bytes": 150299,
       "path": "results/optimization/statistical_calibration.csv",
-      "sha256": "0acef8485267aa24d2b5a76f4d9eae65a42700cf29f2af2a8293c3b1b1125e71"
+      "sha256": "41631215d86e0abfaaf10b2cb9eae3b85ebb1f04324307338b5b981168be0375"
     }
   },
   "scope": "Aggregate candidate metrics, experiment provenance, and calibration scenario summaries only; raw environmental observations, prediction rows, and model binaries are excluded.",
@@ -123,6 +123,6 @@
     "pandas": "3.0.3",
     "python": "3.12.10"
   },
-  "statistical_calibration_rows": 234,
+  "statistical_calibration_rows": 250,
   "status": "AGGREGATES_BUILT_STATISTICAL_SELECTION_INCOMPLETE"
 }

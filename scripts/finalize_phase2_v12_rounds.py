@@ -339,7 +339,7 @@ def main() -> None:
     paired_path = round1 / "paired_v11_reference.json"
     paired_path.write_text(json.dumps(paired, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
     comparison_path = OPT / "model_comparison.csv"
-    comparison.to_csv(comparison_path, index=False)
+    comparison.to_csv(comparison_path, index=False, lineterminator="\n")
     best_path = OPT / "best_by_architecture.csv"
     best_arch.to_csv(best_path, index=False)
 
