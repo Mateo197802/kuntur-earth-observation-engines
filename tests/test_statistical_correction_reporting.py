@@ -83,7 +83,7 @@ def test_partial_manifest_excludes_checkpoints_not_in_the_aggregated_phase(tmp_p
 def test_pytest_checkpoint_does_not_freeze_a_stale_remote_pr_head():
     note = finalize_correction.pytest_checkpoint_note()
 
-    assert "151 passed on 2026-11-16" in note
+    assert "152 passed on 2026-11-16" in note
     assert "current remote commit" in note
     assert "ca17129f0e2e1ae3b53053e34b2dbbb76948b0fe" not in note
 
@@ -131,3 +131,21 @@ def test_modis_spatial_receipt_reports_remote_native_grid_evidence_without_priva
     assert "0.758805" in note
     assert "/home/" not in note
     assert "regional_manifest_sha256" not in note
+
+
+def test_finalizer_records_verified_git_source_commit(monkeypatch):
+    expected = "a" * 40
+    calls = {}
+
+    def fake_check_output(args, *, cwd, text):
+        calls["args"] = args
+        calls["cwd"] = cwd
+        calls["text"] = text
+        return expected + "\n"
+
+    monkeypatch.setattr(finalize_correction.subprocess, "check_output", fake_check_output)
+
+    assert finalize_correction.git_source_commit() == expected
+    assert calls["args"][-2:] == ["rev-parse", "HEAD"]
+    assert calls["cwd"] == finalize_correction.ROOT
+    assert calls["text"] is True

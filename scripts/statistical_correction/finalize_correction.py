@@ -6,6 +6,7 @@ import hashlib
 import json
 import platform
 from pathlib import Path
+import subprocess
 from typing import Any
 
 import matplotlib
@@ -82,9 +83,20 @@ ROOT_CAUSE_FIXES = {
 def pytest_checkpoint_note() -> str:
     """Describe the recorded local test run without freezing mutable remote CI state."""
     return (
-        "Recorded local workspace full suite: 151 passed on 2026-11-16; "
+        "Recorded local workspace full suite: 152 passed on 2026-11-16; "
         "verify GitHub CI against the current remote commit when reporting."
     )
+
+
+def git_source_commit() -> str:
+    commit = subprocess.check_output(
+        ["git", "-c", f"safe.directory={ROOT.as_posix()}", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        text=True,
+    ).strip()
+    if not (40 <= len(commit) <= 64) or any(char not in "0123456789abcdef" for char in commit.lower()):
+        raise ValueError("Git did not return a valid source commit hash")
+    return commit
 
 
 def modis_spatial_selection_receipt_note(receipt: dict[str, Any] | None) -> str:
@@ -511,7 +523,7 @@ def _save_figures(validation: pd.DataFrame, trends: pd.DataFrame) -> list[Path]:
 
 def _write_reports(
     selection_manifest: dict[str, Any] | None, validation_manifest: dict[str, Any] | None,
-    validation: pd.DataFrame, trends: pd.DataFrame, gold_sha: str,
+    validation: pd.DataFrame, trends: pd.DataFrame, gold_sha: str, source_commit: str,
 ) -> None:
     REPORTS.mkdir(parents=True, exist_ok=True)
     complete_validation = _validation_scope_complete(validation_manifest)
@@ -523,6 +535,7 @@ def _write_reports(
 ## State
 
 - Frozen Gold SHA-256: `{gold_sha}`. The Gold input and frozen forecast splits were read-only during this work.
+- Source Git commit used for these outputs: `{source_commit}`.
 - Selection phase: `{selection_status}`.
 - Independent validation phase: `{validation_status}`.
 - Independent validation rows that passed every applicable gate: {validated_rows}.
@@ -645,14 +658,14 @@ The frozen MODIS QA policy remains at valid-area fraction 0.10. The pre-existing
 ## Commands
 
 ```powershell
-$env:PYTHONPATH='src;scripts'
+$env:PYTHONPATH='src;.'
 python -m pytest -q
-python scripts/statistical_correction/run_calibration.py --phase selection
-python scripts/statistical_correction/run_calibration.py --phase validation
+python -m scripts.statistical_correction.run_calibration --phase selection
+python -m scripts.statistical_correction.run_calibration --phase validation
 # Or, instead of the full protocol above, freeze and run only the predeclared selection-eligible scope:
-python scripts/statistical_correction/run_scoped_validation.py --freeze-scope
-python scripts/statistical_correction/run_scoped_validation.py --run
-python scripts/statistical_correction/finalize_correction.py
+python -m scripts.statistical_correction.run_scoped_validation --freeze-scope
+python -m scripts.statistical_correction.run_scoped_validation --run
+python -m scripts.statistical_correction.finalize_correction
 ```
 
 The calibration runner checkpoints every 25 outer replications and each completed scenario atomically. It records independent seeds, protocol/script/module hashes, software versions, wall/CPU time, peak RSS, per-replication outputs, paired method comparisons and phase-level artifact SHA-256 values. Smoke outputs are isolated from selection and validation.
@@ -679,6 +692,7 @@ Native NASA source granules, frozen Gold, historical audits and forecast splits 
 
 
 def main() -> None:
+    source_commit = git_source_commit()
     gold_path = ROOT / "data/gold/kuntur_ecuador_pilot_bbox_monthly_v1.parquet"
     if sha256(gold_path) != EXPECTED_GOLD_SHA256:
         raise RuntimeError("Frozen Gold SHA-256 differs from the verified v1 input; refusing finalization.")
@@ -720,7 +734,7 @@ def main() -> None:
         "status": registry["status"],
     })
     figures = _save_figures(validation, trends)
-    _write_reports(selection_manifest, validation_manifest, validation, trends, gold_sha)
+    _write_reports(selection_manifest, validation_manifest, validation, trends, gold_sha, source_commit)
     correction_log = REPORTS / "CORRECTION_LOG.md"
     selection_hash = sha256(OUT / "selection/selection_manifest.json") if (OUT / "selection/selection_manifest.json").exists() else "none"
     validation_hash = sha256(OUT / "validation/calibration_manifest.json") if (OUT / "validation/calibration_manifest.json").exists() else "none"
@@ -752,6 +766,7 @@ def main() -> None:
             output_paths.extend(stable_phase_output_paths(phase_dir, phase_name, phase_frame))
     manifest = {
         "correction_version": "kuntur-statistical-inference-v1.2.0",
+        "source_commit": source_commit,
         "status": (
             "COMPLETED_WITH_INDEPENDENT_VALIDATION"
             if validation_manifest and validation_manifest.get("status") == "COMPLETED_PHASE"
