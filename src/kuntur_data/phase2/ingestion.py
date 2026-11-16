@@ -16,6 +16,7 @@ import pandas as pd
 
 
 INGESTION_VERSION = "phase2-ingestion-cache-1.0.0"
+ADAPTIVE_INGESTION_VERSION = "phase2-ingestion-adaptive-1.1.0"
 
 
 def sha256_file(path: Path) -> str:
@@ -415,6 +416,130 @@ class PartitionedGoldStore:
         result = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame(columns=columns)
         if not result.empty and {"dataset_id", "variable_id", "month"}.issubset(result.columns):
             result = result.sort_values(["dataset_id", "variable_id", "month"], kind="stable").reset_index(drop=True)
+        if cache_key:
+            self.cache.put_frame(cache_key, result)
+        return result
+
+
+class AdaptiveGoldReader:
+    """Choose direct Parquet scans for small Gold files and partitions for large ones.
+
+    The direct path avoids hundreds of tiny-file opens for the current 332 KB
+    Gold release. A caller may supply the existing partition store as a bounded
+    fallback for larger future releases. Cache identity includes the source
+    file SHA, contract version, filters, QA policy, aggregation and columns.
+    """
+
+    def __init__(
+        self,
+        gold_path: Path,
+        *,
+        contract_version: str = "1.1.0",
+        direct_scan_max_bytes: int = 5 * 1024 * 1024,
+        partition_store: PartitionedGoldStore | None = None,
+        cache: GlobalAnalyticalCache | None = None,
+    ):
+        self.gold_path = Path(gold_path)
+        self.contract_version = str(contract_version)
+        self.direct_scan_max_bytes = int(direct_scan_max_bytes)
+        if self.direct_scan_max_bytes < 0:
+            raise ValueError("direct_scan_max_bytes cannot be negative")
+        self.partition_store = partition_store
+        self.cache = cache
+        self.last_strategy: str | None = None
+
+    def query(
+        self,
+        *,
+        variable_ids: list[str] | None = None,
+        dataset_ids: list[str] | None = None,
+        region_id: str | None = None,
+        start_month: str | None = None,
+        end_month: str | None = None,
+        columns: list[str] | None = None,
+        coverage_threshold: float | None = None,
+        qa_policy: str = "v1 Gold quality_status and valid-area field",
+        aggregation_method: str = "precomputed Gold spherical_cell_area_weighted_mean",
+        statistical_method: str = "none",
+    ) -> pd.DataFrame:
+        if not self.gold_path.is_file():
+            raise FileNotFoundError(self.gold_path)
+        source_hash = sha256_file(self.gold_path)
+        params = {
+            "adaptive_reader_version": ADAPTIVE_INGESTION_VERSION,
+            "source_gold_sha256": source_hash,
+            "contract_version": self.contract_version,
+            "dataset_id": sorted(dataset_ids or []),
+            "variable_id": sorted(variable_ids or []),
+            "region_id": region_id,
+            "time_interval": [start_month, end_month],
+            "coverage_threshold": coverage_threshold,
+            "qa_policy": qa_policy,
+            "aggregation_method": aggregation_method,
+            "statistical_method": statistical_method,
+            "columns": sorted(columns) if columns is not None else None,
+        }
+        cache_key = self.cache.key(params) if self.cache else None
+        if cache_key:
+            cached = self.cache.get_frame(cache_key)
+            if cached is not None:
+                self.last_strategy = "memory_cache_or_disk_cache"
+                return cached
+
+        if self.gold_path.stat().st_size > self.direct_scan_max_bytes:
+            if self.partition_store is None:
+                raise RuntimeError("Gold exceeds direct-scan threshold; provide a validated partition store")
+            result = self.partition_store.query(
+                variable_ids=variable_ids,
+                dataset_ids=dataset_ids,
+                region_id=region_id,
+                start_month=start_month,
+                end_month=end_month,
+                columns=columns,
+                coverage_threshold=coverage_threshold,
+                qa_policy=qa_policy,
+                aggregation_method=aggregation_method,
+                statistical_method=statistical_method,
+            )
+            self.last_strategy = "validated_partition_store"
+        else:
+            filters: list[tuple] = []
+            if dataset_ids:
+                filters.append(("dataset_id", "in", dataset_ids))
+            if variable_ids:
+                filters.append(("variable_id", "in", variable_ids))
+            if region_id is not None:
+                filters.append(("region_id", "=", region_id))
+            if start_month is not None:
+                filters.append(("month", ">=", start_month))
+            if end_month is not None:
+                filters.append(("month", "<=", end_month))
+            if coverage_threshold is not None:
+                filters.append(("valid_area_fraction_bbox", ">=", float(coverage_threshold)))
+            read_columns = None
+            if columns is not None:
+                internal = set(columns) | {"dataset_id", "variable_id", "month", "region_id"}
+                if coverage_threshold is not None:
+                    internal.add("valid_area_fraction_bbox")
+                read_columns = sorted(internal)
+            result = pd.read_parquet(self.gold_path, columns=read_columns, filters=filters or None)
+            if variable_ids is not None:
+                result = result[result.variable_id.isin(variable_ids)]
+            if dataset_ids is not None:
+                result = result[result.dataset_id.isin(dataset_ids)]
+            if region_id is not None:
+                result = result[result.region_id == region_id]
+            if start_month is not None:
+                result = result[result.month >= start_month]
+            if end_month is not None:
+                result = result[result.month <= end_month]
+            if coverage_threshold is not None:
+                result = result[result.valid_area_fraction_bbox >= float(coverage_threshold)]
+            if columns is not None:
+                result = result.loc[:, columns]
+            if not result.empty and {"dataset_id", "variable_id", "month"}.issubset(result.columns):
+                result = result.sort_values(["dataset_id", "variable_id", "month"], kind="stable").reset_index(drop=True)
+            self.last_strategy = "direct_parquet_scan"
         if cache_key:
             self.cache.put_frame(cache_key, result)
         return result
