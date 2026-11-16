@@ -607,7 +607,7 @@ def _update_dashboard(calibration_rows: list[dict[str, Any]]) -> None:
     if insertion < 0:
         raise ValueError("The local metric dashboard is missing its closing body tag")
     text = text[:insertion] + section + text[insertion:]
-    dashboard_path.write_text(text, encoding="utf-8")
+    _atomic_write(dashboard_path, text.encode("utf-8"))
 
 
 def _update_external_collocation_dashboard() -> None:
@@ -650,7 +650,7 @@ def _update_external_collocation_dashboard() -> None:
     insertion = text.lower().rfind("</body>")
     if insertion < 0:
         raise ValueError("The local metric dashboard is missing its closing body tag")
-    dashboard_path.write_text(text[:insertion] + section + text[insertion:], encoding="utf-8")
+    _atomic_write(dashboard_path, (text[:insertion] + section + text[insertion:]).encode("utf-8"))
 
 
 def main() -> None:
