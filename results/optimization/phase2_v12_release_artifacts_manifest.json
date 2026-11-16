@@ -3,7 +3,7 @@
   "current_selection_progress": [],
   "current_validation_progress": [
     {
-      "checkpoint_sha256": "10def184d1dac181432f034d8832a6dee1492051bb1504db752849616650456c",
+      "checkpoint_sha256": "ff56b9525d6680aac79095579a3ab36aba40457d0d1e8c20aa02c2be148a8150",
       "convergence_failures": null,
       "coverage_95": null,
       "coverage_mc95_high": null,
@@ -18,13 +18,13 @@
       "power_005": null,
       "power_mc95_high": null,
       "power_mc95_low": null,
-      "process": "seasonal_ar1_12",
+      "process": "ar1_060_mcar20",
       "replications_completed": 50,
       "replications_requested": 1000,
       "replications_valid": null,
       "round_manifest_sha256": null,
-      "scenario_id": "seasonal_ar1_12|n=276|slope=0.0",
-      "seed": 23021727,
+      "scenario_id": "ar1_060_mcar20|n=276|slope=0.0",
+      "seed": 23022027,
       "slope_bias_per_decade": null,
       "slope_rmse_per_decade": null,
       "source": "results/statistical_correction/validation/checkpoints",
@@ -36,8 +36,8 @@
       "type1_mc95_low": null
     }
   ],
-  "experiment_registry_rows": 429,
-  "generated_at_utc": "2026-11-16T19:46:46.671071+00:00",
+  "experiment_registry_rows": 445,
+  "generated_at_utc": "2026-11-16T20:13:17.045909+00:00",
   "independent_validation_status": "RUNNING_INDEPENDENT_VALIDATION",
   "inputs": {
     "descriptive_trend_estimates_sha256": "43ee306cd8e1d93b541d5b2d3d7a6b6a5fd854b09788b315a271b58f4ee4ca60",
@@ -71,9 +71,9 @@
       "sha256": "e968a86612370e6a85d065476e46204431bce43789e817da770025194147b63f"
     },
     "experiment_registry": {
-      "bytes": 879537,
+      "bytes": 906502,
       "path": "results/optimization/experiment_registry.jsonl",
-      "sha256": "05226f2ea0cc64c47dadcc50c4153970bfc01ae9ed68fb99e5821c5888924535"
+      "sha256": "659b838f8bb89680ffcd522edf1d4894d40ced1b593385b2f2a0c0e3ea453156"
     },
     "frozen_test_manifest": {
       "bytes": 4382,
@@ -82,7 +82,7 @@
     },
     "metric_dashboard": {
       "path": "reports/optimization/metric_dashboard.html",
-      "sha256": "62305c2d44b9e84e52474508ca80030bbe8e8a7b654fd446ea13bd39cc85f7ec"
+      "sha256": "6e8228d9564b6acc600b80204ffeaaf1bdf79d46039d03b96fe44f804883784b"
     },
     "metric_history": {
       "path": "results/optimization/metric_history.parquet",
@@ -113,9 +113,9 @@
       "sha256": "a38af9f37962f948a0af7c27b06c829adb01c78311131f764bc344f1c64c80b7"
     },
     "statistical_calibration": {
-      "bytes": 189030,
+      "bytes": 199465,
       "path": "results/optimization/statistical_calibration.csv",
-      "sha256": "5e196975769c6f2615439eae645fe85d07fe9d3652df85118a6b55c263988d8d"
+      "sha256": "67089185b7f5edc9cfc1ab1bccdeae512a304e6cfcbe59bbc35e4d99c8f8e35d"
     }
   },
   "scope": "Aggregate candidate metrics, experiment provenance, and calibration scenario summaries only; raw environmental observations, prediction rows, and model binaries are excluded.",
@@ -127,7 +127,7 @@
     "pandas": "3.0.3",
     "python": "3.12.10"
   },
-  "statistical_calibration_rows": 314,
+  "statistical_calibration_rows": 330,
   "status": "AGGREGATES_BUILT_INDEPENDENT_VALIDATION_INCOMPLETE",
   "validation_phase_manifest_sha256": null
 }
