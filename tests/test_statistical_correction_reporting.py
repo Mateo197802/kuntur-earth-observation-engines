@@ -78,3 +78,11 @@ def test_partial_manifest_excludes_checkpoints_not_in_the_aggregated_phase(tmp_p
     assert f"replicates/{completed}.parquet" in relative
     assert f"checkpoints/{in_progress}.json" not in relative
     assert f"replicates/{in_progress}.parquet" not in relative
+
+
+def test_pytest_checkpoint_does_not_freeze_a_stale_remote_pr_head():
+    note = finalize_correction.pytest_checkpoint_note()
+
+    assert "150 passed on 2026-11-16" in note
+    assert "current remote commit" in note
+    assert "ca17129f0e2e1ae3b53053e34b2dbbb76948b0fe" not in note
