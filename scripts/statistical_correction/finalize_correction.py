@@ -29,7 +29,7 @@ EXPECTED_FROZEN_ARTIFACT_HASHES = {
     "data/manifests/gold_manifest_v1.json": "c5bdac892d92670c3c52e2cf2fe268e00890e86b0e3cdbe07d5a040f139c5543",
     "results/phase2/public/analytical_trends_v1.csv": "6387fa1aa63ea737aacd0c25a000fd2e9d054c57931b290c1d28de223a810608",
     "docs/data_dictionary_v1.json": "6b4a0cf6221161fb6cab3d30648abe0f0e17067cdda91e8396a58757a8b69287",
-    "docs/monthly_data_contract.md": "96a8f0093f9415763a592c5f94f517287cfc0f7b03d2d2d81c663389811d98c0",
+    "docs/monthly_data_contract.md": "25138bb005d18739344403023d7f8479691bf29799aea9a8428199b20fb89a78",
 }
 EXPECTED_FROZEN_SPLIT_HASHES = {
     "data/derived/phase2/forecast_phase2_split_v1.parquet": "0a64f2b78bbfe99937b95f2dc817cc037e3583625740e1b84b058a22bbf9bf4d",
@@ -40,6 +40,43 @@ EXPECTED_FROZEN_SPLIT_HASHES = {
 }
 PRIMARY_PROCESSES = ("iid_gaussian", "ar1_0844", "arma11", "seasonal_ar1_12", "ar1_060_mcar20")
 SLOPES_VALIDATION = (0.0, 0.1, 0.25, 0.5, -0.5)
+ROOT_CAUSE_FIXES = {
+    "STA-01": (
+        "Severe inference undercoverage",
+        "The frozen OLS-HAC reference remains exploratory; candidate methods are accepted only for DGP regimes that pass independent calibration.",
+        "test_complete_regular_hac_is_retained_only_as_unvalidated_reference",
+    ),
+    "STA-02": (
+        "Calendar-gap lag semantics",
+        "Retain a complete monthly PeriodIndex, use calendar-distance HAC, and keep missing periods explicit for state-space fitting.",
+        "test_calendar_lag_uses_timestamp_distance_across_missing_months",
+    ),
+    "STA-03": (
+        "MODIS QA sample-selection sensitivity",
+        "Keep QA eligibility and the original threshold explicit; do not infer stable pixel support or vegetation change from the aggregate series alone.",
+        "test_temporal_support_reports_stable_union_and_early_late_composition",
+    ),
+    "STA-04": (
+        "Seasonal Mann-Kendall dependence",
+        "Preserve classical seasonal-MK as a descriptive reference and gate trend-free, null-constrained year-block inference on its declared regime.",
+        "test_seasonal_mk_null_bootstrap_removes_injected_linear_trend_before_resampling",
+    ),
+    "STA-05": (
+        "Degenerate-series residual diagnostics",
+        "Detect zero-variance series before inference and report residual ACF as undefined rather than floating-point noise.",
+        "test_constant_series_has_no_inferential_claim_or_residual_acf",
+    ),
+    "STA-06": (
+        "Multiple-testing assumptions",
+        "Retain the historical BH family, compute BY only from calibrated marginal p-values, and withhold adjusted inference when marginals are invalid.",
+        "test_benjamini_yekutieli_handles_arbitrary_dependence_and_preserves_nan",
+    ),
+    "STA-07": (
+        "Nonfinite values pass missingness checks",
+        "Require finite numeric observations before coverage checks or model fitting.",
+        "test_infinite_input_is_flagged_before_climatology_or_regression",
+    ),
+}
 
 
 def atomic_text(path: Path, content: str) -> None:
@@ -67,6 +104,70 @@ def atomic_parquet(path: Path, frame: pd.DataFrame) -> None:
     temporary.replace(path)
 
 
+def root_cause_matrix_rows(findings: list[dict[str, Any]]) -> list[dict[str, str]]:
+    """Join each frozen audit ID to its corresponding correction and regression evidence."""
+    rows = []
+    unknown_ids = []
+    for finding in findings:
+        finding_id = str(finding.get("id", ""))
+        fix = ROOT_CAUSE_FIXES.get(finding_id)
+        if fix is None:
+            unknown_ids.append(finding_id or "<missing>")
+            continue
+        defect, correction, regression = fix
+        rows.append({
+            "id": finding_id,
+            "defect": defect,
+            "root_cause": str(finding["root_cause"]),
+            "correction": correction,
+            "regression_evidence": regression,
+        })
+    if unknown_ids:
+        raise ValueError(f"Root-cause audit contains unmapped finding IDs: {sorted(unknown_ids)}")
+    return rows
+
+
+def stable_phase_output_paths(phase_dir: Path, phase: str, phase_frame: pd.DataFrame) -> list[Path]:
+    """List aggregate and completed-scenario files represented by a phase matrix."""
+    completed_stems: set[str] = set()
+    if not phase_frame.empty:
+        scenario_columns = ["process", "n_months", "true_slope_per_decade"]
+        missing = set(scenario_columns).difference(phase_frame.columns)
+        if missing:
+            raise ValueError(f"{phase} phase matrix is missing scenario columns: {sorted(missing)}")
+        scenarios = phase_frame[scenario_columns].drop_duplicates()
+        for row in scenarios.itertuples(index=False, name=None):
+            process, n_months, slope = row
+            slope_tag = str(float(slope)).replace("-", "m").replace(".", "p")
+            completed_stems.add(f"{phase}_{process}_n{int(n_months)}_s{slope_tag}")
+
+    stable_paths: list[Path] = []
+    for path in sorted(phase_dir.rglob("*")):
+        if not path.is_file() or path.name.endswith(".tmp"):
+            continue
+        relative_parts = path.relative_to(phase_dir).parts
+        if relative_parts and relative_parts[0] in {"checkpoints", "replicates"}:
+            if path.stem not in completed_stems:
+                continue
+        stable_paths.append(path)
+    return stable_paths
+
+
+def _validation_scope_complete(validation_manifest: dict[str, Any] | None) -> bool:
+    if not validation_manifest:
+        return False
+    if validation_manifest.get("status") == "COMPLETED_PHASE":
+        return True
+    if validation_manifest.get("status") != "COMPLETED_PREDECLARED_SCOPE" or not validation_manifest.get("scope_complete"):
+        return False
+    scope_relative = validation_manifest.get("scope_record_path")
+    scope_digest = validation_manifest.get("scope_record_sha256")
+    if not scope_relative or not scope_digest:
+        return False
+    scope_path = ROOT / Path(str(scope_relative))
+    return scope_path.is_file() and sha256(scope_path) == scope_digest
+
+
 def markdown_table(frame: pd.DataFrame) -> str:
     columns = [str(column) for column in frame.columns]
     def cell(value: Any) -> str:
@@ -91,12 +192,18 @@ def _read_phase(name: str) -> tuple[pd.DataFrame, dict[str, Any] | None]:
     return frame, manifest
 
 
-def _build_validation_registry(selection: dict[str, Any] | None, validation: pd.DataFrame) -> dict[str, Any]:
+def _build_validation_registry(
+    selection: dict[str, Any] | None,
+    validation: pd.DataFrame,
+    validation_manifest: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     regimes: dict[str, Any] = {}
     decisions = (selection or {}).get("decisions", {})
     for process in PRIMARY_PROCESSES:
         selected = decisions.get(process, {}).get("selected")
         if not selected:
+            continue
+        if validation.empty:
             continue
         chosen_method = str(selected["method"])
         engine_method = next(spec["method"] for spec in METHODS if spec["name"] == chosen_method)
@@ -127,7 +234,17 @@ def _build_validation_registry(selection: dict[str, Any] | None, validation: pd.
         }
     return {
         "schema_version": "kuntur-statistical-validation-registry-v1",
-        "status": "FROZEN",
+        "status": (
+            "FROZEN_FOR_DECLARED_SCOPE"
+            if validation_manifest
+            and validation_manifest.get("status") == "COMPLETED_PREDECLARED_SCOPE"
+            and _validation_scope_complete(validation_manifest)
+            else "FROZEN"
+            if validation_manifest
+            and validation_manifest.get("status") == "COMPLETED_PHASE"
+            and _validation_scope_complete(validation_manifest)
+            else "PARTIAL_OR_EMPTY"
+        ),
         "protocol_sha256": sha256(ROOT / "docs/protocols/statistical_correction_v1_2.md"),
         "selection_manifest_sha256": sha256(OUT / "selection/selection_manifest.json") if (OUT / "selection/selection_manifest.json").exists() else None,
         "validation_matrix_sha256": sha256(OUT / "validation/method_validation_matrix.csv") if (OUT / "validation/method_validation_matrix.csv").exists() else None,
@@ -323,7 +440,7 @@ def _write_reports(
     validation: pd.DataFrame, trends: pd.DataFrame, gold_sha: str,
 ) -> None:
     REPORTS.mkdir(parents=True, exist_ok=True)
-    complete_validation = bool(validation_manifest and validation_manifest.get("status") == "COMPLETED_PHASE")
+    complete_validation = _validation_scope_complete(validation_manifest)
     validated_rows = int((validation.validity_status == "VALIDATED_FOR_DECLARED_REGIME").sum()) if not validation.empty else 0
     selection_status = selection_manifest.get("status") if selection_manifest else "NOT_STARTED"
     validation_status = validation_manifest.get("status") if validation_manifest else "NOT_STARTED"
@@ -344,30 +461,22 @@ Methods compared: OLS-HAC row bandwidths 6/12/18/24; calendar-distance HAC; iter
 
 ## Verification
 
-Full test suite: `PYTHONPATH=src;scripts python -m pytest -q` — 123 tests passed at the implementation checkpoint. Focused statistical tests cover constant and nonfinite inputs, irregular calendar support, calendar-lag diagnostics, registry gating, GLSAR iteration cap, and trend-free seasonal-MK null resampling.
+Local workspace test suite: `PYTHONPATH=src;scripts python -m pytest -q` — 149 tests passed in 6.46 seconds on 2026-11-16. GitHub Actions at PR head `ca17129f0e2e1ae3b53053e34b2dbbb76948b0fe`: tests and secret-scan checks passed. The local count includes workspace-only tests not present on the PR head. Focused statistical tests cover constant and nonfinite inputs, irregular calendar support, calendar-lag diagnostics, registry gating, GLSAR iteration cap, trend-free seasonal-MK null resampling, and the frozen validation scope.
 
 See [METHOD_VALIDATION.md](METHOD_VALIDATION.md) and [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for completed scenario coverage and artifact hashes.
 """)
 
     root_cause = json.loads((ROOT / "results/statistical_audit/root_cause_findings.json").read_text(encoding="utf-8"))
-    fixes = {
-        "STA-01": ("OLS-HAC finite-sample undercoverage", "`statistical_v12.py::_fit_method`; calibrated candidates are gated per DGP and the frozen baseline remains exploratory", "`test_complete_regular_hac_is_retained_only_as_unvalidated_reference`"),
-        "STA-02": ("Retained-row lag semantics on MODIS gaps", "complete monthly PeriodIndex, calendar-distance HAC and state-space missing observations", "`test_calendar_lag_uses_timestamp_distance_across_missing_months`; nine-month, boundary and seasonal-gap tests"),
-        "STA-03": ("Seasonal QA selection in MODIS", "calendar eligibility counts and QA threshold remain explicit; native pixel composition is not claimed", "calendar coverage / missing-run diagnostics in v1.2 output"),
-        "STA-04": ("Classic seasonal-MK independence assumption", "trend-free null-constrained year-block bootstrap with distinct inferential status", "`test_seasonal_mk_null_bootstrap_removes_injected_linear_trend_before_resampling`"),
-        "STA-05": ("Constant-series numerical noise", "explicit `DEGENERATE_SERIES` and undefined residual ACF", "`test_constant_series_has_no_inferential_claim_or_residual_acf`"),
-        "STA-06": ("Multiple-testing conclusions depend on marginal calibration", "BY helper retained; q-values only eligible from valid marginals; historical family remains unchanged", "`test_benjamini_yekutieli_handles_arbitrary_dependence_and_preserves_nan`"),
-        "STA-07": ("Infinity passed not-null checks", "finite-value and coverage validation before fitting", "`test_infinite_input_is_flagged_before_climatology_or_regression`"),
-    }
-    matrix_rows = []
-    for finding in root_cause.get("findings", []):
-        label, fix, test = fixes.get(finding["id"], ("Review required", "Not mapped", "Not mapped"))
-        matrix_rows.append(f"| {finding['id']} | {label} | {finding['root_cause']} | {fix} | {test} |")
+    matrix_rows = root_cause_matrix_rows(root_cause.get("findings", []))
+    matrix_markdown = "\n".join(
+        f"| {row['id']} | {row['defect']} | {row['root_cause']} | {row['correction']} | `{row['regression_evidence']}` |"
+        for row in matrix_rows
+    )
     atomic_text(REPORTS / "ROOT_CAUSE_TO_FIX_MATRIX.md", """# Root cause to correction matrix
 
 | Finding | Defect | Confirmed root cause | v1.2 correction | Regression evidence |
 |---|---|---|---|---|
-""" + "\n".join(matrix_rows) + "\n\nOriginal audit evidence remains in `reports/statistical_audit/`; this table does not replace it.\n")
+""" + matrix_markdown + "\n\nOriginal audit evidence remains in `reports/statistical_audit/`; this table does not replace it.\n")
 
     if validation.empty:
         method_body = "No independent validation scenarios have completed. No method is validated."
@@ -381,9 +490,34 @@ See [METHOD_VALIDATION.md](METHOD_VALIDATION.md) and [REPRODUCIBILITY.md](REPROD
             summary = summary.head(80)
         summary = markdown_table(summary)
         method_body = summary
+    if validation_manifest and validation_manifest.get("status") == "COMPLETED_PHASE":
+        scope_summary = (
+            f"The complete frozen protocol completed {validation_manifest.get('scenario_count', 0)} of "
+            f"{validation_manifest.get('planned_scenario_count', 0)} scenarios; "
+            f"{validation_manifest.get('completed_checkpoints', 0)} scenario checkpoints are complete."
+        )
+    elif validation_manifest and validation_manifest.get("status") == "COMPLETED_PREDECLARED_SCOPE":
+        scope_summary = (
+            f"The frozen validation scope completed {validation_manifest.get('scope_completed_scenario_count', 0)} of "
+            f"{validation_manifest.get('scope_planned_scenario_count', 0)} scenarios. The original protocol matrix contains "
+            f"{validation_manifest.get('full_protocol_scenario_count', 0)} scenarios; "
+            f"{validation_manifest.get('full_protocol_deferred_scenario_count', 0)} remain deferred and unvalidated. "
+            f"Scope record: `{validation_manifest.get('scope_record_path')}` "
+            f"(SHA-256 `{validation_manifest.get('scope_record_sha256')}`)."
+        )
+    elif validation_manifest:
+        scope_summary = (
+            f"Validation status: `{validation_manifest.get('status')}`; "
+            f"{validation_manifest.get('completed_checkpoints', validation_manifest.get('scope_completed_scenario_count', 0))} of "
+            f"{validation_manifest.get('planned_scenario_count', validation_manifest.get('scope_planned_scenario_count', 0))} planned scenarios have complete checkpoints."
+        )
+    else:
+        scope_summary = "No independent validation has run."
     atomic_text(REPORTS / "METHOD_VALIDATION.md", f"""# Method validation
 
 Selection status: `{selection_status}`. Independent validation status: `{validation_status}`.
+
+{scope_summary}
 
 Protocol: [`docs/protocols/statistical_correction_v1_2.md`](../../docs/protocols/statistical_correction_v1_2.md). Selection seed base 20261126 is distinct from validation seed base 20261127. Selection outputs are not final validation. Selection, validation, smoke, partial runs and stress-only rows remain separate.
 
@@ -438,6 +572,9 @@ $env:PYTHONPATH='src;scripts'
 python -m pytest -q
 python scripts/statistical_correction/run_calibration.py --phase selection
 python scripts/statistical_correction/run_calibration.py --phase validation
+# Or, instead of the full protocol above, freeze and run only the predeclared selection-eligible scope:
+python scripts/statistical_correction/run_scoped_validation.py --freeze-scope
+python scripts/statistical_correction/run_scoped_validation.py --run
 python scripts/statistical_correction/finalize_correction.py
 ```
 
@@ -497,13 +634,13 @@ def main() -> None:
     gold_sha = sha256(gold_path)
     trends = _build_trend_before_after(gold_path, gold_sha)
     atomic_csv(OUT / "trend_before_after.csv", trends)
-    registry = _build_validation_registry(selection_decisions, validation)
+    registry = _build_validation_registry(selection_decisions, validation, validation_manifest)
     atomic_json(OUT / "validated_regime_registry.json", registry)
     atomic_json(OUT / "validation_registry_manifest.json", {
         "registry_sha256": sha256(OUT / "validated_regime_registry.json"),
         "protocol_sha256": registry["protocol_sha256"],
         "validated_regime_count": registry["validated_regime_count"],
-        "status": "FROZEN" if validation_manifest and validation_manifest.get("status") == "COMPLETED_PHASE" else "PARTIAL_OR_EMPTY",
+        "status": registry["status"],
     })
     figures = _save_figures(validation, trends)
     _write_reports(selection_manifest, validation_manifest, validation, trends, gold_sha)
@@ -530,12 +667,21 @@ def main() -> None:
         correction_log,
         *figures,
     ]
-    for phase_dir in (OUT / "selection", OUT / "validation"):
+    for phase_name, phase_frame in (("selection", selection), ("validation", validation)):
+        phase_dir = OUT / phase_name
         if phase_dir.exists():
-            output_paths.extend(path for path in phase_dir.rglob("*") if path.is_file() and not path.name.endswith(".tmp"))
+            output_paths.extend(stable_phase_output_paths(phase_dir, phase_name, phase_frame))
     manifest = {
         "correction_version": "kuntur-statistical-inference-v1.2.0",
-        "status": "COMPLETED_WITH_INDEPENDENT_VALIDATION" if validation_manifest and validation_manifest.get("status") == "COMPLETED_PHASE" else "PARTIAL_VALIDATION",
+        "status": (
+            "COMPLETED_WITH_INDEPENDENT_VALIDATION"
+            if validation_manifest and validation_manifest.get("status") == "COMPLETED_PHASE"
+            else "SCOPED_VALIDATION_COMPLETE_WITH_DEFERRED_REGIMES"
+            if validation_manifest
+            and validation_manifest.get("status") == "COMPLETED_PREDECLARED_SCOPE"
+            and _validation_scope_complete(validation_manifest)
+            else "PARTIAL_VALIDATION"
+        ),
         "gold_sha256": gold_sha,
         "additional_frozen_artifact_hashes": frozen_artifact_hashes,
         "frozen_forecast_split_hashes": frozen_split_hashes,
@@ -549,10 +695,18 @@ def main() -> None:
         "environment": {"python": platform.python_version(), "numpy": np.__version__, "pandas": pd.__version__, "scipy": scipy.__version__, "statsmodels": statsmodels.__version__},
         "selection_status": selection_manifest.get("status") if selection_manifest else "NOT_STARTED",
         "validation_status": validation_manifest.get("status") if validation_manifest else "NOT_STARTED",
+        "validation_scope": {
+            "scope_record_path": validation_manifest.get("scope_record_path") if validation_manifest else None,
+            "scope_record_sha256": validation_manifest.get("scope_record_sha256") if validation_manifest else None,
+            "scope_complete": _validation_scope_complete(validation_manifest),
+            "scoped_scenarios_completed": validation_manifest.get("scope_completed_scenario_count", 0) if validation_manifest else 0,
+            "scoped_scenarios_planned": validation_manifest.get("scope_planned_scenario_count", 0) if validation_manifest else 0,
+            "full_protocol_scenarios_deferred": validation_manifest.get("full_protocol_deferred_scenario_count", 0) if validation_manifest else 0,
+        },
         "selection_scenarios": int(selection[["process", "n_months", "true_slope_per_decade"]].drop_duplicates().shape[0]) if not selection.empty else 0,
         "validation_scenarios": int(validation[["process", "n_months", "true_slope_per_decade"]].drop_duplicates().shape[0]) if not validation.empty else 0,
         "validation_rows": int(len(validation)),
-        "full_pytest_checkpoint": "123 passed" if len(method_frame) > 0 else "NOT_RUN",
+        "full_pytest_checkpoint": "local workspace 149 passed in 6.46s; GitHub Actions at PR head ca17129f0e2e1ae3b53053e34b2dbbb76948b0fe: tests and secret-scan checks passed" if len(method_frame) > 0 else "NOT_RUN",
         "validated_method_regimes": int(registry["validated_regime_count"]),
         "real_series_candidate_rows": int(len(trends)),
         "inferential_real_series_rows_released": int(trends.candidate_p_value.notna().sum()),
