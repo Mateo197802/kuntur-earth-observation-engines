@@ -82,8 +82,74 @@ ROOT_CAUSE_FIXES = {
 def pytest_checkpoint_note() -> str:
     """Describe the recorded local test run without freezing mutable remote CI state."""
     return (
-        "Recorded local workspace full suite: 150 passed on 2026-11-16; "
+        "Recorded local workspace full suite: 151 passed on 2026-11-16; "
         "verify GitHub CI against the current remote commit when reporting."
+    )
+
+
+def modis_spatial_selection_receipt_note(receipt: dict[str, Any] | None) -> str:
+    """Render a sanitized, hash-linked receipt for the native-grid CEDIA audit."""
+    if receipt is None:
+        return (
+            "No native MODIS pixel grid is asserted by this local finalizer. "
+            "Spatial pixel-composition drift is unresolved here; aggregate Gold alone cannot "
+            "establish stable pixel support. See `results/statistical_audit/MODIS_SELECTION_AUDIT.md`."
+        )
+    if receipt.get("status") != "VALIDATED_ON_CEDIA":
+        raise ValueError("MODIS spatial-selection receipt is not marked VALIDATED_ON_CEDIA")
+    coverage = receipt.get("coverage", {})
+    validation = receipt.get("validation", {})
+    if (
+        coverage.get("start_month") != "2002-01"
+        or coverage.get("end_month") != "2024-12"
+        or int(coverage.get("month_count", 0)) != 276
+        or validation.get("manifest_validation_status") != "PASSED"
+        or int(validation.get("source_granules_referenced", 0)) != 276
+        or int(validation.get("regional_files_verified", 0)) != 276
+        or int(validation.get("monthly_summary_rows", 0)) != 1656
+        or receipt.get("spatial_grid", {}).get("native_grid")
+        != "MODIS CMG geographic 0.05 degree; no interpolation or resampling"
+    ):
+        raise ValueError("MODIS spatial-selection receipt does not prove the frozen 276-month scope")
+    artifacts = receipt.get("artifacts", {})
+    for key in (
+        "manifest_sha256",
+        "monthly_summary_sha256",
+        "lineage_sha256",
+        "spatial_support_sha256",
+        "acquisition_manifest_sha256",
+        "regional_manifest_sha256",
+    ):
+        digest = str(artifacts.get(key, ""))
+        if len(digest) != 64 or any(char not in "0123456789abcdef" for char in digest.lower()):
+            raise ValueError(f"MODIS spatial-selection receipt has an invalid {key}")
+    for key in ("manifest_path", "monthly_summary_path", "lineage_path", "spatial_support_path"):
+        relative_path = str(artifacts.get(key, ""))
+        if not relative_path.startswith("results/statistical_correction/modis_spatial_selection_v1_1/"):
+            raise ValueError(f"MODIS spatial-selection receipt has an unexpected {key}")
+    strict = receipt.get("spatial_support", {}).get("strict", {})
+    eligibility = receipt.get("qa_eligibility", {})
+    return (
+        "## Separate CEDIA native-grid spatial-selection audit\n\n"
+        "A CEDIA audit of the native MOD13C2.061 CMG 0.05-degree grid covers 276 contiguous months "
+        "from 2002-01 through 2024-12. Its validated manifest references 276 regional inputs and "
+        "276 source-granule scientific-validation records. This report uses a sanitized receipt; "
+        "raw HDF4 files and regional arrays remain in CEDIA, and this local finalizer did not rehash them.\n\n"
+        "CEDIA project-relative audit files: manifest `" + str(artifacts["manifest_path"]) + "`; monthly summary `"
+        + str(artifacts["monthly_summary_path"]) + "`; lineage `" + str(artifacts["lineage_path"])
+        + "`; spatial-support summary `" + str(artifacts["spatial_support_path"]) + "`.\n\n"
+        f"Under the frozen strict QA policy, {int(eligibility['strict_months_at_10pct'])}/276 months meet 10% "
+        f"valid-area coverage and {int(eligibility['strict_months_at_20pct'])}/276 meet 20%. "
+        f"At a 50% temporal-support frequency threshold, the strict tier has a stable-pixel count of "
+        f"{int(strict['stable_pixel_count'])}; the union covers {float(strict['union_area_fraction_bbox']):.6f} "
+        f"of bbox area. Early/late support Jaccard area is "
+        f"{float(strict['early_late_jaccard_area']):.6f}, and "
+        f"{100*float(strict['early_late_area_fraction_changed_by_10pp']):.3f}% of bbox area changes "
+        "support frequency by at least 10 percentage points. These are spatial-selection diagnostics, "
+        "not evidence of a vegetation trend or causal change.\n\n"
+        "CEDIA artifact SHA-256: manifest `" + str(artifacts["manifest_sha256"]) + "`; monthly summary `"
+        + str(artifacts["monthly_summary_sha256"]) + "`; lineage `" + str(artifacts["lineage_sha256"])
+        + "`; spatial-support summary `" + str(artifacts["spatial_support_sha256"]) + "`.\n"
     )
 
 
@@ -469,7 +535,7 @@ Methods compared: OLS-HAC row bandwidths 6/12/18/24; calendar-distance HAC; iter
 
 ## Verification
 
-Local workspace test suite: `PYTHONPATH=src;scripts python -m pytest -q` — 149 tests passed in 6.46 seconds on 2026-11-16. GitHub Actions at PR head `ca17129f0e2e1ae3b53053e34b2dbbb76948b0fe`: tests and secret-scan checks passed. The local count includes workspace-only tests not present on the PR head. Focused statistical tests cover constant and nonfinite inputs, irregular calendar support, calendar-lag diagnostics, registry gating, GLSAR iteration cap, trend-free seasonal-MK null resampling, and the frozen validation scope.
+{pytest_checkpoint_note()} Focused statistical tests cover constant and nonfinite inputs, irregular calendar support, calendar-lag diagnostics, registry gating, GLSAR iteration cap, trend-free seasonal-MK null resampling, and the frozen validation scope.
 
 See [METHOD_VALIDATION.md](METHOD_VALIDATION.md) and [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for completed scenario coverage and artifact hashes.
 """)
@@ -560,6 +626,9 @@ The full table contains one row per frozen environmental series and locked v1.2 
     modis = json.loads((ROOT / "results/statistical_audit/modis_selection_summary.json").read_text(encoding="utf-8"))
     modis_counts = modis.get("eligible_by_calendar_month", {})
     count_rows = "\n".join(f"| {month} | {count} |" for month, count in sorted(modis_counts.items(), key=lambda item: int(item[0])))
+    spatial_receipt_path = OUT / "modis_spatial_selection_cedia_summary_v1_1.json"
+    spatial_receipt = json.loads(spatial_receipt_path.read_text(encoding="utf-8")) if spatial_receipt_path.is_file() else None
+    spatial_note = modis_spatial_selection_receipt_note(spatial_receipt)
     atomic_text(REPORTS / "MODIS_CALENDAR_CORRECTION.md", f"""# MODIS calendar and selection correction
 
 The frozen MODIS QA policy remains at valid-area fraction 0.10. The pre-existing audit found {modis.get('months_eligible_10pct', 'not reported')}/276 eligible months at that threshold, {modis.get('months_eligible_20pct', 'not reported')}/276 at 0.20, median valid-area fraction {modis.get('coverage_median_all_months', 'not reported')}, and a maximum calendar gap of 9 months. Missing months remain explicit on the monthly PeriodIndex; calendar ACF pairs use exact month offsets. Row-compressed HAC, GLSAR and block methods return `IRREGULAR_TIME_SUPPORT`; state-space models retain NaN months; calendar-distance HAC uses actual month ordinals.
@@ -568,7 +637,7 @@ The frozen MODIS QA policy remains at valid-area fraction 0.10. The pre-existing
 |---:|---:|
 {count_rows}
 
-No native MODIS pixel grid is asserted by this local finalizer. Spatial pixel-composition drift remains unresolved; aggregate Gold alone cannot establish stable pixel support. See `results/statistical_audit/MODIS_SELECTION_AUDIT.md` for preserved source evidence.
+{spatial_note}
 """)
 
     atomic_text(REPORTS / "REPRODUCIBILITY.md", f"""# Reproducibility and artifact provenance
@@ -675,6 +744,8 @@ def main() -> None:
         correction_log,
         *figures,
     ]
+    if (OUT / "modis_spatial_selection_cedia_summary_v1_1.json").is_file():
+        output_paths.append(OUT / "modis_spatial_selection_cedia_summary_v1_1.json")
     for phase_name, phase_frame in (("selection", selection), ("validation", validation)):
         phase_dir = OUT / phase_name
         if phase_dir.exists():
@@ -723,7 +794,7 @@ def main() -> None:
         "frozen_inputs_unchanged": True,
         "limitations": [
             "The registry does not identify the true error process of an environmental series; explicit regime declaration is required.",
-            "MODIS native-grid pixel composition was not available for local re-audit.",
+            "The validated CEDIA MODIS spatial-selection audit is represented locally by a sanitized aggregate receipt; raw HDF4 and regional arrays remain remote.",
             "Paired method-difference confidence intervals are descriptive and not multiplicity-adjusted.",
         ],
     }

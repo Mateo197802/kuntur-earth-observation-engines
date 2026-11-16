@@ -83,6 +83,51 @@ def test_partial_manifest_excludes_checkpoints_not_in_the_aggregated_phase(tmp_p
 def test_pytest_checkpoint_does_not_freeze_a_stale_remote_pr_head():
     note = finalize_correction.pytest_checkpoint_note()
 
-    assert "150 passed on 2026-11-16" in note
+    assert "151 passed on 2026-11-16" in note
     assert "current remote commit" in note
     assert "ca17129f0e2e1ae3b53053e34b2dbbb76948b0fe" not in note
+
+
+def test_modis_spatial_receipt_reports_remote_native_grid_evidence_without_private_paths():
+    receipt = {
+        "status": "VALIDATED_ON_CEDIA",
+        "coverage": {"start_month": "2002-01", "end_month": "2024-12", "month_count": 276},
+        "validation": {
+            "manifest_validation_status": "PASSED",
+            "source_granules_referenced": 276,
+            "regional_files_verified": 276,
+            "monthly_summary_rows": 1656,
+        },
+        "spatial_grid": {"native_grid": "MODIS CMG geographic 0.05 degree; no interpolation or resampling"},
+        "qa_eligibility": {"strict_months_at_10pct": 144, "strict_months_at_20pct": 48},
+        "spatial_support": {
+            "strict": {
+                "stable_pixel_count": 0,
+                "union_area_fraction_bbox": 0.7984141351641939,
+                "early_late_jaccard_area": 0.7588053463215233,
+                "early_late_area_fraction_changed_by_10pp": 0.05343198940517315,
+            }
+        },
+        "artifacts": {
+            "manifest_sha256": "a" * 64,
+            "monthly_summary_sha256": "b" * 64,
+            "lineage_sha256": "c" * 64,
+            "spatial_support_sha256": "d" * 64,
+            "acquisition_manifest_sha256": "e" * 64,
+            "regional_manifest_sha256": "f" * 64,
+            "manifest_path": "results/statistical_correction/modis_spatial_selection_v1_1/modis_spatial_selection_manifest_v1_1.json",
+            "monthly_summary_path": "results/statistical_correction/modis_spatial_selection_v1_1/modis_spatial_selection_monthly_v1_1.csv",
+            "lineage_path": "results/statistical_correction/modis_spatial_selection_v1_1/modis_spatial_selection_lineage_v1_1.json",
+            "spatial_support_path": "results/statistical_correction/modis_spatial_selection_v1_1/modis_spatial_support_summary_v1_1.csv",
+        },
+    }
+
+    note = finalize_correction.modis_spatial_selection_receipt_note(receipt)
+
+    assert "native MOD13C2.061 CMG 0.05-degree grid" in note
+    assert "144/276" in note
+    assert "48/276" in note
+    assert "stable-pixel count of 0" in note
+    assert "0.758805" in note
+    assert "/home/" not in note
+    assert "regional_manifest_sha256" not in note

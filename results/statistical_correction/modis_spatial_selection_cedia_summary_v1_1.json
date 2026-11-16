@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "status": "VALIDATED_ON_CEDIA",
+  "dataset_id": "MOD13C2.061",
+  "region_scope": "Frozen Ecuador pilot bounding box; this is not an administrative or Coast/Andes/Amazon mask.",
+  "audit_output_dir": "results/statistical_correction/modis_spatial_selection_v1_1",
+  "coverage": {
+    "start_month": "2002-01",
+    "end_month": "2024-12",
+    "month_count": 276,
+    "contiguous": true
+  },
+  "spatial_grid": {
+    "native_grid": "MODIS CMG geographic 0.05 degree; no interpolation or resampling",
+    "shape_lat_lon": [
+      136,
+      130
+    ],
+    "area_method": "Spherical cell areas clipped to the frozen pilot bbox using adjacent coordinate centers."
+  },
+  "preprocessing": {
+    "science_variables": [
+      "NDVI",
+      "EVI"
+    ],
+    "raw_fill": -3000,
+    "raw_valid_range": [
+      -2000,
+      10000
+    ],
+    "scale_factor": 0.0001,
+    "strict_qa": "MODLAND=0, usefulness<=1, reliability=0, land-only, no adjacent or mixed cloud.",
+    "relaxed_qa": "MODLAND<=1, usefulness<=4, reliability<=1, land-only, no adjacent or mixed cloud; sensitivity only."
+  },
+  "validation": {
+    "manifest_validation_status": "PASSED",
+    "regional_files_verified": 276,
+    "source_granules_referenced": 276,
+    "monthly_summary_rows": 1656,
+    "unique_months": 276,
+    "unique_source_granules": 276,
+    "unique_regional_inputs": 276,
+    "source_hdf4_byte_hashes_recomputed_in_local_worktree": false
+  },
+  "qa_eligibility": {
+    "strict_months_at_10pct": 144,
+    "strict_months_at_20pct": 48,
+    "median_strict_valid_area_fraction": 0.103948,
+    "maximum_missing_eligibility_gap_months": 9
+  },
+  "spatial_support": {
+    "frequency_threshold": 0.5,
+    "strict": {
+      "stable_pixel_count": 0,
+      "union_area_fraction_bbox": 0.7984141351641939,
+      "early_late_jaccard_area": 0.7588053463215233,
+      "early_late_area_fraction_changed_by_10pp": 0.05343198940517315
+    },
+    "relaxed": {
+      "stable_pixel_count": 16,
+      "union_area_fraction_bbox": 0.810517467,
+      "early_late_jaccard_area": 0.6797440858,
+      "early_late_area_fraction_changed_by_10pp": 0.1615608823
+    },
+    "product_valid": {
+      "stable_pixel_count": 14702,
+      "union_area_fraction_bbox": 0.841284997,
+      "early_late_jaccard_area": 0.99939272,
+      "early_late_area_fraction_changed_by_10pp": 0.0012442196
+    }
+  },
+  "artifacts": {
+    "manifest_path": "results/statistical_correction/modis_spatial_selection_v1_1/modis_spatial_selection_manifest_v1_1.json",
+    "manifest_sha256": "c51f9696d28e57a804a95e4abece5725e429f1f30f71aa10d8afb1dbbe4e3d8c",
+    "monthly_summary_path": "results/statistical_correction/modis_spatial_selection_v1_1/modis_spatial_selection_monthly_v1_1.csv",
+    "monthly_summary_sha256": "bcb8f1de221dedefc891cd0b6c939877404356f1e66b39160f868c7436a531a3",
+    "lineage_path": "results/statistical_correction/modis_spatial_selection_v1_1/modis_spatial_selection_lineage_v1_1.json",
+    "lineage_sha256": "b7b2ba296dad2b88292269964379708bab8bce71f8d921e6aeffb04a9e93b2e2",
+    "spatial_support_path": "results/statistical_correction/modis_spatial_selection_v1_1/modis_spatial_support_summary_v1_1.csv",
+    "spatial_support_sha256": "d1aaa9c6a3d7de30809ee46d05d391bc4550d2b4eb57acace98aa7b9a61c0ce1",
+    "acquisition_manifest_path": "manifests/acquisition_manifest.jsonl",
+    "acquisition_manifest_sha256": "c8f8b6309acd0e881882c153aaa08ac642d447c086a07eefd97b0b67c2f7d058",
+    "regional_manifest_path": "manifests/regional_extraction_manifest.jsonl",
+    "regional_manifest_sha256": "bf425764232526ff3a249d9b1cdb00696cfafde93d980eb45f02515f1ca4a3e8"
+  },
+  "limitations": [
+    "This sanitized local receipt records the remote CEDIA manifest and aggregate output hashes; raw HDF4 granules and regional arrays remain on CEDIA.",
+    "The current Windows worktree did not independently rehash the raw HDF4 files or regional arrays.",
+    "The pilot bbox is not an administrative or Coast/Andes/Amazon mask.",
+    "Spatial-support diagnostics describe sample composition and do not establish a vegetation trend or causal change."
+  ]
+}
