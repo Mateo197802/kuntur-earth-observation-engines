@@ -2,7 +2,7 @@
   "candidate_registry_rows": 106,
   "current_selection_progress": [
     {
-      "checkpoint_sha256": "6c09359dbfd8b989492a46a9f270fe27a71acb5ed789a043a4b728103f9d0a29",
+      "checkpoint_sha256": "706380623002205e232baf4be5c5b863eb01c2f484ab960b2c87d11cbf8375da",
       "convergence_failures": null,
       "coverage_95": null,
       "coverage_mc95_high": null,
@@ -18,7 +18,7 @@
       "power_mc95_high": null,
       "power_mc95_low": null,
       "process": "seasonal_ar1_12",
-      "replications_completed": 150,
+      "replications_completed": 425,
       "replications_requested": 500,
       "replications_valid": null,
       "round_manifest_sha256": null,
@@ -36,7 +36,7 @@
     }
   ],
   "experiment_registry_rows": 333,
-  "generated_at_utc": "2026-11-16T05:55:12.174466+00:00",
+  "generated_at_utc": "2026-11-16T06:00:07.952938+00:00",
   "independent_validation_status": "NOT_STARTED_SELECTION_IN_PROGRESS",
   "inputs": {
     "descriptive_trend_estimates_sha256": "43ee306cd8e1d93b541d5b2d3d7a6b6a5fd854b09788b315a271b58f4ee4ca60",
@@ -72,16 +72,16 @@
     "experiment_registry": {
       "bytes": 713411,
       "path": "results/optimization/experiment_registry.jsonl",
-      "sha256": "e86ceefa49c1f2a414758eb38ae963ec3fba6bd284929a1793ecbc23781e2820"
+      "sha256": "d5f560cbf45b8346a0f081410ea5d3ba22b8d21d153f8b004a92b8d2ca9377d0"
     },
     "frozen_test_manifest": {
-      "bytes": 4495,
+      "bytes": 4382,
       "path": "results/optimization/round_06_frozen_test/frozen_test_manifest.json",
-      "sha256": "d2fe1e017ea49625471f14a322f2aa85becb83b3967daaaa713ace45bc86ee59"
+      "sha256": "c253474bf8c61d3ab00af84c8ef0b0be52c78a04e155dc32bfb302ac97dc4937"
     },
     "metric_dashboard": {
       "path": "reports/optimization/metric_dashboard.html",
-      "sha256": "79fa44baa560db920420d00ecb3e780860d5c349c70673374f770b61e0ef7aeb"
+      "sha256": "0bf850c192bddb45b3421e392279fbffcea32d0deaf0251644393686ee2d127f"
     },
     "metric_history": {
       "path": "results/optimization/metric_history.parquet",
@@ -114,7 +114,7 @@
     "statistical_calibration": {
       "bytes": 133075,
       "path": "results/optimization/statistical_calibration.csv",
-      "sha256": "29c78340de26426dda868b68c5269b1086939e8bfec7e4f99d6f27fc669c6359"
+      "sha256": "2df26b376f1a2c61b78eef7befead7b555395e882c5010645266430a601f884b"
     }
   },
   "scope": "Aggregate candidate metrics, experiment provenance, and calibration scenario summaries only; raw environmental observations, prediction rows, and model binaries are excluded.",
