@@ -330,8 +330,8 @@ def _summarize(source_hash: str, protocol_hash: str, script_hash: str, feature_h
     OUT.mkdir(parents=True, exist_ok=True)
     comparison_path = OUT / "augmentation_comparison.csv"
     robustness_path = OUT / "noise_robustness_by_scheme.csv"
-    comparison.to_csv(comparison_path, index=False)
-    robustness.to_csv(robustness_path, index=False)
+    comparison.to_csv(comparison_path, index=False, lineterminator="\n")
+    robustness.to_csv(robustness_path, index=False, lineterminator="\n")
     payload = {
         "manifest_version": "kuntur-phase2-v1.2-round-3-augmentation-robustness-0.1.0",
         "status": "COMPLETED_DEVELOPMENT_ONLY", "round": 3,

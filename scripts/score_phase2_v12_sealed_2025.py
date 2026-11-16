@@ -214,12 +214,12 @@ def main() -> None:
     }
     predictions_path = OUTPUT_DIR / "sealed_2025_monthly_predictions.csv"
     metrics_path = OUTPUT_DIR / "sealed_2025_score.json"
-    interval_frame.to_csv(predictions_path, index=False)
+    interval_frame.to_csv(predictions_path, index=False, lineterminator="\n")
     summary["artifacts"] = {
         "monthly_predictions": {"path": predictions_path.relative_to(ROOT).as_posix(), "sha256": sha256_file(predictions_path), "rows": int(len(interval_frame))},
     }
     temp = metrics_path.with_suffix(".json.tmp")
-    temp.write_text(json.dumps(summary, indent=2, sort_keys=True, allow_nan=False) + "\n", encoding="utf-8")
+    temp.write_bytes((json.dumps(summary, indent=2, sort_keys=True, allow_nan=False) + "\n").encode("utf-8"))
     temp.replace(metrics_path)
     print(json.dumps({"status": summary["status"], "target_count": len(test_frame), "model_metrics": model_metrics, "baseline_metrics": baseline_metrics, "paired_baseline_comparison": paired, "interval_calibration": summary["interval_calibration"], "source_test_gold_sha256": summary["source_test_gold_sha256"], "monthly_predictions_sha256": summary["artifacts"]["monthly_predictions"]["sha256"]}, indent=2))
 

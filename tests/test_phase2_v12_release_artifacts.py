@@ -43,15 +43,22 @@ class ReleaseArtifactTests(unittest.TestCase):
         self.assertEqual(counts["statistical_calibration_scenario"], 104)
         self.assertGreater(counts["sealed_temporal_evaluation"], 0)
 
-    def test_incomplete_selection_is_never_reported_as_independent_validation(self):
+    def test_incomplete_calibration_is_never_reported_as_final_validation(self):
         self.assertIn("INCOMPLETE", self.manifest["status"])
-        self.assertIn("NOT_STARTED", self.manifest["independent_validation_status"])
+        self.assertNotIn("COMPLETED", self.manifest["independent_validation_status"])
         progress = [row for row in self.calibration if row["status"] == "RUNNING_INCOMPLETE"]
-        self.assertTrue(progress)
-        self.assertEqual(progress[0]["decision"], "INCONCLUSIVE")
+        if self.manifest["independent_validation_status"] == "RUNNING_INDEPENDENT_VALIDATION":
+            validation_progress = [row for row in progress if row.get("phase") == "v1_2_independent_validation" and row.get("replications_requested")]
+            self.assertTrue(validation_progress)
+            self.assertLess(float(validation_progress[0]["replications_completed"]), float(validation_progress[0]["replications_requested"]))
+            self.assertEqual(validation_progress[0]["decision"], "INCONCLUSIVE")
+        else:
+            self.assertTrue(progress)
+            self.assertTrue(all(row["decision"] == "INCONCLUSIVE" for row in progress))
         independent = [row for row in self.registry if row["record_type"] == "v1_2_independent_validation_phase"]
         self.assertEqual(len(independent), 1)
-        self.assertIn("NOT_STARTED", independent[0]["run_status"])
+        self.assertEqual(independent[0]["run_status"], self.manifest["independent_validation_status"])
+        self.assertEqual(independent[0]["decision"], "INCONCLUSIVE")
 
     def test_output_hashes_match_manifest(self):
         for artifact in self.manifest["outputs"].values():

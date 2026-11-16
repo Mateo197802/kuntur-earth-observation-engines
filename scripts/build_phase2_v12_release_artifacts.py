@@ -84,6 +84,34 @@ def _read_json(path: Path) -> dict[str, Any]:
     return payload
 
 
+def _validation_checkpoints() -> list[tuple[Path, dict[str, Any]]]:
+    directory = STAT / "validation" / "checkpoints"
+    if not directory.is_dir():
+        return []
+    return [(path, _read_json(path)) for path in sorted(directory.glob("validation_*.json"))]
+
+
+def _validation_phase_status() -> str:
+    checkpoints = _validation_checkpoints()
+    if any(payload.get("status") == "IN_PROGRESS" for _, payload in checkpoints):
+        return "RUNNING_INDEPENDENT_VALIDATION"
+    phase_manifest_path = STAT / "validation" / "calibration_manifest.json"
+    if phase_manifest_path.is_file():
+        phase_manifest = _read_json(phase_manifest_path)
+        if phase_manifest.get("status") == "COMPLETED_PHASE":
+            return "COMPLETED_PHASE_GATE_REVIEW_PENDING"
+        if phase_manifest.get("status") == "PARTIAL_PHASE_RUN":
+            return "PARTIAL_VALIDATION_RUN_INCOMPLETE"
+        if phase_manifest.get("status") == "SMOKE_ONLY_NOT_VALIDATION":
+            return "SMOKE_ONLY_NOT_VALIDATION"
+    selection_manifest_path = STAT / "selection" / "selection_manifest.json"
+    if selection_manifest_path.is_file():
+        selection_manifest = _read_json(selection_manifest_path)
+        if selection_manifest.get("status") == "FROZEN_BEFORE_INDEPENDENT_VALIDATION":
+            return "NOT_STARTED_SELECTION_FROZEN"
+    return "NOT_STARTED_SELECTION_INCOMPLETE"
+
+
 def _csv_records(path: Path) -> tuple[pd.DataFrame, str]:
     frame = pd.read_csv(path)
     return frame, _sha256(path)
@@ -358,6 +386,54 @@ def _calibration_records() -> list[dict[str, Any]]:
                     "missing_evidence": ["Scenario completion and independent final validation."],
                 })
 
+    validation_entries = _validation_checkpoints()
+    validation_status = _validation_phase_status()
+    for path, checkpoint in validation_entries:
+        config = checkpoint.get("config") or {}
+        progress = checkpoint.get("progress") or {}
+        scenario = f"{config.get('process')}|n={config.get('n_months')}|slope={config.get('slope')}"
+        if checkpoint.get("status") == "COMPLETE" and isinstance(checkpoint.get("rows"), list):
+            for row in checkpoint["rows"]:
+                method_name = row.get("method")
+                row_scenario = f"{scenario}|method={method_name}"
+                records.append({
+                    "record_type": "v1_2_independent_validation_result",
+                    "experiment_id": f"v1.2-validation:{hashlib.sha256(row_scenario.encode()).hexdigest()[:20]}",
+                    "iteration_number": 4,
+                    "hypothesis": "Evaluate the preselected method under its locked independent-validation DGP and seed.",
+                    "candidate_id": method_name,
+                    "model_id": method_name,
+                    "dataset": {"kind": "synthetic_monte_carlo", "process": config.get("process"), "n_months": config.get("n_months"), "true_slope_per_decade": config.get("slope")},
+                    "training_configuration": {"replications_requested": row.get("replications_requested"), "seed": row.get("seed"), "bootstrap_inner_draws": row.get("bootstrap_inner_draws")},
+                    "metrics": {key: row.get(key) for key in ("type1_fpr_005", "type1_mc95_low", "type1_mc95_high", "coverage_95", "coverage_mc95_low", "coverage_mc95_high", "slope_bias_per_decade", "slope_rmse_per_decade", "mean_ci_width_per_decade", "convergence_failure_rate", "residual_dependence_failure_rate")},
+                    "run_status": row.get("validity_status") or "VALIDATION_SCENARIO_COMPLETE",
+                    "decision": "INCONCLUSIVE",
+                    "decision_reason": "Scenario output is recorded; final release gates are evaluated only after the complete independent-validation phase.",
+                    "runtime_resources": {"runtime_seconds": row.get("runtime_seconds"), "process_cpu_seconds": row.get("process_cpu_seconds"), "peak_rss_bytes": row.get("peak_rss_bytes")},
+                    "artifacts": {"checkpoint_sha256": _sha256(path), "protocol_sha256": config.get("protocol_sha256"), "statistical_module_sha256": config.get("statistical_module_sha256"), "script_sha256": config.get("script_sha256")},
+                    "missing_evidence": ["Complete independent-validation phase and acceptance-gate review."],
+                })
+        elif checkpoint.get("status") == "IN_PROGRESS":
+            records.append({
+                "record_type": "v1_2_independent_validation_progress",
+                "experiment_id": f"v1.2-validation-progress:{hashlib.sha256(scenario.encode()).hexdigest()[:20]}",
+                "iteration_number": 4,
+                "hypothesis": "Run the locked independent-validation scenario with the frozen validation seed and resumable checkpoints.",
+                "candidate_id": None,
+                "model_id": None,
+                "dataset": {"kind": "synthetic_monte_carlo", "process": config.get("process"), "n_months": config.get("n_months"), "true_slope_per_decade": config.get("slope")},
+                "training_configuration": {"replications_requested": config.get("reps"), "bootstrap_inner_draws": config.get("bootstrap_inner"), "seed": config.get("seed"), "selection_manifest_sha256": _sha256(STAT / "selection" / "selection_manifest.json")},
+                "metrics": {"completed_reps": progress.get("completed_reps")},
+                "run_status": "RUNNING_INDEPENDENT_VALIDATION",
+                "decision": "INCONCLUSIVE",
+                "decision_reason": "Partial validation replications are progress only; aggregate method metrics and release gates are withheld until scenario completion.",
+                "artifacts": {"checkpoint_sha256": _sha256(path), "config_sha256": checkpoint.get("config_sha256")},
+                "missing_evidence": ["Scenario completion and complete independent-validation phase."],
+            })
+
+    selection_manifest_path = STAT / "selection" / "selection_manifest.json"
+    selection_decisions_path = STAT / "selection" / "selection_decisions.json"
+    phase_manifest_path = STAT / "validation" / "calibration_manifest.json"
     records.append({
         "record_type": "v1_2_independent_validation_phase",
         "experiment_id": "v1.2-statistical-independent-validation-phase",
@@ -365,11 +441,16 @@ def _calibration_records() -> list[dict[str, Any]]:
         "hypothesis": "Independently validate preselected methods using the frozen validation seed and acceptance gates.",
         "candidate_id": None,
         "model_id": None,
-        "run_status": "NOT_STARTED_SELECTION_IN_PROGRESS",
+        "run_status": validation_status,
         "decision": "INCONCLUSIVE",
-        "decision_reason": "The current worker runs selection only; no independent validation outputs exist yet.",
-        "artifacts": {"protocol_sha256": _sha256(ROOT / "docs/protocols/statistical_correction_v1_2.md")},
-        "missing_evidence": ["Completed selection file and independent validation phase with the locked validation seed."],
+        "decision_reason": "Validation status is based on the phase checkpoints and manifest; scenario progress is not a final method-regime decision.",
+        "artifacts": {
+            "protocol_sha256": _sha256(ROOT / "docs/protocols/statistical_correction_v1_2.md"),
+            "selection_manifest_sha256": _sha256(selection_manifest_path) if selection_manifest_path.is_file() else None,
+            "selection_decisions_sha256": _sha256(selection_decisions_path) if selection_decisions_path.is_file() else None,
+            "validation_phase_manifest_sha256": _sha256(phase_manifest_path) if phase_manifest_path.is_file() else None,
+        },
+        "missing_evidence": ["Complete independent-validation phase and acceptance-gate review."] if validation_status != "COMPLETED_PHASE_GATE_REVIEW_PENDING" else ["Acceptance-gate review and real-series inference release decision."],
     })
     return records
 
@@ -555,15 +636,55 @@ def _statistical_csv_rows() -> list[dict[str, Any]]:
             "phase": "v1_2_selection", "source": "results/statistical_correction/selection/checkpoints", "scenario_id": "selection_checkpoints_not_found",
             "status": "NOT_STARTED_OR_NO_CHECKPOINT", "decision": "INCONCLUSIVE", "note": "No selection checkpoint is available.",
         })
+    validation_status = _validation_phase_status()
+    for path, checkpoint in _validation_checkpoints():
+        config = checkpoint.get("config") or {}
+        progress = checkpoint.get("progress") or {}
+        scenario = f"{config.get('process')}|n={config.get('n_months')}|slope={config.get('slope')}"
+        if checkpoint.get("status") == "COMPLETE" and isinstance(checkpoint.get("rows"), list):
+            method_specs = {item.get("name"): item for item in config.get("methods", [])}
+            for result in checkpoint["rows"]:
+                rows.append({
+                    "phase": "v1_2_independent_validation",
+                    "source": "results/statistical_correction/validation/checkpoints",
+                    "scenario_id": f"{scenario}|{result.get('method')}",
+                    "process": config.get("process"), "n_months": config.get("n_months"), "true_slope_per_decade": config.get("slope"),
+                    "method": result.get("method"), "method_configuration_json": json.dumps(method_specs.get(result.get("method")), sort_keys=True, separators=(",", ":")),
+                    "replications_requested": result.get("replications_requested"), "replications_completed": result.get("replications_valid"), "replications_valid": result.get("replications_valid"),
+                    "seed": result.get("seed"), "coverage_95": result.get("coverage_95"), "coverage_mc95_low": result.get("coverage_mc95_low"), "coverage_mc95_high": result.get("coverage_mc95_high"),
+                    "type1_fpr_005": result.get("type1_fpr_005"), "type1_mc95_low": result.get("type1_mc95_low"), "type1_mc95_high": result.get("type1_mc95_high"),
+                    "power_005": result.get("power_005"), "power_mc95_low": result.get("power_mc95_low"), "power_mc95_high": result.get("power_mc95_high"),
+                    "slope_bias_per_decade": result.get("slope_bias_per_decade"), "slope_rmse_per_decade": result.get("slope_rmse_per_decade"),
+                    "mean_ci_width_per_decade": result.get("mean_ci_width_per_decade"), "convergence_failures": result.get("convergence_failure_rate"),
+                    "status": result.get("validity_status") or "VALIDATION_SCENARIO_COMPLETE", "decision": "INCONCLUSIVE",
+                    "round_manifest_sha256": None, "source_table_sha256": None, "checkpoint_sha256": _sha256(path),
+                    "note": "Validation scenario is complete; final release gates await completion of the full independent-validation phase.",
+                })
+        elif checkpoint.get("status") == "IN_PROGRESS":
+            rows.append({
+                "phase": "v1_2_independent_validation", "source": "results/statistical_correction/validation/checkpoints",
+                "scenario_id": scenario, "process": config.get("process"), "n_months": config.get("n_months"), "true_slope_per_decade": config.get("slope"),
+                "method": None, "method_configuration_json": json.dumps(config.get("methods"), sort_keys=True, separators=(",", ":")),
+                "replications_requested": config.get("reps"), "replications_completed": progress.get("completed_reps"), "replications_valid": None,
+                "seed": config.get("seed"), "coverage_95": None, "coverage_mc95_low": None, "coverage_mc95_high": None,
+                "type1_fpr_005": None, "type1_mc95_low": None, "type1_mc95_high": None,
+                "power_005": None, "power_mc95_low": None, "power_mc95_high": None,
+                "slope_bias_per_decade": None, "slope_rmse_per_decade": None, "mean_ci_width_per_decade": None, "convergence_failures": None,
+                "status": "RUNNING_INCOMPLETE", "decision": "INCONCLUSIVE",
+                "round_manifest_sha256": None, "source_table_sha256": None, "checkpoint_sha256": _sha256(path),
+                "note": "Partial independent-validation replications are progress only; aggregate metrics and release gates are withheld.",
+            })
     rows.append({
         "phase": "v1_2_independent_validation", "source": "docs/protocols/statistical_correction_v1_2.md", "scenario_id": "independent_validation_phase",
         "process": None, "n_months": None, "true_slope_per_decade": None, "method": None, "method_configuration_json": None,
         "replications_requested": None, "replications_completed": None, "replications_valid": None, "seed": 20261127,
         "coverage_95": None, "coverage_mc95_low": None, "coverage_mc95_high": None, "type1_fpr_005": None, "type1_mc95_low": None, "type1_mc95_high": None,
         "power_005": None, "power_mc95_low": None, "power_mc95_high": None, "slope_bias_per_decade": None, "slope_rmse_per_decade": None,
-        "mean_ci_width_per_decade": None, "convergence_failures": None, "status": "NOT_STARTED_SELECTION_IN_PROGRESS", "decision": "INCONCLUSIVE",
+        "mean_ci_width_per_decade": None, "convergence_failures": None,
+        "status": "RUNNING_INCOMPLETE" if validation_status == "RUNNING_INDEPENDENT_VALIDATION" else validation_status,
+        "decision": "INCONCLUSIVE",
         "round_manifest_sha256": None, "source_table_sha256": None, "checkpoint_sha256": None,
-        "note": "The current local worker is running selection only; independent final validation has not begun.",
+        "note": "Current validation progress is not a final method-regime decision; inferential real-series output remains withheld.",
     })
     return rows
 
@@ -587,8 +708,13 @@ def _update_dashboard(calibration_rows: list[dict[str, Any]]) -> None:
         suffix = text.split(section_end, 1)[1]
         text = prefix + suffix
     latest_progress = [row for row in calibration_rows if row.get("phase") == "v1_2_selection" and row.get("status") == "RUNNING_INCOMPLETE"]
+    validation_progress = [row for row in calibration_rows if row.get("phase") == "v1_2_independent_validation" and row.get("status") == "RUNNING_INCOMPLETE" and row.get("replications_requested")]
     complete_scenarios = [row for row in calibration_rows if row.get("phase") == "v1_2_selection" and row.get("status") == "SELECTION_ONLY_NOT_VALIDATED"]
-    if latest_progress:
+    if validation_progress:
+        row = validation_progress[-1]
+        progress_text = f"{row.get('replications_completed')} / {row.get('replications_requested')} outer replicates for {row.get('scenario_id')}."
+        state = "Independent validation running under the frozen selection; partial replicates are not final results."
+    elif latest_progress:
         row = latest_progress[-1]
         progress_text = f"{row.get('replications_completed')} / {row.get('replications_requested')} outer replicates for {row.get('scenario_id')}."
         state = "Selection running; scenario-level metrics withheld until completion."
@@ -673,16 +799,37 @@ def main() -> None:
 
     model_comparison_path = OPT / "model_comparison.csv"
     history_path = OPT / "metric_history.parquet"
+    selection_progress = [row for row in calibration_rows if row.get("phase") == "v1_2_selection" and row.get("status") == "RUNNING_INCOMPLETE"]
+    validation_progress = [row for row in calibration_rows if row.get("phase") == "v1_2_independent_validation" and row.get("status") == "RUNNING_INCOMPLETE" and row.get("replications_requested")]
+    validation_status = _validation_phase_status()
+    if selection_progress:
+        release_status = "AGGREGATES_BUILT_STATISTICAL_SELECTION_INCOMPLETE"
+    elif validation_status == "RUNNING_INDEPENDENT_VALIDATION":
+        release_status = "AGGREGATES_BUILT_INDEPENDENT_VALIDATION_INCOMPLETE"
+    elif validation_status == "COMPLETED_PHASE_GATE_REVIEW_PENDING":
+        release_status = "AGGREGATES_BUILT_VALIDATION_PHASE_COMPLETE_GATE_REVIEW_INCOMPLETE"
+    elif validation_status == "NOT_STARTED_SELECTION_FROZEN":
+        release_status = "AGGREGATES_BUILT_INDEPENDENT_VALIDATION_NOT_STARTED"
+    else:
+        release_status = "AGGREGATES_BUILT_STATISTICAL_SELECTION_INCOMPLETE"
+    selection_manifest_path = STAT / "selection" / "selection_manifest.json"
+    selection_decisions_path = STAT / "selection" / "selection_decisions.json"
+    validation_manifest_path = STAT / "validation" / "calibration_manifest.json"
     manifest = {
         "manifest_version": "kuntur-phase2-v12-release-artifacts-0.1.0",
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
-        "status": "AGGREGATES_BUILT_STATISTICAL_SELECTION_INCOMPLETE",
+        "status": release_status,
         "scope": "Aggregate candidate metrics, experiment provenance, and calibration scenario summaries only; raw environmental observations, prediction rows, and model binaries are excluded.",
         "candidate_registry_rows": len([row for row in registry if row.get("record_type") == "predictive_candidate"]),
         "experiment_registry_rows": len(registry),
         "statistical_calibration_rows": len(calibration_rows),
-        "current_selection_progress": [row for row in calibration_rows if row.get("phase") == "v1_2_selection" and row.get("status") == "RUNNING_INCOMPLETE"],
-        "independent_validation_status": "NOT_STARTED_SELECTION_IN_PROGRESS",
+        "current_selection_progress": selection_progress,
+        "selection_status": "RUNNING_SELECTION_INCOMPLETE" if selection_progress else "SELECTION_COMPLETE_FROZEN" if selection_manifest_path.is_file() and _read_json(selection_manifest_path).get("status") == "FROZEN_BEFORE_INDEPENDENT_VALIDATION" else "SELECTION_NOT_FROZEN",
+        "selection_manifest_sha256": _sha256(selection_manifest_path) if selection_manifest_path.is_file() else None,
+        "selection_decisions_sha256": _sha256(selection_decisions_path) if selection_decisions_path.is_file() else None,
+        "current_validation_progress": validation_progress,
+        "independent_validation_status": validation_status,
+        "validation_phase_manifest_sha256": _sha256(validation_manifest_path) if validation_manifest_path.is_file() else None,
         "inputs": {
             "round_01_manifest_sha256": _sha256(OPT / "round_01_architecture_search" / "round_manifest.json"),
             "round_02_manifest_sha256": _sha256(OPT / "round_02_feature_ablation" / "round_manifest.json"),
@@ -713,8 +860,8 @@ def main() -> None:
         "software_versions": {"python": platform.python_version(), "pandas": pd.__version__, "numpy": np.__version__},
         "limitations": [
             "Completed synthetic R4 is a historical exploratory pilot and is not the frozen independent-validation phase.",
-            "The active v1.2 selection scenario is incomplete; no aggregate method result is emitted for it until its checkpoint completes.",
-            "No v1.2 independent validation has started, so the real-series engine withholds environmental p-values and intervals.",
+            "Selection-stage results are not independent validation.",
+            "Independent-validation progress is not final method-regime evidence; the real-series engine withholds environmental p-values and intervals until acceptance gates are evaluated.",
             "Station comparisons are nearest-grid-cell descriptive checks, not independent ground truth or station-adjusted validation.",
         ],
     }

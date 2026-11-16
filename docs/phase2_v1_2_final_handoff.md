@@ -29,7 +29,7 @@ QA eligibility thresholds were 0.80 valid bbox area for MERRA-2, IMERG, and GLDA
 
 Machine-readable output: `results/statistical_correction/real_series_v12/descriptive_trend_estimates.csv` (8 rows, SHA-256 `43ee306cd8e1d93b541d5b2d3d7a6b6a5fd854b09788b315a271b58f4ee4ca60`). Provenance and configuration: `results/statistical_correction/real_series_v12/descriptive_trend_manifest.json`. These outputs are local ignored results and are not scientific source data committed to Git.
 
-The calibration gate is still incomplete. At the latest measured checkpoint (Nov 16, 2026, 01:10 Guayaquil time), the local selection worker had completed nine of ten locked process/slope scenarios and was 100/500 through AR(1) rho .6 with 20% MCAR, slope +0.25 °C/decade. Its current JSON checkpoint was atomically updated at 01:10:55. At 01:11:01, the worker had run 1:37:22 elapsed, used 5,812 CPU seconds (about 99% of one CPU core), and used 179 MiB working set. This is selection-only simulation work, not independent validation. One selection scenario remains; the separate final-validation phase has not started. Its checkpoint directory is `results/statistical_correction/selection/checkpoints/`; do not restart it from scratch.
+The selection simulation is complete: all ten locked process/slope scenarios reached 500/500, and `selection_decisions.json` is frozen before validation with status `FROZEN_BEFORE_INDEPENDENT_VALIDATION`, protocol SHA-256 `f2fdf0e7941eb548568b8e1979c89799433872df131a36ca56709bef395a65b8`, and validation seed base `20261127`. Independent validation is now running. At the latest measured checkpoint (Nov 16, 2026, 01:24:50 Guayaquil time), the IID Gaussian zero-slope scenario had reached 425/1,000 outer replicates with 399 nested draws. At 01:24:58, the validation worker had run 6:28 elapsed, used 389 CPU seconds, and used 205 MiB working set. These are validation progress counts, not final evidence. Inferential trend outputs remain withheld until the independent acceptance gates are evaluated. Validation checkpoints are under `results/statistical_correction/validation/checkpoints/`.
 
 ## 3. Predictive evaluation
 
@@ -114,7 +114,7 @@ python scripts/run_phase2_v12_descriptive_trends.py
 python -m pytest -q tests/test_phase2_v12_descriptive_trends.py tests/test_phase2_v12_gold_preparation.py tests/test_phase2_v12_sealed_2025_scoring.py tests/test_statistical_inference_v12.py
 ```
 
-The trend command verifies the frozen Gold SHA against its manifest before producing output. The focused reproducibility run for the v1.0 data-engineering handoff passed: **31 tests passed**. The full v1.2 repository suite passed **138 tests** on Nov 16, 2026. The sealed 2025 scorer was run once; do not rerun it as part of routine reproduction. Scientific data, source manifests with private paths, and the fitted model bundle are not included in the code release.
+The trend command verifies the frozen Gold SHA against its manifest before producing output. The focused reproducibility run for the v1.0 data-engineering handoff passed: **31 tests passed**. The full v1.2 repository suite passed **140 tests** on Nov 16, 2026. The sealed 2025 scorer was run once; do not rerun it as part of routine reproduction. Scientific data, source manifests with private paths, and the fitted model bundle are not included in the code release.
 
 ## 7. Release limitations
 
