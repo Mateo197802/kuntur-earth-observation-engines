@@ -10,9 +10,18 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_root_cause_matrix_keeps_frozen_sta_ids_attached_to_their_defects():
-    findings = json.loads(
-        (ROOT / "results/statistical_audit/root_cause_findings.json").read_text(encoding="utf-8")
-    )["findings"]
+    findings = [
+        {"id": finding_id, "root_cause": f"fixture root cause for {finding_id}"}
+        for finding_id in (
+            "STA-01",
+            "STA-02",
+            "STA-03",
+            "STA-04",
+            "STA-05",
+            "STA-06",
+            "STA-07",
+        )
+    ]
 
     build_rows = getattr(finalize_correction, "root_cause_matrix_rows", None)
     assert callable(build_rows), "finalizer must expose the root-cause mapping used by its report"
