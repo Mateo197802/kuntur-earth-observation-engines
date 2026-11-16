@@ -50,6 +50,32 @@ def atomic_json(path: Path, payload: dict[str, object]) -> None:
     temp.replace(path)
 
 
+def load_validated_year_checkpoints(
+    years: range | list[int],
+    source_records: dict[str, dict[str, object]],
+    *,
+    root: Path = ROOT,
+    checkpoint_dir: Path = CHECKPOINT_DIR,
+    manifest_path: Path = CHECKPOINT_MANIFEST_PATH,
+) -> dict[int, tuple[pd.DataFrame, dict[str, object]]]:
+    """Load each matching validated year checkpoint once for resume planning and reuse."""
+    checkpoints: dict[int, tuple[pd.DataFrame, dict[str, object]]] = {}
+    for year in years:
+        expected_sha = str(source_records.get(str(year), {}).get("sha256", ""))
+        if len(expected_sha) != 64:
+            continue
+        checkpoint = load_year_checkpoint(
+            year,
+            expected_source_sha256=expected_sha,
+            root=root,
+            checkpoint_dir=checkpoint_dir,
+            manifest_path=manifest_path,
+        )
+        if checkpoint is not None:
+            checkpoints[year] = checkpoint
+    return checkpoints
+
+
 def discover_pdf(year: int, session: requests.Session, budget: InamhiTimeBudget | None = None) -> dict[str, object] | None:
     for attempt in range(4):
         try:
@@ -316,18 +342,12 @@ def main() -> None:
     existing_manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.is_file() else {}
     source_records: dict[str, dict[str, object]] = dict(existing_manifest.get("yearbook_sources", {}))
     existing_frame = pd.read_parquet(source_path) if source_path.is_file() else pd.DataFrame()
-    cacheable_years: set[int] = set()
+    validated_checkpoints = load_validated_year_checkpoints(AVAILABLE_YEARS, source_records)
+    cacheable_years = set(validated_checkpoints)
     for year in AVAILABLE_YEARS:
         existing_record = source_records.get(str(year), {})
         expected_sha = str(existing_record.get("sha256", ""))
-        if len(expected_sha) == 64 and load_year_checkpoint(
-            year,
-            expected_source_sha256=expected_sha,
-            root=ROOT,
-            checkpoint_dir=CHECKPOINT_DIR,
-            manifest_path=CHECKPOINT_MANIFEST_PATH,
-        ) is not None:
-            cacheable_years.add(year)
+        if year in cacheable_years:
             continue
         prior_rows = existing_frame.loc[existing_frame.year == year] if not existing_frame.empty else pd.DataFrame()
         if (
@@ -374,27 +394,20 @@ def main() -> None:
         existing_record = source_records.get(key, {})
         prior_rows = existing_frame.loc[existing_frame.year == year] if not existing_frame.empty else pd.DataFrame()
         expected_sha = str(existing_record.get("sha256", ""))
-        if len(expected_sha) == 64:
-            checkpoint = load_year_checkpoint(
-                year,
-                expected_source_sha256=expected_sha,
-                root=ROOT,
-                checkpoint_dir=CHECKPOINT_DIR,
-                manifest_path=CHECKPOINT_MANIFEST_PATH,
-            )
-            if checkpoint is not None:
-                checkpoint_frame, checkpoint_record = checkpoint
-                source_records[key] = checkpoint_record.get("source_record", existing_record)
-                all_observations.extend(checkpoint_frame.to_dict("records"))
-                print(json.dumps({
-                    "event": "INAMHI_YEAR_REUSED_VALIDATED_CHECKPOINT",
-                    "year": year,
-                    "rows": len(checkpoint_frame),
-                    "checkpoint_sha256": checkpoint_record.get("sha256"),
-                    "elapsed_seconds": time.perf_counter() - started,
-                    "time_budget_remaining_seconds": round(budget.remaining(), 2),
-                }, sort_keys=True))
-                continue
+        checkpoint = validated_checkpoints.get(year)
+        if checkpoint is not None:
+            checkpoint_frame, checkpoint_record = checkpoint
+            source_records[key] = checkpoint_record.get("source_record", existing_record)
+            all_observations.extend(checkpoint_frame.to_dict("records"))
+            print(json.dumps({
+                "event": "INAMHI_YEAR_REUSED_VALIDATED_CHECKPOINT",
+                "year": year,
+                "rows": len(checkpoint_frame),
+                "checkpoint_sha256": checkpoint_record.get("sha256"),
+                "elapsed_seconds": time.perf_counter() - started,
+                "time_budget_remaining_seconds": round(budget.remaining(), 2),
+            }, sort_keys=True))
+            continue
         if (
             existing_record.get("status") == "PDF_ACQUIRED_AND_PARSED"
             and not prior_rows.empty
