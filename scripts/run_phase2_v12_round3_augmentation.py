@@ -24,7 +24,10 @@ from kuntur_data.phase2.augmentation import (
 )
 from kuntur_data.phase2.optimization_features import build_feature_pair
 from kuntur_data.phase2.predictive import PeakRSS, fit_preprocessing_v1_1, regression_metrics, sha256_file
-from run_phase2_v12_round1 import FOLDS, SEEDS, _block_bootstrap_delta, _sha_obj, _atomic_json
+try:  # Support both `python scripts/...py` and package imports in pytest.
+    from .run_phase2_v12_round1 import FOLDS, SEEDS, _block_bootstrap_delta, _sha_obj, _atomic_json
+except ImportError:  # pragma: no cover - direct-script execution path
+    from run_phase2_v12_round1 import FOLDS, SEEDS, _block_bootstrap_delta, _sha_obj, _atomic_json
 
 
 ROOT = Path(__file__).resolve().parents[1]

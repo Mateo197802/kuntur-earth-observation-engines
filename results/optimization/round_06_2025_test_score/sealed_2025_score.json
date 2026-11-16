@@ -1,0 +1,89 @@
+{
+  "artifacts": {
+    "monthly_predictions": {
+      "path": "results/optimization/round_06_2025_test_score/sealed_2025_monthly_predictions.csv",
+      "rows": 12,
+      "sha256": "9bc2d85e4326db48caf84f0cdfdd179a9cb47e01d859dcc7b7f4280c42e5a413"
+    }
+  },
+  "baseline_metrics": {
+    "mae_c": 0.16591065768650667,
+    "mean_prediction_minus_observation_bias_c": -0.13618957595653183,
+    "rmse_c": 0.22176899299269606,
+    "target_count": 12
+  },
+  "dataset_id": "M2TMNXSLV.5.12.4",
+  "evaluation_label": "retrospective hindcast; contemporaneous product-release timestamps were not established",
+  "interval_calibration": {
+    "absolute_residual_quantile_c": 0.5805256445609253,
+    "calibration_residual_count": 108,
+    "mean_width_c": 1.1610512891218505,
+    "mean_winkler_score_c": 1.2423123435922652,
+    "method": "expanding_symmetric_abs_residual",
+    "nominal_coverage": 0.9,
+    "observed_coverage": 0.8333333333333334,
+    "status": "one-year observed coverage is descriptive; calibration residuals are post-selection and serially dependent"
+  },
+  "limitations": [
+    "Only 12 months are in this independent temporal test; metrics have low precision.",
+    "The 12-month circular block-bootstrap CI resamples one complete annual block and is degenerate, so it is reported only as a non-informative diagnostic.",
+    "The model and interval method were selected using 2003-2018 development data; no 2019-2024 validation or test labels were read by this scorer.",
+    "The finite-sample interval does not guarantee exchangeable coverage for dependent monthly errors."
+  ],
+  "model": {
+    "candidate_spec_sha256": "98876e3caf905353b8eadb3afc77f29fae766a2b1cf75fe8915b4c32791b54e8",
+    "id": "random_forest",
+    "model_bundle_sha256": "882995a9dc4121a95159ce5034eb6a42c8fe60510214538f42c3a5ab751bcffa",
+    "training_scheme": "heteroscedastic_only"
+  },
+  "model_metrics": {
+    "mae_c": 0.3251288451264358,
+    "mean_prediction_minus_observation_bias_c": -0.26653361193259134,
+    "rmse_c": 0.382137525537688,
+    "target_count": 12
+  },
+  "paired_baseline_comparison": {
+    "block_length_months": 12,
+    "degenerate_single_block_interval": true,
+    "delta_mae_ci95": [
+      0.15921818743992913,
+      0.15921818743992913
+    ],
+    "interpretation": "non-informative: a 12-month resampling block equals the entire one-year test set",
+    "months_with_equal_absolute_error": 0,
+    "months_with_lower_absolute_error_than_baseline": 0,
+    "paired_delta_mae_model_minus_training_monthly_climatology_c": 0.15921818743992913,
+    "replicates": 2000,
+    "seed": 20261127
+  },
+  "predictor_coverage_min": 1.0,
+  "region_id": "ecuador_pilot_bbox",
+  "source_test_gold_sha256": "76d2b7a6dd667590c34020ddc211debd30cbedc4d7b79dd771ceae6ba89f5710",
+  "status": "SCORED_FROZEN_2025_TEST",
+  "target_coverage_fraction_bbox_min_max": [
+    1.0,
+    1.0
+  ],
+  "target_variable": "MERRA-2 T2M (\u00b0C)",
+  "test_gold_rows": 72,
+  "test_months": [
+    "2025-01",
+    "2025-02",
+    "2025-03",
+    "2025-04",
+    "2025-05",
+    "2025-06",
+    "2025-07",
+    "2025-08",
+    "2025-09",
+    "2025-10",
+    "2025-11",
+    "2025-12"
+  ],
+  "test_target_count": 12,
+  "training": {
+    "cutoff_month": "2018-12",
+    "forecast_source_sha256": "67c69236a8516b11b900b90f63926c1047aae3af991b726c567b5c85020ce2ff",
+    "months": 190
+  }
+}

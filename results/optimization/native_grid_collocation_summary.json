@@ -1,0 +1,2316 @@
+{
+  "coordinate_policy": "Uses each eligible station-month row's stored coordinates; INAMHI coordinate variants are reported and retained rather than silently collapsed.",
+  "created_at_utc": "2026-11-16T05:31:50.757609+00:00",
+  "dataset_id": "M2TMNXSLV.5.12.4",
+  "eligibility_policies": {
+    "INAMHI_yearbooks": "Existing table rows with tavg_eligible=true; source provenance and physical range checks are preserved from the validated yearbook extraction.",
+    "MERRA2": "Existing preprocessing manifest status VALIDATED; monthly native-grid file SHA-256 and embedded source/regional checksums verified before sampling.",
+    "NOAA_GHCN_M_QCU": "Existing table rows with eligible=true; provider QC, missing sentinel and physical range checks are preserved from the validated source table."
+  },
+  "grid_shape_lat_lon": [
+    14,
+    11
+  ],
+  "inputs": {
+    "acquisition_manifest_sha256": "c8f8b6309acd0e881882c153aaa08ac642d447c086a07eefd97b0b67c2f7d058",
+    "native_grid_receipts": [
+      {
+        "month": "2002-01",
+        "native_grid_bytes": 11170,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200201.npz",
+        "native_grid_sha256": "8f40569c577bf5776f710a64a3d2585cdae7fc03576ee659eba4fa513875b31b",
+        "regional_input_sha256_from_validated_extraction": "43ed3d45b4500772c7fab893998d9343d93a321a8d9d8190b228316a4b9b456f",
+        "source_sha256_from_validated_acquisition": "993bd52824fd31037e34d05978064b6faf8db6d44f9c7eb8ea2839036fc47171"
+      },
+      {
+        "month": "2002-02",
+        "native_grid_bytes": 11158,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200202.npz",
+        "native_grid_sha256": "d1ea6500590b788f11eda530c91701a51bbbe0eb4497b2660bffea911f673986",
+        "regional_input_sha256_from_validated_extraction": "017be577a5ac8c97e885a4ae3060f3ce9fd096914c5591ee6a012d8af00a98d7",
+        "source_sha256_from_validated_acquisition": "b4e5a8ab5b00dee0dbff436812ce5866c481bc4b6144e72821819079ff747fae"
+      },
+      {
+        "month": "2002-03",
+        "native_grid_bytes": 11168,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200203.npz",
+        "native_grid_sha256": "5f90486a1a97ada097204d2528d3e887f097375a80b8710c0a66b49a20108e3f",
+        "regional_input_sha256_from_validated_extraction": "24f0debb6e286b471d3d87cc065a269e19f08ad6dac932042a77df35813c1bc5",
+        "source_sha256_from_validated_acquisition": "d82e1d8d5c28997448ecfd0a54d983314869561bdf8f760cf75ac490254cc2da"
+      },
+      {
+        "month": "2002-04",
+        "native_grid_bytes": 11137,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200204.npz",
+        "native_grid_sha256": "974d468b92d2f72020998ca39fdc9b522e54a6b339ec86986fb6a6c126ec9829",
+        "regional_input_sha256_from_validated_extraction": "c47c02b1c521cfedaab961b1b90065b2c6ff6d8045060bf618c5df55606a2732",
+        "source_sha256_from_validated_acquisition": "f69fa3d2d8ff2ef94b9d35e0bcd8008af7a94503f8da19724f66286a592703ca"
+      },
+      {
+        "month": "2002-05",
+        "native_grid_bytes": 11184,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200205.npz",
+        "native_grid_sha256": "28c6d44eafff900c3374d66cf6a6763f9e770e2e2d4d9270b23552db2166a62a",
+        "regional_input_sha256_from_validated_extraction": "8bbbdb2a9a1ec17aa1cd4fcd45584914a5afad067e76f433f8dd8feb8c27adac",
+        "source_sha256_from_validated_acquisition": "86d57ff9770b673978f6c72a4f66a7505144196da266f278d78204918d46b7c8"
+      },
+      {
+        "month": "2002-06",
+        "native_grid_bytes": 11209,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200206.npz",
+        "native_grid_sha256": "7b2be681d964e3ec573333ce982a87c6a7dfa6ba3b319d18399ba3119eb09f6c",
+        "regional_input_sha256_from_validated_extraction": "f5b47f5c6a1881de848b3f38afc6ba609b1066312a999180cf63db9183cd3b93",
+        "source_sha256_from_validated_acquisition": "8c6ad0f3d3fd4f7e85aab56c63b795c57c8d525901471f465acacf4aa11770e4"
+      },
+      {
+        "month": "2002-07",
+        "native_grid_bytes": 11212,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200207.npz",
+        "native_grid_sha256": "a3a9d894a33903d5f13c92e7f29f07eea4325ba43654918e54305c4a02d0a448",
+        "regional_input_sha256_from_validated_extraction": "da98dd6db692005059d5049f50117f4dc266154566a83f0c62fae93cf65a1a3a",
+        "source_sha256_from_validated_acquisition": "8f8d4a5887b9826d3fe4be10f71e5c56127dcc495c445d2cab90659c5a060845"
+      },
+      {
+        "month": "2002-08",
+        "native_grid_bytes": 11210,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200208.npz",
+        "native_grid_sha256": "98df9d417f6cf34aec9dd57ce1c276c42bf963066a74b5eb3c57a4cb898b112c",
+        "regional_input_sha256_from_validated_extraction": "e58fb4451595ead917b909e961bc7e09bee8430fef441523c0d021f7f70965a8",
+        "source_sha256_from_validated_acquisition": "7eb6268078c656fef68b931da85efe6ac2de680f2140a6272053926c75759b5d"
+      },
+      {
+        "month": "2002-09",
+        "native_grid_bytes": 11206,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200209.npz",
+        "native_grid_sha256": "2a80c1704031b1ce54677503186831baeba212ce5dbd4704610b1da655a38e4e",
+        "regional_input_sha256_from_validated_extraction": "2d039841d73e33b0362b726793cb92187e86ec66b947964abed5d15dde0dc7d0",
+        "source_sha256_from_validated_acquisition": "f5b4db84b6842b501796a6f1e298f0b874f85dfed24cd6e6dc40cf643610d986"
+      },
+      {
+        "month": "2002-10",
+        "native_grid_bytes": 11200,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200210.npz",
+        "native_grid_sha256": "20d34152aa91363f4263018f642bc7ca9de21e3f2ed7af13d61337aff68b621d",
+        "regional_input_sha256_from_validated_extraction": "5e9df4ac2c040b8a88f47b01770945f1645107fdc01103b4910f3a1621bbaca5",
+        "source_sha256_from_validated_acquisition": "b2ddf32436d4c7f2733fc0b0bfb80f5bb5300532cf42f8ca37a1c22e9f48fcec"
+      },
+      {
+        "month": "2002-11",
+        "native_grid_bytes": 11193,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200211.npz",
+        "native_grid_sha256": "f315e0fcc621001e064c3230f6b149999c81a92a6f4bfd9250d03711054fa2cb",
+        "regional_input_sha256_from_validated_extraction": "09ae379c1c31e2e72951374277f79e05f379426249b09876f2bc251af2919f42",
+        "source_sha256_from_validated_acquisition": "d68a68045748c49de63f4faa28f262ba0adb5a1c3e80692baee4b1f64fde97df"
+      },
+      {
+        "month": "2002-12",
+        "native_grid_bytes": 11151,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2002/200212.npz",
+        "native_grid_sha256": "8ced3a8ed4e30a537c0021d006f4c60add23d0cd19807eddca7112701310db4f",
+        "regional_input_sha256_from_validated_extraction": "e76557a171919043ed4dfabaf5fbd750c82385fb771e680d19b00c61ac680854",
+        "source_sha256_from_validated_acquisition": "9486174a38e87ba2f25ebdd75550da47f28e5a4f23a13ae63ee2e7676b0145f9"
+      },
+      {
+        "month": "2003-01",
+        "native_grid_bytes": 11179,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200301.npz",
+        "native_grid_sha256": "0c7397f7982b630525deb674d826eaceec055488ec6661380f91b2c5e482963b",
+        "regional_input_sha256_from_validated_extraction": "ebef9e21439449fe7b38aba71bacd82377fb96f14fc7e8b3c4a32bd4bfe4949f",
+        "source_sha256_from_validated_acquisition": "c2541718b51e224cccebc3f6e521d5cdc9366a5e634d5c12997ad793e8fbf666"
+      },
+      {
+        "month": "2003-02",
+        "native_grid_bytes": 11167,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200302.npz",
+        "native_grid_sha256": "30854d47d9627d94db0fe38db8bd14fbfca328a880e7ceda50909dd76b5322f5",
+        "regional_input_sha256_from_validated_extraction": "74d19cab484c7e87d0a9ec853d2adec8b29b5b94c5551156ffc55f5263e4d127",
+        "source_sha256_from_validated_acquisition": "6aac8e1b68aaf6484c0fa8970921a3091ea60154740d1aac99bce6bdb6d5b86b"
+      },
+      {
+        "month": "2003-03",
+        "native_grid_bytes": 11153,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200303.npz",
+        "native_grid_sha256": "a39f164fe664ddd0056669f89db3b647e354e9f4a969dda35967d50f3110a8ed",
+        "regional_input_sha256_from_validated_extraction": "edec9b545a956dcd5a0c71b7944485fe631362ee42327368a90aeff0eda86ba5",
+        "source_sha256_from_validated_acquisition": "413703a408791d0ebe9343c37910b635095010b065ed0d9d3009a9c4ddb87e10"
+      },
+      {
+        "month": "2003-04",
+        "native_grid_bytes": 11127,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200304.npz",
+        "native_grid_sha256": "41f462b5e66bcf47bca1b354ebe11651b1d086a8f4de93a31143e32c2ddc006e",
+        "regional_input_sha256_from_validated_extraction": "d099c167b9dcb3be3079c39a4fa44afb7cd192146a09abfe4cf11378661dc9a5",
+        "source_sha256_from_validated_acquisition": "7de346e55bd084e17d3d57b048f672beba8315298f3a3c8d17a073e3a0f23eba"
+      },
+      {
+        "month": "2003-05",
+        "native_grid_bytes": 11161,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200305.npz",
+        "native_grid_sha256": "444909ce5d3d7a49fb8056e99cff9a25b60c30b11443ac59bd6ed520a8a69879",
+        "regional_input_sha256_from_validated_extraction": "43c6d36c1581d9d91117c2f30071f7aee93dd3f775662299f6fb0615ec059539",
+        "source_sha256_from_validated_acquisition": "e10990c81e324634fabe4dca8a6eb96e983baa824ce55e5ca5425be32c6f53f6"
+      },
+      {
+        "month": "2003-06",
+        "native_grid_bytes": 11179,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200306.npz",
+        "native_grid_sha256": "fbd4aafcaa335431dd42a76e0209e6483b9bcfcd2b48b5d0ef7a0c3513701ec3",
+        "regional_input_sha256_from_validated_extraction": "d489907232f691115312e3e16d431228b0090cd67f8f06538021e2e36c742175",
+        "source_sha256_from_validated_acquisition": "570d86c7411db5d045acec8c6ce1afea31bb9fbd44ee9f6784907820b778b9bf"
+      },
+      {
+        "month": "2003-07",
+        "native_grid_bytes": 11210,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200307.npz",
+        "native_grid_sha256": "d879f7e7a49571049b631aef030f91dddde42fb5a308bf87198e2c73a0b507f5",
+        "regional_input_sha256_from_validated_extraction": "e1674c8d6f8434d3886435a9214303c0b5dac3c9ff1c4df0e78ac4ddd888e274",
+        "source_sha256_from_validated_acquisition": "eae63d597070ac1d791b4c9cc175e03dbe70bb302eeea2139f1c3a45d2744eca"
+      },
+      {
+        "month": "2003-08",
+        "native_grid_bytes": 11177,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200308.npz",
+        "native_grid_sha256": "3fdf53bf0548bb4a6a8b68e61f300b55a67a8f9f85cb27f3a10a1333cf39e00b",
+        "regional_input_sha256_from_validated_extraction": "8fab8f3779544741e1888237ae57cffd7ac8f36002ca223ba2f15866a85bf9ad",
+        "source_sha256_from_validated_acquisition": "f700bca80c572d054a53588208b808b265e1f8cc6d7c48da555c8252b1da2069"
+      },
+      {
+        "month": "2003-09",
+        "native_grid_bytes": 11200,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200309.npz",
+        "native_grid_sha256": "3fb0f681e720229836d98ac47cf4aa5f329fce1b3cd45b752f6d70042da30bbd",
+        "regional_input_sha256_from_validated_extraction": "17c69ba41a0ef51eaa695ae516ad254fad1155806de6eb8e3c03173295888539",
+        "source_sha256_from_validated_acquisition": "aa56b68d44cc30d38d7264073733017f134e2492938e8751bf90bb14dc2c3a2d"
+      },
+      {
+        "month": "2003-10",
+        "native_grid_bytes": 11165,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200310.npz",
+        "native_grid_sha256": "84e85ebf4e8394ff7d5849971d46467937a41496157f1ad058cb4d251c97ebd5",
+        "regional_input_sha256_from_validated_extraction": "731ddabdfbf49b80a37bafdf6f5dee577aca79347f9b2e6bbfb9d953f869245b",
+        "source_sha256_from_validated_acquisition": "29e889502e8b3c5bf0623c8690c6689e6f4b4527b0e03837772791d2b163d50c"
+      },
+      {
+        "month": "2003-11",
+        "native_grid_bytes": 11172,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200311.npz",
+        "native_grid_sha256": "f149c598af302e31f1de0ccc31639478381856dd0ee2d25fb13c57f32e63e942",
+        "regional_input_sha256_from_validated_extraction": "bafb52446989721765430313f50cd484a05088491aa09df96013173e267cde6c",
+        "source_sha256_from_validated_acquisition": "afaf39a6e30def10645e302b69b3b03968effc565c60340c3bf8ae2510cb25ae"
+      },
+      {
+        "month": "2003-12",
+        "native_grid_bytes": 11173,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2003/200312.npz",
+        "native_grid_sha256": "3205d92058c7509123d4ef21644b3d37db29ee3f82fb6cb16b5fe4497c217eb2",
+        "regional_input_sha256_from_validated_extraction": "f18f63ec9fe7cca1e19a3446b2cc87f4c198b628f6148ce246f302501ae30e58",
+        "source_sha256_from_validated_acquisition": "99e6b239b4edbd13329b6f35e2d3dad5beadbb8c544e4d41b9abc7b52b027de5"
+      },
+      {
+        "month": "2004-01",
+        "native_grid_bytes": 11152,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200401.npz",
+        "native_grid_sha256": "bdf1fa284ba3fc1d09356929d8527caa167588102bb8de77babb2bdcd9fb6396",
+        "regional_input_sha256_from_validated_extraction": "90a2851b1986804ea2f046bfa62627b02ee015876e59b2ec0794fa505249a7f7",
+        "source_sha256_from_validated_acquisition": "fbd95f52a0ee09024ec98a1ce9c11968570fbf0e7cd1e351c5050e4eb0429e0c"
+      },
+      {
+        "month": "2004-02",
+        "native_grid_bytes": 11155,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200402.npz",
+        "native_grid_sha256": "f71303e38b746fbaa45df79f9c041004b7e8f69c8f8de1a71f273ce261bb58f9",
+        "regional_input_sha256_from_validated_extraction": "1648551ca9c59075d1f8dd7ab89b2266da22349adb90f4e2ae5ed48bc9ca7b7b",
+        "source_sha256_from_validated_acquisition": "fec47705a34d05e3436d86260d22a463b0a907d8f7c4e248cbe193ea72f0dacb"
+      },
+      {
+        "month": "2004-03",
+        "native_grid_bytes": 11160,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200403.npz",
+        "native_grid_sha256": "a096a2ec4a96261599c01a50fc00c86bcbb05916cd62f0c58398cc276c48bc86",
+        "regional_input_sha256_from_validated_extraction": "a6573309683d85057b28e9c142b254a36ee058a087bee6fce02e46cdcd573890",
+        "source_sha256_from_validated_acquisition": "8a05a12e779f5def23705c3afd98f1abd437f553ec26f28b627243245ec3fc0f"
+      },
+      {
+        "month": "2004-04",
+        "native_grid_bytes": 11173,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200404.npz",
+        "native_grid_sha256": "02013253b78cce4150f22dfd51b3856e25df35f946729c73dc0796632ede4e7f",
+        "regional_input_sha256_from_validated_extraction": "f8de7ac487805f5bb02129703b02ec69e592ac175ec0b79bbcf65bbf6c06c466",
+        "source_sha256_from_validated_acquisition": "1d09ded21f852e751a099d54ea8339b13c0aa0256f73a93a705f8be98a1cb901"
+      },
+      {
+        "month": "2004-05",
+        "native_grid_bytes": 11170,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200405.npz",
+        "native_grid_sha256": "abaf4c7dd178df3bed13be45913f7007960b1e085723a7cd6b28d15d69b2b2a1",
+        "regional_input_sha256_from_validated_extraction": "1b3e5c52e520ef7aba374591c63f492abbf04ef5b8d026c7f7563496bf5bc44a",
+        "source_sha256_from_validated_acquisition": "f68c5b1f4fe86ac41afac3d308dc3f3b44b4acd5fa5358d821427d413d154553"
+      },
+      {
+        "month": "2004-06",
+        "native_grid_bytes": 11221,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200406.npz",
+        "native_grid_sha256": "b381c29716ba7c200eb577cde6bcf4fd892778c3066691446e22bcee5d18d575",
+        "regional_input_sha256_from_validated_extraction": "a2ca208ad40b4ed24c7ac28bb79ceaa9dad51b06dfa8c83fb11fd45ed752816e",
+        "source_sha256_from_validated_acquisition": "ff2d6b74ba3f6d7d040a9e8e0a845349dcdafa8df62f340790d4ce237b5f3195"
+      },
+      {
+        "month": "2004-07",
+        "native_grid_bytes": 11192,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200407.npz",
+        "native_grid_sha256": "5213d3d872f29f51010cedc5095535ed8b1452e461fbfa2fcdfa20cfc10e1eff",
+        "regional_input_sha256_from_validated_extraction": "404ef8f342590e9d827ae586432cc9742ec35a1e19109d51d29f4e3c67752856",
+        "source_sha256_from_validated_acquisition": "e75c27c7f9b58cc71afebdf30e276fc1c777bf27c9a62d93af072357efae6913"
+      },
+      {
+        "month": "2004-08",
+        "native_grid_bytes": 11215,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200408.npz",
+        "native_grid_sha256": "b5342ceb7a936c6aab4a2036a97cc029127e820710f632d9cec7124396e497fd",
+        "regional_input_sha256_from_validated_extraction": "0430699a91419ab1fb1c87e4a1d3b89accf2c429fa164da9fdc16f5ab0c3b902",
+        "source_sha256_from_validated_acquisition": "9154ac30331edf8849c4cefb8f4188a940b78a83bb7d15b339b8a2e6f9a0c6b7"
+      },
+      {
+        "month": "2004-09",
+        "native_grid_bytes": 11201,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200409.npz",
+        "native_grid_sha256": "3cbe7dcad7733f49bdbacbe8137bb664563d8fc2bf2fbe3904a1caaee2073e57",
+        "regional_input_sha256_from_validated_extraction": "2d578f0899685d57aed602697216af9bccd4ccd8271643b79721f38c34550a99",
+        "source_sha256_from_validated_acquisition": "45d44d9669336235ca84db89bae19101cf5c53de6c7e555d729f6eba9f105c4b"
+      },
+      {
+        "month": "2004-10",
+        "native_grid_bytes": 11188,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200410.npz",
+        "native_grid_sha256": "225fbf10c864c89f250a3896d4eef715614914416a4a91444e7fad8dfe43ccc8",
+        "regional_input_sha256_from_validated_extraction": "a2f663ee879bd1dc2aea5206358a862270396ebf9178bd61787fd8eb9e7a6ba4",
+        "source_sha256_from_validated_acquisition": "eda01b0e8f958e1308835c153e89f860989151ce8770305b4cc52f483840b690"
+      },
+      {
+        "month": "2004-11",
+        "native_grid_bytes": 11159,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200411.npz",
+        "native_grid_sha256": "28950f381e56ad2994e1047dcd5c2f7a396e3e481e1f1af9007e0c9f598f748e",
+        "regional_input_sha256_from_validated_extraction": "474a5ea85efd7dc806479e11f07bab67042d007991f4dfaf78ae4d515cea61ca",
+        "source_sha256_from_validated_acquisition": "81d8a6ffdd501be91b614baa1d1ee1d0683d4a2277653d8165e85c2e82af5612"
+      },
+      {
+        "month": "2004-12",
+        "native_grid_bytes": 11171,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2004/200412.npz",
+        "native_grid_sha256": "581a8320c987777c9a5a4d2518912b97304be5a7fa9a46bb5cba447f074de199",
+        "regional_input_sha256_from_validated_extraction": "1015ba72e87404173504a44d2def285cc877e0c2d5205ce32ba022ac4c5bed53",
+        "source_sha256_from_validated_acquisition": "f16682b4aaf985b2a79ee59e8c9df5f326b1be65a01db04b0ba1b14b23c8b1aa"
+      },
+      {
+        "month": "2005-01",
+        "native_grid_bytes": 11176,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200501.npz",
+        "native_grid_sha256": "5a2d933bb7c39003116cbbdb9a0d76f5bff64b5f711d00fbf3dbb60bd38fad24",
+        "regional_input_sha256_from_validated_extraction": "8fd14aa6528c9aecd88982c75eca630ef39069c1e9037431e0dbd531965d0e37",
+        "source_sha256_from_validated_acquisition": "103d95aa3ffe9b8d7e98caea5f6a764831bad3b70155370d3a84c2dfd95616c6"
+      },
+      {
+        "month": "2005-02",
+        "native_grid_bytes": 11171,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200502.npz",
+        "native_grid_sha256": "26313de7cc50f9015328de6a771c8554b36746c0926811d6a2908a4afc3b91b5",
+        "regional_input_sha256_from_validated_extraction": "a75772c14d58fd56eb88b6f2728c17a0103e5e881007f74919a13d53e0aecadf",
+        "source_sha256_from_validated_acquisition": "8c056a3f865fb21d0eb29a19a454e1573c6eaa7ef707ed3bc112517e38786ae5"
+      },
+      {
+        "month": "2005-03",
+        "native_grid_bytes": 11154,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200503.npz",
+        "native_grid_sha256": "f36003e2efbf33575416a0e806cd7fcbdfc6a5ce6472ad728199222220c40aa5",
+        "regional_input_sha256_from_validated_extraction": "a0ce68c1632ea8eebe640176daa66a0f809f48b9fc5b55b70f2a850dcd868671",
+        "source_sha256_from_validated_acquisition": "2497787c6b4293afd5cf9ca56de99ff062012406809326f150e702a2a63cf37c"
+      },
+      {
+        "month": "2005-04",
+        "native_grid_bytes": 11186,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200504.npz",
+        "native_grid_sha256": "7deed1f0021959f7646c72f7e831d6682a71b10d497cca558c212d3990de0bdf",
+        "regional_input_sha256_from_validated_extraction": "93acbab1f9a3ae3718f08833ca8be7d25024946081630f2f2aae1f36b283aa39",
+        "source_sha256_from_validated_acquisition": "833605df916b30a93027f1e0395103b1777a8768476120a30abdf8f5708d0b22"
+      },
+      {
+        "month": "2005-05",
+        "native_grid_bytes": 11180,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200505.npz",
+        "native_grid_sha256": "0d5c381e5daf86693786bbbc858afa4e9a3e44611a6566bfc70beb29aa71b52d",
+        "regional_input_sha256_from_validated_extraction": "3d6a2934ccebaf5ee16f53cf824b0f34cdfc30df3b49a4a5dbd063753479a52d",
+        "source_sha256_from_validated_acquisition": "c58fe7099bbe8e86924e917858eab28277cf66ff345038a535b75d1a0de1d688"
+      },
+      {
+        "month": "2005-06",
+        "native_grid_bytes": 11211,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200506.npz",
+        "native_grid_sha256": "a22136c71ba68ab966dcece2c42103485414a0e15fcc3553da0a1bc1949dd278",
+        "regional_input_sha256_from_validated_extraction": "ae698636e153d4ef2aa4fa35beff456dd3824222607f81c9d6fded12eb231672",
+        "source_sha256_from_validated_acquisition": "5810be6c196c436c6c6f5187d79fe842d97576adba97dd586e77511ff30a08ca"
+      },
+      {
+        "month": "2005-07",
+        "native_grid_bytes": 11190,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200507.npz",
+        "native_grid_sha256": "bc8625d2891275bdfde3850b5849c8cf438a586555887c59fad10874fe722334",
+        "regional_input_sha256_from_validated_extraction": "6ffda5975b4cc02515838dc0999658eb9859d585935bd7fd9dc01fe61fe9849c",
+        "source_sha256_from_validated_acquisition": "7edd8d2b3ed6f077e68d8a5fc1d58c6da78548ab3ada0861678c376b3c6662ce"
+      },
+      {
+        "month": "2005-08",
+        "native_grid_bytes": 11209,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200508.npz",
+        "native_grid_sha256": "eeea4360aa2b4a67cd42e8ce43370933ff3d733839083e88a90f489187caa692",
+        "regional_input_sha256_from_validated_extraction": "5008e266da3312e2722d861fc5c6e519f1890ccee1412d2eacc1c78cb658b293",
+        "source_sha256_from_validated_acquisition": "17d27f8e7b5225467dbe6f64e1db93864b44c7c129aa5b3295dd2ccea85d4ca6"
+      },
+      {
+        "month": "2005-09",
+        "native_grid_bytes": 11224,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200509.npz",
+        "native_grid_sha256": "415053ba18631d30058705d27be3c3142d9fb5f176f18b73022b79afa9c2e6d6",
+        "regional_input_sha256_from_validated_extraction": "ef5e7d251c344be1a0ddf0d762102e4c6aac7d0326d76552930823391ddc22c4",
+        "source_sha256_from_validated_acquisition": "c1f8e4dda89a5227d36cc550c0eca55ee9b2b603e0c3de9501d2e6749727801b"
+      },
+      {
+        "month": "2005-10",
+        "native_grid_bytes": 11201,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200510.npz",
+        "native_grid_sha256": "c22d51f3f35767c6fafa407669e2cb7fb6d0e222d5a2bd263fee33b7325ddb93",
+        "regional_input_sha256_from_validated_extraction": "503cd1406133a5058d14353dcc13990d3259a0fff4cb818b461c356f79857f22",
+        "source_sha256_from_validated_acquisition": "0b609dc822d102867b7741f4e3fbbbeaab0e1906c36c90317e4fae3f4affa9be"
+      },
+      {
+        "month": "2005-11",
+        "native_grid_bytes": 11188,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200511.npz",
+        "native_grid_sha256": "66d47eafcc9c2399dd879062c26cabbe34e2922319e8a98d6421b3e39000147d",
+        "regional_input_sha256_from_validated_extraction": "8aef70119165b8dd3a4f3ccf89f9d82ef9e96c3a51e9ff959744cf9d9e193e79",
+        "source_sha256_from_validated_acquisition": "74861e8bf45740e69f03cfa505757d3eed8d732660cc70c60e96add29c1890cc"
+      },
+      {
+        "month": "2005-12",
+        "native_grid_bytes": 11163,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2005/200512.npz",
+        "native_grid_sha256": "0dc403f14f0a491e82ebb36703ec1c248dcb77dc2c2732e89f91f152692ceaa1",
+        "regional_input_sha256_from_validated_extraction": "9d952326a46eb647f9d19a4f9c590657811420518abb676673941eb8d09596e3",
+        "source_sha256_from_validated_acquisition": "94752154892f567fa75b4b8f6682af53105fe36c70badb8bded95ea97f4182d7"
+      },
+      {
+        "month": "2006-01",
+        "native_grid_bytes": 11172,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200601.npz",
+        "native_grid_sha256": "1fbd095ce56a978aa67cd2593582caba321a18ca77f3aba398887b11ed02a097",
+        "regional_input_sha256_from_validated_extraction": "ae9f0389ee22b09a261fd1dc7c26cc7fd020a561a7855889543288b7ac38324f",
+        "source_sha256_from_validated_acquisition": "55fcfc56225861427060db633e063c4e2211286af96a6a5fd5e35c811ae60645"
+      },
+      {
+        "month": "2006-02",
+        "native_grid_bytes": 11152,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200602.npz",
+        "native_grid_sha256": "b44c184810772bb205ce2828bd393a1b7a8979224232694215853f438b7cf32d",
+        "regional_input_sha256_from_validated_extraction": "ab4d5f97b9dafebe4c9dec1adda2eaeae31074ed82a77e7582526092dd63e442",
+        "source_sha256_from_validated_acquisition": "2c45366e76cbbe759d833a38e5aca4d1518f9e84a7e66723427f331a2679fc82"
+      },
+      {
+        "month": "2006-03",
+        "native_grid_bytes": 11160,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200603.npz",
+        "native_grid_sha256": "e2103e4e3c97d23013d8993fcfc30cbd612fb3a6fb11bb263a46264efbc5bb56",
+        "regional_input_sha256_from_validated_extraction": "97accd3758a761791239b0ce0ff8650060246ebf04c1e021e05f63959681ce42",
+        "source_sha256_from_validated_acquisition": "2da0c6a5694c2c3d4507370d7aa06d295a358490550b712cfb93e89b1b8289dc"
+      },
+      {
+        "month": "2006-04",
+        "native_grid_bytes": 11163,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200604.npz",
+        "native_grid_sha256": "f397e0c63f906aab26e50b5a91c3f2b1f2ec49179060c0a3721ca01b8d92e98e",
+        "regional_input_sha256_from_validated_extraction": "1d7fbbbbbad12a252f814c0b872e82acb240fe6557195beb6a6380326310166e",
+        "source_sha256_from_validated_acquisition": "1aea50a80dc100eb8ea578fbd9654fb6e6965496faf267984db0270267b9b5bf"
+      },
+      {
+        "month": "2006-05",
+        "native_grid_bytes": 11174,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200605.npz",
+        "native_grid_sha256": "0bd3ba55405aa10a7bbddfae2e0e2bc30e0d120fd191bb1b2daba97635495ea8",
+        "regional_input_sha256_from_validated_extraction": "ee1013e3795584da555e478dd95393168e004dd403baadb8db96ca985ce2df46",
+        "source_sha256_from_validated_acquisition": "061db7f2e501edc1b1e539fd851928e404341bac2e3eaf2080b104d84c0de307"
+      },
+      {
+        "month": "2006-06",
+        "native_grid_bytes": 11178,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200606.npz",
+        "native_grid_sha256": "b99fd85945669267ef3b3f6f3fe8b8eb6b4b089b4f91483d7d15be53aa6466cf",
+        "regional_input_sha256_from_validated_extraction": "71a94ab74caa2cd059c0c712160424a964a4a00038a52c1d4746714baaed77d1",
+        "source_sha256_from_validated_acquisition": "1f7332cd9473b6e5b2cd51419f580e20eb91d1590ff1e6bf45248dffd20d8042"
+      },
+      {
+        "month": "2006-07",
+        "native_grid_bytes": 11212,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200607.npz",
+        "native_grid_sha256": "dac1a555fa6cf24b07d47e73f861243bbc33222a0591621936a697940a9dba9b",
+        "regional_input_sha256_from_validated_extraction": "908046e967b81887077ad3e34061bee88069e4e908f3f127a931d046aa4abbc2",
+        "source_sha256_from_validated_acquisition": "263156d50d3890a53fe3adac32aa3d3a8e4d6725112920900dcf062c66931c65"
+      },
+      {
+        "month": "2006-08",
+        "native_grid_bytes": 11224,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200608.npz",
+        "native_grid_sha256": "58c583fb0fdec3427a7f953034a3e9bd41e213a0678e5e90ec83ec58835d2bf4",
+        "regional_input_sha256_from_validated_extraction": "2b691a83fb1e09f34b1d8c997506e846bea2fe30fc75a0107a6b0ad323c40f62",
+        "source_sha256_from_validated_acquisition": "ee65ef42c4686075bfb991575c807d20ed3d949331143fc9dc2f589eb694f85c"
+      },
+      {
+        "month": "2006-09",
+        "native_grid_bytes": 11217,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200609.npz",
+        "native_grid_sha256": "81c8e04b5a3b9333a124053cb03a47755375c14ad4bd457ced0162499e256df6",
+        "regional_input_sha256_from_validated_extraction": "aad6e3062ffa03743a963af656bafdc9357ee8fd0872324b7b922aa7d43bbe58",
+        "source_sha256_from_validated_acquisition": "1ec2a5e0f1df248bbad2d60cd1ec99578d318f1712cfd489c96114b527de395b"
+      },
+      {
+        "month": "2006-10",
+        "native_grid_bytes": 11199,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200610.npz",
+        "native_grid_sha256": "68b7e4f5f6235bb9b804e3fff4d0895403a8523e3684035095fa4df34e2d997e",
+        "regional_input_sha256_from_validated_extraction": "f9d1c0695e81cd9dd6b9c8c39f3312ba798387d16ffb791cb0b32b41155e14bc",
+        "source_sha256_from_validated_acquisition": "8e2066e020a786167e91dade4683af8cd69fa72dde9e83fe2649307749e3b975"
+      },
+      {
+        "month": "2006-11",
+        "native_grid_bytes": 11166,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200611.npz",
+        "native_grid_sha256": "a178b49354128d9d9a3e81357e561fd19562ac9b0a05179cdf143e32cce48c83",
+        "regional_input_sha256_from_validated_extraction": "a5f54802fdc339b53133446ed644716cf36957ff390bbdaf11e82c009bc619d5",
+        "source_sha256_from_validated_acquisition": "a4a50c14cdb80eed4a3a01711258b4600ee8f4e5a03ac784c6fcff6682543294"
+      },
+      {
+        "month": "2006-12",
+        "native_grid_bytes": 11167,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2006/200612.npz",
+        "native_grid_sha256": "e11104915f236eb386af9209ccbd28355409c66071eb1de3526f4f446e93c3bd",
+        "regional_input_sha256_from_validated_extraction": "ca80f49ca72ec0280a7a1975c9afb0bab7092bce98df9877023da2e43a650972",
+        "source_sha256_from_validated_acquisition": "5e18eb27e0100dc0a2c7771b9bb65fa31c61ed0c31ab62f3a6873b866ab943ae"
+      },
+      {
+        "month": "2007-01",
+        "native_grid_bytes": 11168,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200701.npz",
+        "native_grid_sha256": "220a99dc3966a5d3f99789cf5d098beb72de44699afb3e5a21419c3a7082e4fe",
+        "regional_input_sha256_from_validated_extraction": "7040539d67f5fcf1fcfbd249a8117fa6822d9284c8a3f2fb164fed1eec73b2aa",
+        "source_sha256_from_validated_acquisition": "b14b629d84e75b3e66fd8d2a3fba406add71054e49bffc366b35667cef5fcae1"
+      },
+      {
+        "month": "2007-02",
+        "native_grid_bytes": 11191,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200702.npz",
+        "native_grid_sha256": "4e4d761379bb17dc6074f25e6f5bc1fba38d85d9f9df4838894cca5ba4de30cc",
+        "regional_input_sha256_from_validated_extraction": "24149ac8cf20450d3fd48aeb0db6d40846719b60bc4fae0d43709547299de0de",
+        "source_sha256_from_validated_acquisition": "bf6decc98854e8d78b4782e95391eedd15f46a079bf9f1a317ed02165867e763"
+      },
+      {
+        "month": "2007-03",
+        "native_grid_bytes": 11200,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200703.npz",
+        "native_grid_sha256": "a181a898973aff5c44b07337adbc43e7fb6a0a08037e9d74f240065bdef8ccbf",
+        "regional_input_sha256_from_validated_extraction": "8d24a65d4695338373afd6c033212fe323f50b638a3c9763ca0912a724bfaaff",
+        "source_sha256_from_validated_acquisition": "2a2d458c92233b51506380747d49add2b738284f91cdf2ef87717cbc45ff7450"
+      },
+      {
+        "month": "2007-04",
+        "native_grid_bytes": 11180,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200704.npz",
+        "native_grid_sha256": "7e4eeabad2225235a60a9a8c6fda29bcef1879cda000db9c5ede113278a3c35a",
+        "regional_input_sha256_from_validated_extraction": "1e61bad3b567006e9d76d3ff5ea5ce7ee8f1b88fed0b7b5f993f8d5fd400072b",
+        "source_sha256_from_validated_acquisition": "f676fcaf202496326e5c54e2a39024413d29cfc8ff6a6ff0ca5a200ae859329a"
+      },
+      {
+        "month": "2007-05",
+        "native_grid_bytes": 11191,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200705.npz",
+        "native_grid_sha256": "52d49c1e879400460bbcc3efb5d9f3b12f593a1de5c019d84a1431a8e3c47382",
+        "regional_input_sha256_from_validated_extraction": "b017ed70c2acc82a9bc855f2f441efdd604c566b6b33d24aa2f472bd3da15790",
+        "source_sha256_from_validated_acquisition": "cf52fc8a93307ba1fdf430898b4f65647fdfb31f4df57714f8a942dcb0ed00f5"
+      },
+      {
+        "month": "2007-06",
+        "native_grid_bytes": 11207,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200706.npz",
+        "native_grid_sha256": "69ec32cb7851bc6e0774d23dfe865a4e5d974293e8912908661d283c3587c312",
+        "regional_input_sha256_from_validated_extraction": "15b130111aab460c528302387e9ec36b3e02df33cb31fe710b9ee0107e5973d4",
+        "source_sha256_from_validated_acquisition": "cdee5cd695f2cf0ad0a8a86a142895c4a6e15fc7ea58b3979358ed2329d24a01"
+      },
+      {
+        "month": "2007-07",
+        "native_grid_bytes": 11211,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200707.npz",
+        "native_grid_sha256": "f15079f0265ce6b35ac6616674f1692a253862a6c88a895ba3d8824ac14f0a60",
+        "regional_input_sha256_from_validated_extraction": "a8f2ce7b4c3a81be29bd9d80be41bf49c5d589d6aa8250f84f56691ff9268cb8",
+        "source_sha256_from_validated_acquisition": "5017265b8e36b07d5736f184f308ea5906d61d0f0d9d4dbcfaf10c3819e067ba"
+      },
+      {
+        "month": "2007-08",
+        "native_grid_bytes": 11199,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200708.npz",
+        "native_grid_sha256": "e80ca1c9da3fb8f32452d1d55679349745977c437c5669988f3a764dacd2e663",
+        "regional_input_sha256_from_validated_extraction": "22a7cd8807e904bc9d375173e10a13b3fecda3fbd44f70f02c047485beeac3cb",
+        "source_sha256_from_validated_acquisition": "5ee984c0d01446414e48d4be50a9cf91b283aa06fc3a508414a0d5bab79dfb37"
+      },
+      {
+        "month": "2007-09",
+        "native_grid_bytes": 11196,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200709.npz",
+        "native_grid_sha256": "df4d9fd9249eaba34dde71175ece68baf977461fe4d9a6f0b20329a6e41a3c6d",
+        "regional_input_sha256_from_validated_extraction": "561d22ed0ebd6931be6464cd20529b709eaec8b884df5bf050045dd142c4f97e",
+        "source_sha256_from_validated_acquisition": "59723b78c3fbf486e279af9079bfcdd2647d37123e00ccd9be59c362efd52a12"
+      },
+      {
+        "month": "2007-10",
+        "native_grid_bytes": 11209,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200710.npz",
+        "native_grid_sha256": "494530bf6c4c2ab98731b156eb46365c1d9238ba8630e2d3478e7dd78f44e165",
+        "regional_input_sha256_from_validated_extraction": "770c294c95eb76850758bb9cd8940562b0e2b7dfc0a8d13fe11be5da0b18980f",
+        "source_sha256_from_validated_acquisition": "9a8580936df2fb01ba879c5966364e114f7f812e9e0d2035ab354018fa049442"
+      },
+      {
+        "month": "2007-11",
+        "native_grid_bytes": 11196,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200711.npz",
+        "native_grid_sha256": "2c6bbea95c6853c7b74986198f823fd61528e00f7904585c34d4669c530a95de",
+        "regional_input_sha256_from_validated_extraction": "edd57d1c4809d56a89830fdaacead1f63cee17a8690955b765d59dd3e2be84a6",
+        "source_sha256_from_validated_acquisition": "71ab5117cef8491b0818f63690b1e70d9a219c0c2e5f5aa61d3233d9572bf5fd"
+      },
+      {
+        "month": "2007-12",
+        "native_grid_bytes": 11152,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2007/200712.npz",
+        "native_grid_sha256": "7591ddddf3d3dfff9d136d4865f4675466806bead9f77ceff6ac6ab2bc32f96a",
+        "regional_input_sha256_from_validated_extraction": "f25929fc0f4d4613ecd87af82f60ecd364f1200f85a34e01a83c021a1db5b46b",
+        "source_sha256_from_validated_acquisition": "43e0282542c6269859c4d4ca286a855b530488b6bf1980fb534f1385f27b6264"
+      },
+      {
+        "month": "2008-01",
+        "native_grid_bytes": 11161,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200801.npz",
+        "native_grid_sha256": "bd38f713624dafcc38bbe0a856d05cfaf6e2a2b4503ab0bdf89447f858411cd4",
+        "regional_input_sha256_from_validated_extraction": "5fbe775f9f0fbb3a1d82f840433616ab23c32f0ea58d5b6692b04700372e326d",
+        "source_sha256_from_validated_acquisition": "420eba0671fc808eb8c1625a4d10e96b6ec79cf494c4236bc8b3c2da2be52cf3"
+      },
+      {
+        "month": "2008-02",
+        "native_grid_bytes": 11160,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200802.npz",
+        "native_grid_sha256": "fb073927b05f91a76df6e3494553b7a4cd027486cc1ea032fd45654f34f49892",
+        "regional_input_sha256_from_validated_extraction": "6458256b0364947acd1e89595a2a23c9be53fa7654177a39a85cb8e424b076b5",
+        "source_sha256_from_validated_acquisition": "7cc3990d8d68db3dd074903501eca9395229a73f37a7e1b49fd41f0820af4e0b"
+      },
+      {
+        "month": "2008-03",
+        "native_grid_bytes": 11161,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200803.npz",
+        "native_grid_sha256": "7fd3118f1d148cd741482d075968bd4ec581937602a5340d0f44f0bed2cdc281",
+        "regional_input_sha256_from_validated_extraction": "d0c6d72231b777347c84622fb0070dc25858f1c45a4dad1d7bd7b1596a7bcbbd",
+        "source_sha256_from_validated_acquisition": "8461f19462534d7d5eb680a3846c50378bb87282c4e5c2b47ecdb68f787e49c5"
+      },
+      {
+        "month": "2008-04",
+        "native_grid_bytes": 11144,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200804.npz",
+        "native_grid_sha256": "89d83acb0811f849996c1323086b2b9b39d6e2af3d3baafe829b69034404c785",
+        "regional_input_sha256_from_validated_extraction": "3deb416415bc7d10f3cbdbebdf0728c9b7316fb67d9f509fb7d279841ec4d1a9",
+        "source_sha256_from_validated_acquisition": "e185720b034c9deacbbec17e437cbbc55398b089655ea7ade025ae5410318196"
+      },
+      {
+        "month": "2008-05",
+        "native_grid_bytes": 11168,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200805.npz",
+        "native_grid_sha256": "80f5f599379ec7b7b19d538c9f1529b10a89279bef3f45c8254e415016a8cd0a",
+        "regional_input_sha256_from_validated_extraction": "d8b78fd3fdd209fa1fdeb80516904635344e2ca58f087e6b4ab9d456ef175a63",
+        "source_sha256_from_validated_acquisition": "e8c8520ed54a9304b264743b6318d2111b0dd4255c19b1a22557e541bcf4962c"
+      },
+      {
+        "month": "2008-06",
+        "native_grid_bytes": 11177,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200806.npz",
+        "native_grid_sha256": "e93667bba215b27c22139acd23d31597352c1bf36d9faa05a11e40456b9ad618",
+        "regional_input_sha256_from_validated_extraction": "048a583ea43adeb004036c69076f585c68843a96edb0e9afc0d7994d4470de33",
+        "source_sha256_from_validated_acquisition": "c2e3a3a1f4656a70fa9913a0b7da751b6567703179c1e5ee573f03398c59a104"
+      },
+      {
+        "month": "2008-07",
+        "native_grid_bytes": 11195,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200807.npz",
+        "native_grid_sha256": "0badf682c19e1bf387edaa5ba8f635aa4e213bdc80d88acc31f0ac7e4f1a17ff",
+        "regional_input_sha256_from_validated_extraction": "01ca9d8e0498b03adcba247c0997490dbeaff1a23cb2cc097d75f87be153e8e8",
+        "source_sha256_from_validated_acquisition": "ce2d7891f4ac517ea1e68ae65f61178d80faf511db96612ab1fbb230ad930afe"
+      },
+      {
+        "month": "2008-08",
+        "native_grid_bytes": 11163,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200808.npz",
+        "native_grid_sha256": "99ff7bc88c68664206dc8d5675edac86f6eae877add880b5580e94ab46ea5769",
+        "regional_input_sha256_from_validated_extraction": "995de48729e954a516199e3f03cfae4ea308a8ec54de0adee47d719f7dd23e4f",
+        "source_sha256_from_validated_acquisition": "841845229ab297c1642d658b14e15eb9b2e26b9ee57d351935715235396e73e7"
+      },
+      {
+        "month": "2008-09",
+        "native_grid_bytes": 11190,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200809.npz",
+        "native_grid_sha256": "b0d94298375692f0dea4955fb264b72eaaf328e12a505fd6976f9618d9cf5799",
+        "regional_input_sha256_from_validated_extraction": "c90d1421255c7c7eb0c812d888f77aaa14053a2a9543a2b8532ade3c7fbf5114",
+        "source_sha256_from_validated_acquisition": "74a31496a5991ce7e85f9da13d551298637db2f08346170aca96e4ecbb5b6b25"
+      },
+      {
+        "month": "2008-10",
+        "native_grid_bytes": 11190,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200810.npz",
+        "native_grid_sha256": "5dc8496805efec1b0701768d736b79bcbe8cdb4d3ba83b7ae8cbdd7c122708b1",
+        "regional_input_sha256_from_validated_extraction": "388f876c915a93963ac0c2cb0fc035a65c8797f46043f28ccd1bfaecf9db789f",
+        "source_sha256_from_validated_acquisition": "4021182e980f65a3bbdf396605e1236193e99200d8cb3baf2d4ae97bdeff3e6e"
+      },
+      {
+        "month": "2008-11",
+        "native_grid_bytes": 11182,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200811.npz",
+        "native_grid_sha256": "8767663c24092e7cd3c2ced8a5275d0b85e9f6a07ed0e253dfe73dcee50d712a",
+        "regional_input_sha256_from_validated_extraction": "d41d3d385416aa1194fa8d97d39e539b0fbd9890b7d0d9f65fe087d313ca7c98",
+        "source_sha256_from_validated_acquisition": "bec0c809650b62ccf04202cb1cf9522d488ec2becdf5b49f688eecd433a1306f"
+      },
+      {
+        "month": "2008-12",
+        "native_grid_bytes": 11181,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2008/200812.npz",
+        "native_grid_sha256": "fe00c0fc45d30bbc24f69ddf2b5316f42b3575a17d97fc830f1f7873df7deca3",
+        "regional_input_sha256_from_validated_extraction": "fbdd00540e6d22ba4fa9e0df83f1c5a4e989ded33edfc2af5adda9ddc22c6fbf",
+        "source_sha256_from_validated_acquisition": "7055d00cd21ec3309aad7fef2b57e5efd59508ac9bf13f067bd1b5a40ded15d4"
+      },
+      {
+        "month": "2009-01",
+        "native_grid_bytes": 11143,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200901.npz",
+        "native_grid_sha256": "88f4ebc0490717be61549bd03fc052a73bb6dcb79b987753525f23b6938d361b",
+        "regional_input_sha256_from_validated_extraction": "bc5d98502dcf02be80d2fc4258d6db9349fdcec10d1edaf497367d4126e51928",
+        "source_sha256_from_validated_acquisition": "f7c93a2c70e144be0cbf98b12ff84ba29f32fa3221210443f76c4c58a2c53d94"
+      },
+      {
+        "month": "2009-02",
+        "native_grid_bytes": 11152,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200902.npz",
+        "native_grid_sha256": "3512b8bd7291128be55f4f1a6b1f388fb966610335cade690fdad7776a37c99f",
+        "regional_input_sha256_from_validated_extraction": "086415ac362f875061681755da3d0b99a672d6ee14a3ae1e7ce80fef37510913",
+        "source_sha256_from_validated_acquisition": "92a4cda3ae4f765df2a7f0c853d54000309cbea03ac7c945120f5e301b6e3274"
+      },
+      {
+        "month": "2009-03",
+        "native_grid_bytes": 11151,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200903.npz",
+        "native_grid_sha256": "65a5c403021574953608986091179fa78a21da728697113cd16f24eba67a7612",
+        "regional_input_sha256_from_validated_extraction": "8bfadc0aeb23cbc542974f903a350c65fa7cc0f79051112654cb139b3cc5a7ba",
+        "source_sha256_from_validated_acquisition": "45ae97558c28ed3b461ddb04aded517dbe5f056305c3920165c52c8ca7fd6138"
+      },
+      {
+        "month": "2009-04",
+        "native_grid_bytes": 11155,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200904.npz",
+        "native_grid_sha256": "6531be1dbb18a1d849bb6da041d9719f455b2f9d21652b6cba76bec3fa9e5c6e",
+        "regional_input_sha256_from_validated_extraction": "71ecd3f61234964dc8ab946d6a01a5afedb751d7c094420ad97973b7f6b6a7ff",
+        "source_sha256_from_validated_acquisition": "2becea42f491b49a18fbeaf684f951378aaed4b4b41cefc227ce0cd120bfc2a0"
+      },
+      {
+        "month": "2009-05",
+        "native_grid_bytes": 11165,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200905.npz",
+        "native_grid_sha256": "227002535b67605f8e183fdc50318298d20910aa838d75e8499b598dbcee03f6",
+        "regional_input_sha256_from_validated_extraction": "1f32a38d3fec697ef03a6b64d97a26522f987b72e547f83a2aba65c92487e8c6",
+        "source_sha256_from_validated_acquisition": "780cb1bd9ef39f500b933bf4a8691fe7242b95316d40c8b2b1a57e891fc1641e"
+      },
+      {
+        "month": "2009-06",
+        "native_grid_bytes": 11192,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200906.npz",
+        "native_grid_sha256": "083cfa99f5c78bbe5cc512f79cd28ff61e8bf0503332d5211fbf64f34470111c",
+        "regional_input_sha256_from_validated_extraction": "a4a30b92cdd14490f108f44ca67afd93fe1d4b5c4bee8619c74703a214b6fc33",
+        "source_sha256_from_validated_acquisition": "066d040d6e292d9cd1eb32c05166be228c16a6730d5ea9c51ebad226f20a9c54"
+      },
+      {
+        "month": "2009-07",
+        "native_grid_bytes": 11209,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200907.npz",
+        "native_grid_sha256": "48c93fa8c8127aa3be907d575146a6cdb6ed808cdfd66481ce4d6380d579b947",
+        "regional_input_sha256_from_validated_extraction": "0153163d0d409f95381ff99f9856fdc2cbc49d23edf914df0d86a8a0b5689fbc",
+        "source_sha256_from_validated_acquisition": "e9221b840d355b28778cc2983ee9f38929601370b17171ff37660886a00b3c1a"
+      },
+      {
+        "month": "2009-08",
+        "native_grid_bytes": 11201,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200908.npz",
+        "native_grid_sha256": "af00d4f25fafd0e31e59ae205baebeb7e4396b60330af9237a0e20019dfba21c",
+        "regional_input_sha256_from_validated_extraction": "393179f9166bb87df9180815fc4e704906a5e06c9891557a8d6a7f88663f6d00",
+        "source_sha256_from_validated_acquisition": "7b044b29796aaf26f23aae4ffb9de3520b6849d089b54abf020d67c8f916dd19"
+      },
+      {
+        "month": "2009-09",
+        "native_grid_bytes": 11216,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200909.npz",
+        "native_grid_sha256": "18bab897e28622cddd10648672fa6e1d5598edc57af761243edec81ce102f40a",
+        "regional_input_sha256_from_validated_extraction": "dc875b669a334a1e537d45f3c074b12d1b1226c79308f04c5bfc684affa767e6",
+        "source_sha256_from_validated_acquisition": "4811a5d10671b0e3836e3bed3a811d319e6366c4684faebfc672ac22c9a81eb8"
+      },
+      {
+        "month": "2009-10",
+        "native_grid_bytes": 11208,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200910.npz",
+        "native_grid_sha256": "0d5004f83dfb872d465d95cd71329e7215d2c4bca24097efcbe666deb5d61694",
+        "regional_input_sha256_from_validated_extraction": "678e6938379905e1e2486c85215da46b06ea37f520d7ea1d9cf8a6a93fae092d",
+        "source_sha256_from_validated_acquisition": "196136afb35d88b30a9d21ffd1984b19046e0bd7079d65145cefb93ad6c230c3"
+      },
+      {
+        "month": "2009-11",
+        "native_grid_bytes": 11180,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200911.npz",
+        "native_grid_sha256": "041f4b561c6a826cfc7702b1b6834d90ea14fd8295ba8e921e0081eb806eee27",
+        "regional_input_sha256_from_validated_extraction": "e5fe241b9ffdc9283164e5642282eee3b87d90ee0b5011e4d7d4aa03618cbc88",
+        "source_sha256_from_validated_acquisition": "837ea4088de080dea52cc668e4b22fd300a3304bf6c9cf4861cc322a5f98c0d2"
+      },
+      {
+        "month": "2009-12",
+        "native_grid_bytes": 11195,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2009/200912.npz",
+        "native_grid_sha256": "120bb85a9d1df678c81c7dc4d76782e57d29ee19e696a9a88e7487227df2539f",
+        "regional_input_sha256_from_validated_extraction": "06168324c778710a44b8bfb993058626717378a83034cd581e135264c412002c",
+        "source_sha256_from_validated_acquisition": "db25c3594f1603a10e382881f1fb83f2d6522eea2121c1ae21a48dc75d8c1b09"
+      },
+      {
+        "month": "2010-01",
+        "native_grid_bytes": 11161,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201001.npz",
+        "native_grid_sha256": "0be35e5f5631b4296acc7641e80e935ebae0773d44ddd74f2f0c5b6aa15e5d46",
+        "regional_input_sha256_from_validated_extraction": "96bd18f28e951cd8e69e8169cffd980326668e4c9bcf0e851fd6e930981cbff8",
+        "source_sha256_from_validated_acquisition": "ef2324046e956e824e61f31e115ec5a1aebbe904646200d75fe1a445b95eaf33"
+      },
+      {
+        "month": "2010-02",
+        "native_grid_bytes": 11161,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201002.npz",
+        "native_grid_sha256": "cd8848ca426a8f07834b63e41862d5b96441a174a2b9f5cefc5fc05512122834",
+        "regional_input_sha256_from_validated_extraction": "aa3e12a55b09eb100c7054750b8b795e7558f7e2c5347f4ac9974f61cab62eb7",
+        "source_sha256_from_validated_acquisition": "d532e6b83532b5e68c7cbb955f476d73a65f2d687f00e426343552eadbc228ea"
+      },
+      {
+        "month": "2010-03",
+        "native_grid_bytes": 11152,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201003.npz",
+        "native_grid_sha256": "30c71c00ae31761bec5080f1b10d2537395fc897d21296820635d8d64e3a9a3b",
+        "regional_input_sha256_from_validated_extraction": "1f423d80b080e70346757ec7297ec7edfa789ea9684c43f2427ad1bc98a959b0",
+        "source_sha256_from_validated_acquisition": "aa7cdd76e59126ca8fc82dc4c8ea0b2ba68adb35a119c924487a4b271a3b589c"
+      },
+      {
+        "month": "2010-04",
+        "native_grid_bytes": 11155,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201004.npz",
+        "native_grid_sha256": "3c58c22b05e4dbad72e1c8d6a192e0933dc278edd6df6d02eb7ee710b54166ce",
+        "regional_input_sha256_from_validated_extraction": "ebd50b9465a1d9f941f10f8e30bc980367ea72892dd829d44ae04ae1a471eb11",
+        "source_sha256_from_validated_acquisition": "f2613229ab0d3d0bc13427ae58cca3e6ccfa4b59aabca5ff9785cff224360dee"
+      },
+      {
+        "month": "2010-05",
+        "native_grid_bytes": 11178,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201005.npz",
+        "native_grid_sha256": "d067aff4a578bcb51e2d879dc9b0118fafa9e4c55a9791fb9f649c15ab7ddadc",
+        "regional_input_sha256_from_validated_extraction": "52cf8634d70bb9dbfd8d0b46c9b8a4ce9dd52f57b54920e37c13b27296d7903c",
+        "source_sha256_from_validated_acquisition": "618e75dd471d20470e86d4b7ea8def2653749afb8d41d712c20fe513370927c3"
+      },
+      {
+        "month": "2010-06",
+        "native_grid_bytes": 11191,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201006.npz",
+        "native_grid_sha256": "f20c9c9915926c6b7121795bc9b12ec01e137fda1def24d4edc693c7373f8fce",
+        "regional_input_sha256_from_validated_extraction": "f245068cc4a16583ed76940f5fac36b365bda409edfdf99e6c30b345d485a046",
+        "source_sha256_from_validated_acquisition": "a0c65dab4d29a601346f457b22e2b031e4f84953d5f7e2ec98c57fa1d10ea3b8"
+      },
+      {
+        "month": "2010-07",
+        "native_grid_bytes": 11172,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201007.npz",
+        "native_grid_sha256": "5cddbc1d111b0c044e6cd228ad75abb0792cb798be321bd924a1c87cf78af3bd",
+        "regional_input_sha256_from_validated_extraction": "748b75a3a336a4934e1edaf831cf7ed01a721a57ddad7d23da1f6c6cc5e5c98f",
+        "source_sha256_from_validated_acquisition": "61466eadf523f868765da2991f961b44aee8f16ad20e104c6fdf5d9561da5f30"
+      },
+      {
+        "month": "2010-08",
+        "native_grid_bytes": 11207,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201008.npz",
+        "native_grid_sha256": "5bc73571e0f28693469b09b1af4d895e7ad6ef4139e50cd682b1a0b9b1d9d276",
+        "regional_input_sha256_from_validated_extraction": "69abc9f037f415166a35fbc680690194c16ce018b539519957a1ce8bad88c6a3",
+        "source_sha256_from_validated_acquisition": "74f86651f6d9ed448805d8cdce810c71bfa042a3efc231db8e0a6cb331ba3ac6"
+      },
+      {
+        "month": "2010-09",
+        "native_grid_bytes": 11196,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201009.npz",
+        "native_grid_sha256": "a1bb5d83136bdceb249f495b645a3291c6493cb1a9e92092a2fcf58e70213ff0",
+        "regional_input_sha256_from_validated_extraction": "4c48a1a8f82cf55a287c78c0f879b94c77711d1ab7b464ff36d151408147d109",
+        "source_sha256_from_validated_acquisition": "337aac490d5b03a51730ac3068c5bf2f4bbebc5228e524251eae34bde096a9ff"
+      },
+      {
+        "month": "2010-10",
+        "native_grid_bytes": 11176,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201010.npz",
+        "native_grid_sha256": "e7d05881ec3d8141cee9b7f4b1600309ef7427078958e7f9458234d151ca5904",
+        "regional_input_sha256_from_validated_extraction": "8aed3156c12061bfe8d7740c75c39963ddda8bcf71481c9e2ff56851451ed328",
+        "source_sha256_from_validated_acquisition": "50d64ebd2d550a025f34db79281d019822d961b6340a746c2b0b76a37a79a27f"
+      },
+      {
+        "month": "2010-11",
+        "native_grid_bytes": 11176,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201011.npz",
+        "native_grid_sha256": "37ca0f57270e6c17626a7bcea7b80100957a2125e43313dfe58371919ed4e7cf",
+        "regional_input_sha256_from_validated_extraction": "629da99366e3239f108f7fbe4cf75d915748b7dff6ba9e20b38a791479a31b9c",
+        "source_sha256_from_validated_acquisition": "b0b21f97eb77841a9720aee4241b0c6263270521b04f9443bfef633c21702f11"
+      },
+      {
+        "month": "2010-12",
+        "native_grid_bytes": 11170,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2010/201012.npz",
+        "native_grid_sha256": "ec33ef2565e8d9d83002956102d165ec96f14380388af77a7d39c9f4439c30ef",
+        "regional_input_sha256_from_validated_extraction": "a824479be583a8f7b926bf43ae3b9aa98b29713588404bf0dbd902df4c01a1db",
+        "source_sha256_from_validated_acquisition": "f86ee543f93bb78b316c7ac9911ec66e95a607887cf7856276442ad0971ad037"
+      },
+      {
+        "month": "2011-01",
+        "native_grid_bytes": 11193,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201101.npz",
+        "native_grid_sha256": "58dacf5e0bad287e56944558956bb86d60a58ba87c2cda7eb32ff1941ebc94fb",
+        "regional_input_sha256_from_validated_extraction": "d3e684a1e73bc3dd1bd6be7ce79458667d5a493ab142dabc81c9023762ad9e9b",
+        "source_sha256_from_validated_acquisition": "1d7419acb5501eba17ccc1bf33b2dbcf4943aa879e2c7a87456b1e37f527ffc9"
+      },
+      {
+        "month": "2011-02",
+        "native_grid_bytes": 11147,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201102.npz",
+        "native_grid_sha256": "4b4050aac81df7e1ddcd26d08ceb6d168c9a16811a08bade0d2f06859792522c",
+        "regional_input_sha256_from_validated_extraction": "18587aa6b261100cfa0a7735b47fa93d97a87ec3a4cf50ae3a230084d68e4c50",
+        "source_sha256_from_validated_acquisition": "cd9197910b5f1c561c641068756c9d9423487f3ab04dc788671346956eb4ec7e"
+      },
+      {
+        "month": "2011-03",
+        "native_grid_bytes": 11162,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201103.npz",
+        "native_grid_sha256": "7f3f6a4bf65abf7a011c1336fac4693d24fcc8997ffac5f3da18ff0337cf513b",
+        "regional_input_sha256_from_validated_extraction": "92240ad300cf117f411e3cc2dfa36d8f1adfae2ff328c18b57ad9cb5e144b7cb",
+        "source_sha256_from_validated_acquisition": "0ea1d06ecc923d14c13b1e18755b7c77083d4d46eb3d8db0e189ea673d4215be"
+      },
+      {
+        "month": "2011-04",
+        "native_grid_bytes": 11153,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201104.npz",
+        "native_grid_sha256": "d88f1d0fb290321f978988677e847bc214ee2bf5f1070829b29c1758f6936656",
+        "regional_input_sha256_from_validated_extraction": "37027f919b9f0c39d07f274d2f61abd38c1ac9e41fbe585c83a98fec35abca3e",
+        "source_sha256_from_validated_acquisition": "89876d800f9e3ab6aa474d9bb5498bafa96d79fd992ae0b5decdd25b20f77c3c"
+      },
+      {
+        "month": "2011-05",
+        "native_grid_bytes": 11188,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201105.npz",
+        "native_grid_sha256": "10bea069fefb325a0363e80616ff9597d2c3a22037d8585a54f179d6703f8711",
+        "regional_input_sha256_from_validated_extraction": "76ee5de1a57df97833c572668021cfc02010c170a1a14fd972d20a15e62f3c94",
+        "source_sha256_from_validated_acquisition": "9ea76696c3cceb8b67f423624b74e4ad9dc78082dc44090138c5ba1ae7907c63"
+      },
+      {
+        "month": "2011-06",
+        "native_grid_bytes": 11182,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201106.npz",
+        "native_grid_sha256": "78a514e84df1fdc7be9f72f2d6b3476f1123b180efa8f1a88b76751791948fb6",
+        "regional_input_sha256_from_validated_extraction": "19efcea039bd38cbcf91816134a83f5afd40be44273e125264206c3136d770df",
+        "source_sha256_from_validated_acquisition": "746a80e392a94aba3b1ef32d0f73c8edcfb98afd33d6a38b6c31691f79bf9731"
+      },
+      {
+        "month": "2011-07",
+        "native_grid_bytes": 11204,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201107.npz",
+        "native_grid_sha256": "b4d1c48e58fcaea06e064617ad5c6bee23f674ca2813ecc22c8de5b984a269ee",
+        "regional_input_sha256_from_validated_extraction": "495f8ecbb55162b60387afb0634a82f4d72f35465b5b31e715f7d2d218e79438",
+        "source_sha256_from_validated_acquisition": "7fdced834ea5b4253022902ba5324b397019d92eaec49be083116e8ae4f8d945"
+      },
+      {
+        "month": "2011-08",
+        "native_grid_bytes": 11192,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201108.npz",
+        "native_grid_sha256": "2b8949527f62a1eb70d980fea40af119af3f3c5d6bad1000a99938f77af7979b",
+        "regional_input_sha256_from_validated_extraction": "f4c7515bff4b4b3a509bdd0546389a55b7a54ac7d10aebbaefb26d5253325afc",
+        "source_sha256_from_validated_acquisition": "9d1aadc78fac920f6edcec7fcd016c3129dbe0257c5dac2e04e32dac70b59e9c"
+      },
+      {
+        "month": "2011-09",
+        "native_grid_bytes": 11191,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201109.npz",
+        "native_grid_sha256": "7466e7221e310cdaa4626ebaa80a6408183796b591903a846902f2dec4fe2969",
+        "regional_input_sha256_from_validated_extraction": "d07fd3d1c5232e70542d612fd646e0b72f8ffadd3d7c317e9fd12055010266a2",
+        "source_sha256_from_validated_acquisition": "893ad15fae32dfaa50e8e450a273d5a8afe97224e9dd62ed18ed897c7416358a"
+      },
+      {
+        "month": "2011-10",
+        "native_grid_bytes": 11199,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201110.npz",
+        "native_grid_sha256": "13fd384195430f7ad0927a5710fadfcdfbe4abe4cd68a75449954a45ba0e2278",
+        "regional_input_sha256_from_validated_extraction": "eb10d2654d9543f66c23c268615bc33e6557976483e797c2d6d97bcd500e9dec",
+        "source_sha256_from_validated_acquisition": "e4aea1d7fd36853582264b19605d04cbb113a3dab27de242dd3be5f266a30a90"
+      },
+      {
+        "month": "2011-11",
+        "native_grid_bytes": 11182,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201111.npz",
+        "native_grid_sha256": "0ee22c94deba11de1039bb88fd24266909fd41cfcb08afc05b46c84a2fa6c176",
+        "regional_input_sha256_from_validated_extraction": "fee9cbed99b8989c20c03742ffdfd15ccd84813dcb69aa7981fb05ede036c57b",
+        "source_sha256_from_validated_acquisition": "7a4e708410bf4b4756c6872af6df302252a649e87e6812d26ea67b31c2332d96"
+      },
+      {
+        "month": "2011-12",
+        "native_grid_bytes": 11179,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2011/201112.npz",
+        "native_grid_sha256": "092597f7ce8b09b8327476f35617e44d4e70dd32f509d8dfae825f2589f47b9d",
+        "regional_input_sha256_from_validated_extraction": "bf5b0b702dd5c5fbe45d60f2a3bf40bd3788a5dd04d4179ad4783fc07d2fffd3",
+        "source_sha256_from_validated_acquisition": "5c8411e08f3378e4d5ea27c555fc425c27b06dfcb739d5ec969c16af43bbabf0"
+      },
+      {
+        "month": "2012-01",
+        "native_grid_bytes": 11151,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201201.npz",
+        "native_grid_sha256": "6e753e31ff57dde085d3b3689f89deb668065098d930bfa3cd324d292c0ddde5",
+        "regional_input_sha256_from_validated_extraction": "31d528fe56aa59ee0749605e09b51bc70746a81d24d3207a1ea8cd7d382b508c",
+        "source_sha256_from_validated_acquisition": "f3fdd7d16a0afb6a24f1b77a942e263169dccdcc132b5565a3d3a87635d7ec07"
+      },
+      {
+        "month": "2012-02",
+        "native_grid_bytes": 11136,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201202.npz",
+        "native_grid_sha256": "32e11e130d1b5c7ceb2c2eca1f21f8b29b20ce794ce02ed41bd6a7dc06e63ad3",
+        "regional_input_sha256_from_validated_extraction": "d77cb1bcb67141e7f5acd967731de3fcf9cabf1268fb9a9b86ef012de5c6a538",
+        "source_sha256_from_validated_acquisition": "a09828d860d6cc74a0b86c5412fcc8a1aaf6dee9b952f905ea534983c2dc9b9d"
+      },
+      {
+        "month": "2012-03",
+        "native_grid_bytes": 11168,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201203.npz",
+        "native_grid_sha256": "fa460ae0badcac2d9d03e7b680246795346f4e4b4d30ebd7728ce3b04f0c34e2",
+        "regional_input_sha256_from_validated_extraction": "f22e4ff8f5795e03499ef662e0859166a4ffea70ebb6c1d336f9ee3b9f9e1822",
+        "source_sha256_from_validated_acquisition": "2682012ee541e1d0b3952ddcbca0d628dc6b189ed8fad7776e97a7c96ca3ab87"
+      },
+      {
+        "month": "2012-04",
+        "native_grid_bytes": 11167,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201204.npz",
+        "native_grid_sha256": "c8e7074ec0218f229130abb8a76873ae394a4f4173a32c74fd96de8cd070710a",
+        "regional_input_sha256_from_validated_extraction": "7e05b92500b15369bed00373d054f9d562e0f47ac69b1163e2e83a44a892bcab",
+        "source_sha256_from_validated_acquisition": "b525b3fe5f97aab422db4ec33eeae3c4d0c8f433a6fe0746121bc6b214bf2af0"
+      },
+      {
+        "month": "2012-05",
+        "native_grid_bytes": 11160,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201205.npz",
+        "native_grid_sha256": "e543d96adc2c92cdb407c0b0535fc86651b43789318b02622ab9ed679edafb76",
+        "regional_input_sha256_from_validated_extraction": "d663523a849673c6b8e3d86d642f028f219199f273cd3e898b28b29fcfc46682",
+        "source_sha256_from_validated_acquisition": "97c3c521d99bfd20cf1e30443470cfb133eb9cadc2ff24e78bcac1bb4e761ce8"
+      },
+      {
+        "month": "2012-06",
+        "native_grid_bytes": 11213,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201206.npz",
+        "native_grid_sha256": "8ad0e0ec72bc1d427319b4a8360e239f68d977a53703186252c73371b572adf8",
+        "regional_input_sha256_from_validated_extraction": "1e0ad1b215673dba0daa515fd2d964c7dc3e8f662a5e840b6f71a9129af96a4d",
+        "source_sha256_from_validated_acquisition": "ceeffcbc30f2a0c70a8296856f737f32f84df114f70dd67eec6aa72df472a9b0"
+      },
+      {
+        "month": "2012-07",
+        "native_grid_bytes": 11192,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201207.npz",
+        "native_grid_sha256": "c408414bcdf64c098ae3a56d954a7bee13c1c6f3fbae580a96aba58d4d37b27f",
+        "regional_input_sha256_from_validated_extraction": "ea2032b3ee12ce17d23429795379272d313d8021fcedd04418a344c02124828f",
+        "source_sha256_from_validated_acquisition": "1968a0082aa81de4a967279ec7e70cdbae78b9af3df67ca763517b086c17acae"
+      },
+      {
+        "month": "2012-08",
+        "native_grid_bytes": 11216,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201208.npz",
+        "native_grid_sha256": "e893691d881b3a8fa34f1a2fae98a5acf3fd77d612e824186c7c9210318a7db3",
+        "regional_input_sha256_from_validated_extraction": "23c2bea2ef704231881ef1d5af393fea280a07e9b03fc7e547f02557111fad40",
+        "source_sha256_from_validated_acquisition": "99b7d9e7dba2d0cc03604a331a42766a182accc2064a5b6cf7957d7b15deca51"
+      },
+      {
+        "month": "2012-09",
+        "native_grid_bytes": 11206,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201209.npz",
+        "native_grid_sha256": "7a6a64f63c327d2456c66ffd9f0adff3fba04e1a8c06edac14db588b573a6360",
+        "regional_input_sha256_from_validated_extraction": "f650a7ef6dfdca168ac7d76ed0545254dd9ef18a91c47a17a6013a01fd0e0412",
+        "source_sha256_from_validated_acquisition": "db01412be1002d63098f680af83d092c1c1da05bc61e0e27fe1e53f4dfea41a1"
+      },
+      {
+        "month": "2012-10",
+        "native_grid_bytes": 11185,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201210.npz",
+        "native_grid_sha256": "e63fb4f34118ef095ba42b8e44bdf58ac7c9c5325e1e15ebde0133e93c692833",
+        "regional_input_sha256_from_validated_extraction": "918440d27fa3a815b0e37bbb6a487f1e18b5e57562eb254d6a1c3f32288db15e",
+        "source_sha256_from_validated_acquisition": "3e1966a2c41a8cb00dc8471fc546d2eecbe087860c5cb2baead1c408abe24354"
+      },
+      {
+        "month": "2012-11",
+        "native_grid_bytes": 11197,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201211.npz",
+        "native_grid_sha256": "64a365bc474d978533ac9b0967334873e1d4c3c38d1811ed5cf095fd06d027d1",
+        "regional_input_sha256_from_validated_extraction": "cc700dd123ffea771237f90a91d1ed6fbe9e8ed643360974605eb0022dbfa9e1",
+        "source_sha256_from_validated_acquisition": "f7592c7aa935c86da72b34019a687e5bec9ddc08c5f22ba1d03bbb16b453133c"
+      },
+      {
+        "month": "2012-12",
+        "native_grid_bytes": 11171,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2012/201212.npz",
+        "native_grid_sha256": "66f59586fc7fc0b17ff89303273585edc8824e0c304122986189dc663229fc33",
+        "regional_input_sha256_from_validated_extraction": "1d47594876714bddc07c23c8f7b656c9fb23f60270b70dd6b97a7ead3c49fb33",
+        "source_sha256_from_validated_acquisition": "7b753ce4015e3d66b0cac1a57815cce94377edd67bc319600a7fb00978454fa6"
+      },
+      {
+        "month": "2013-01",
+        "native_grid_bytes": 11153,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201301.npz",
+        "native_grid_sha256": "addf326053bd551ff10d5cd0bd059548fa8d4daa112bcd991bb5aefe201985c1",
+        "regional_input_sha256_from_validated_extraction": "082adf44c9ee753042f19bb5209bef59bebc5097f79048146c55ae6a4170b074",
+        "source_sha256_from_validated_acquisition": "1c1539a3074428ce5d86c1dd4606f90b5f219265a2fab816d6c882455ca505ec"
+      },
+      {
+        "month": "2013-02",
+        "native_grid_bytes": 11140,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201302.npz",
+        "native_grid_sha256": "a209ca8ec53d372193248da33590ce03c23011408ac7c7e06153a50204db8e42",
+        "regional_input_sha256_from_validated_extraction": "e5deb2a0be9f020bb81f117b71282dd179994f2857fc496b909f9de095910499",
+        "source_sha256_from_validated_acquisition": "de34631870b8cc068a110d3deb9f6293d4f03794f97d9d5cda842dd05ad42048"
+      },
+      {
+        "month": "2013-03",
+        "native_grid_bytes": 11158,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201303.npz",
+        "native_grid_sha256": "6a19438720d1ffc6790ff105f81d763918d09656b37cee47355d792a675e9fe9",
+        "regional_input_sha256_from_validated_extraction": "0cdc98ab7b9e227d6f248f5e2d44fca11f3e53f65abf71c538f0785155fd1239",
+        "source_sha256_from_validated_acquisition": "04b7b51da414649f97dcda6355d8b1474464049a8acdcab68a17c95f9a4a9acc"
+      },
+      {
+        "month": "2013-04",
+        "native_grid_bytes": 11146,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201304.npz",
+        "native_grid_sha256": "f3de394353a08c5e61e1a216fea1f0d09a86a9eacd2a92cb235d4e641fca445d",
+        "regional_input_sha256_from_validated_extraction": "792494a6536dca0e69b01846370c46fd414dd19a6fe9903df85740d923b0ce40",
+        "source_sha256_from_validated_acquisition": "bcf8d9072e5c73a9c993c9fbee2cefaa88da6bb03faa3020e00dc6871c94a905"
+      },
+      {
+        "month": "2013-05",
+        "native_grid_bytes": 11193,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201305.npz",
+        "native_grid_sha256": "2540a8a24effc509e9ae668109f4c346a4f9428d295f1ef90b200766f388ce1a",
+        "regional_input_sha256_from_validated_extraction": "1037cf1dd6312a9354c28b7524e988aba3e079aa24e0f5f10fa4fd854ee4f105",
+        "source_sha256_from_validated_acquisition": "c28e1ce76c98bef99e798057a77eaf79acd2e2a8dc0d14fc6a682f7e673332e2"
+      },
+      {
+        "month": "2013-06",
+        "native_grid_bytes": 11199,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201306.npz",
+        "native_grid_sha256": "fdcc1a18cfdf5dda699bc80885c2a47de9fbf3ca4fe24f86085347245bd8a732",
+        "regional_input_sha256_from_validated_extraction": "272e6190e2c2a11ce5153bb20cded1293168e4e92e55615e4c0fcb9e56810b6c",
+        "source_sha256_from_validated_acquisition": "ca8b8e7c6ca658277111821982d16f84dc9afe4182d055a66e6e607448fa4ab7"
+      },
+      {
+        "month": "2013-07",
+        "native_grid_bytes": 11193,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201307.npz",
+        "native_grid_sha256": "58c5b9e6296bf283b3f644ca491d120c37fd453289cf7871cc6e0a0d77ff9e22",
+        "regional_input_sha256_from_validated_extraction": "3fdaa5758f6c00c0b14e2d5a445f06f6eac8733ca2dbfcd7b1af1b82e37c5004",
+        "source_sha256_from_validated_acquisition": "2c54d4b8746f8574c2de44598a87262b3d6a9f18ed5ab47e938d86a8fb90b343"
+      },
+      {
+        "month": "2013-08",
+        "native_grid_bytes": 11210,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201308.npz",
+        "native_grid_sha256": "b9847d6b9b8f22fba3ff80b43a01fceb80f2eb504687df01cd267983299f5d67",
+        "regional_input_sha256_from_validated_extraction": "63d8051c160947ee7e3aa528276e05d97f586285768534856a04eca782971882",
+        "source_sha256_from_validated_acquisition": "a840995214870a0761752af4774ead3a2d53afe3f3e8d293839d5e52e5410803"
+      },
+      {
+        "month": "2013-09",
+        "native_grid_bytes": 11211,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201309.npz",
+        "native_grid_sha256": "64064cf5af88c69f3cdd3141002fc10b5e78c2940a269285b9aa1ea5caade5f4",
+        "regional_input_sha256_from_validated_extraction": "35289bd081550a898603b11cd541c226dbb498f82026b54dd11c275daf9134b6",
+        "source_sha256_from_validated_acquisition": "018df423099ef6c5adafa6c8e0583423485a87de21eab08463bb3cbb1e6553e6"
+      },
+      {
+        "month": "2013-10",
+        "native_grid_bytes": 11184,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201310.npz",
+        "native_grid_sha256": "e038577d0f15401726fc408f0e2e39f6c521d6ac328851af27e1f192bc5d6ef6",
+        "regional_input_sha256_from_validated_extraction": "e0df14bd9838aad1c7fd67b2e9e5210fc002997f20627e5e73ff2bad808e2d62",
+        "source_sha256_from_validated_acquisition": "f8c2f6f821b99daf93f67e221a3df08e41f1523506b2113d3cfdcb6f8131dbf4"
+      },
+      {
+        "month": "2013-11",
+        "native_grid_bytes": 11179,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201311.npz",
+        "native_grid_sha256": "9b71d642300aa8139ede00f1f94bbc23a3d2e2b061910643797781ad1766cf74",
+        "regional_input_sha256_from_validated_extraction": "33d1a65b60c4de719d7411d12e0438bb00767e8128e9c1abfdeb75b5537c93a9",
+        "source_sha256_from_validated_acquisition": "1e1443ce094339f09c2a829509ff3618bd2de4998d49bfa1e85cce310914d01e"
+      },
+      {
+        "month": "2013-12",
+        "native_grid_bytes": 11182,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2013/201312.npz",
+        "native_grid_sha256": "a3942e219c76ad0cf3283a659702bb82b38c5216e19bb569b9f11087116b216b",
+        "regional_input_sha256_from_validated_extraction": "c530656f2c555c19c8f085b1938235c83adb27c043ee8418be83b8160214c69e",
+        "source_sha256_from_validated_acquisition": "dc8823f60dd6d7e36af7538f21970d771edd1bbce486c078c6a23c46b5721db1"
+      },
+      {
+        "month": "2014-01",
+        "native_grid_bytes": 11149,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201401.npz",
+        "native_grid_sha256": "505c2b24002731b5943c09899732e419aa3c8d92b2c9e477d59bc698c24b75ef",
+        "regional_input_sha256_from_validated_extraction": "093f042e46747ce9e690a4e2f2d234b9b7a842702432ea6b97c845f6281411fb",
+        "source_sha256_from_validated_acquisition": "e3451298dfe359b88ecf6532e29b8516ae6a37b50511f56972bfdf34b46309e5"
+      },
+      {
+        "month": "2014-02",
+        "native_grid_bytes": 11147,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201402.npz",
+        "native_grid_sha256": "f4b2af2a9895172602a6a8ef2b399b269366711c4084ae3312c44c43965c602e",
+        "regional_input_sha256_from_validated_extraction": "49d72ed894331ffa071363b7b194d3c05dad35350fc307799474fc96a7466529",
+        "source_sha256_from_validated_acquisition": "633c2276d4cfe80f06051798a69af09b72e0a0210993e5caad87a563fbe0b3cb"
+      },
+      {
+        "month": "2014-03",
+        "native_grid_bytes": 11154,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201403.npz",
+        "native_grid_sha256": "43f06e510db872975d69299de5c793312f675400056b866a59a539068c012241",
+        "regional_input_sha256_from_validated_extraction": "0ac029fcad973c1d60258d13923d9d8c046ae715cca31ca3b52c86f48eaf8d09",
+        "source_sha256_from_validated_acquisition": "d5e973b08b48ba9907a8cc305736794366d6f957dff906abeacf0d45e94835f6"
+      },
+      {
+        "month": "2014-04",
+        "native_grid_bytes": 11131,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201404.npz",
+        "native_grid_sha256": "ee1cf1d3e4bf6b86530362317d2359ba0278e8bb07b0a2342c80e5fabb92ebcd",
+        "regional_input_sha256_from_validated_extraction": "34c5bc1cc2ca82cd1839eb0b5895cab04e9a05e3da9a8fd80b6709b0c60b24af",
+        "source_sha256_from_validated_acquisition": "34897530b4e7d535568c643f773ab33d473c0b26594f018264d98f5c56e8f6cf"
+      },
+      {
+        "month": "2014-05",
+        "native_grid_bytes": 11147,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201405.npz",
+        "native_grid_sha256": "79ffe405c630876df0d8915ea68ea14a53f714e6774d077b39124b5ebb7ad5f0",
+        "regional_input_sha256_from_validated_extraction": "826be6c899205656d5c5131fac02e2834c8194077653a319817c69bc52e834bc",
+        "source_sha256_from_validated_acquisition": "0e9879381ece542a0c9b1b034cd2ea10ec638d2749ddabe986dbaf92494caa99"
+      },
+      {
+        "month": "2014-06",
+        "native_grid_bytes": 11222,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201406.npz",
+        "native_grid_sha256": "4d27bf6eef4f4c1a375115e066b8a5d919352702da7bffaeebbcd17535080398",
+        "regional_input_sha256_from_validated_extraction": "ace703d76d6baeb86cc9b5d5b25c2cc09cb0042f43c3eed2cb707dcd4c0c238b",
+        "source_sha256_from_validated_acquisition": "c25b048a1c4b596081471a4876fd46a79fbcf7a56b525f31c5344c3b751f8fc4"
+      },
+      {
+        "month": "2014-07",
+        "native_grid_bytes": 11215,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201407.npz",
+        "native_grid_sha256": "20932bc872513023fa74cf67cf1c626cef9a3b1782a4ae5300d03e4ea195cd09",
+        "regional_input_sha256_from_validated_extraction": "d98338e034d5b3157f31bdf01f95d97388fd8d7807fccf3b42ba6f43f6950540",
+        "source_sha256_from_validated_acquisition": "38cbcfc9e877863f7949a42688631bd868083c7fe052e1d8165e88cc787e2bc1"
+      },
+      {
+        "month": "2014-08",
+        "native_grid_bytes": 11207,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201408.npz",
+        "native_grid_sha256": "53b8ec5eb3a9d90d965d1ccf99c9bbc112c58f3e46c979be75f149151fc1c2c4",
+        "regional_input_sha256_from_validated_extraction": "ca69ded1c7976062981831bfe62b7a71273b03a88f6769f5c6d3866188e93bb3",
+        "source_sha256_from_validated_acquisition": "8fdcf934db6b1fedf79a7eeea9496421055562f255b1cdf8b7c37eff66bb30cc"
+      },
+      {
+        "month": "2014-09",
+        "native_grid_bytes": 11193,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201409.npz",
+        "native_grid_sha256": "81392643f0a1ae2ed944e488ca096607b1d45a3d348bf2b6c354adb2f9582bbf",
+        "regional_input_sha256_from_validated_extraction": "cb610fdab3fff7e895332859c201a93dd79cf6ec35f73ca643884897ab722c56",
+        "source_sha256_from_validated_acquisition": "5ab6db10f669abd1985f0147490626d73734487fa6baf5a9824190e6b3c70d35"
+      },
+      {
+        "month": "2014-10",
+        "native_grid_bytes": 11198,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201410.npz",
+        "native_grid_sha256": "870175e4468d6e1f78fa08632d90fc85979b44865710f5b2570465ed4ac0833e",
+        "regional_input_sha256_from_validated_extraction": "1ae8b752ad543d9ae805ac111b1948b8ae8ee858758d399d26cf27289630c380",
+        "source_sha256_from_validated_acquisition": "52015144d34a09c28706f7fc6eeb586d9bae6803c2ac8dd325b49329762aa9fb"
+      },
+      {
+        "month": "2014-11",
+        "native_grid_bytes": 11181,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201411.npz",
+        "native_grid_sha256": "19ad33e0cb0c84de99d6c190a5ed1d0a3ee6a2a291517e297390e3b674adf248",
+        "regional_input_sha256_from_validated_extraction": "be7292b438e16691479337b66e3206754ee985f405809d86ebb3ee55f95a1456",
+        "source_sha256_from_validated_acquisition": "89761809abe15137ae6296c852cea8ba63201f32dd9aeabb0110475de09f1366"
+      },
+      {
+        "month": "2014-12",
+        "native_grid_bytes": 11178,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2014/201412.npz",
+        "native_grid_sha256": "63decca348f01e9beeee0ca571be2d3258dc922096cb0314460ea5796bd3e1f4",
+        "regional_input_sha256_from_validated_extraction": "c791374794dd0f9c114f08ed84a602a981fd5777516e1dea0093778737d7acf3",
+        "source_sha256_from_validated_acquisition": "25c23450f5c32ad3b9aba4bf8067a79c1728e53cf9e6a81f807fbb7003980092"
+      },
+      {
+        "month": "2015-01",
+        "native_grid_bytes": 11171,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201501.npz",
+        "native_grid_sha256": "7f48e8d0985506574ee43665f6c1642132b7e66bf0d5ebb288d691a776ee0f15",
+        "regional_input_sha256_from_validated_extraction": "b9ac92c25772febd10fe1fd0437cdb399086f868a40e1b8f1e3d80a0917eea54",
+        "source_sha256_from_validated_acquisition": "482003193c8d3c4007af74356c45395d02e28e0d49deed417673bd6191e3e9a9"
+      },
+      {
+        "month": "2015-02",
+        "native_grid_bytes": 11153,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201502.npz",
+        "native_grid_sha256": "f3e1ea76ac8da408f51854b32bed9077f14bc136609335716e7c6cecfaa9f580",
+        "regional_input_sha256_from_validated_extraction": "87d970c792b9b550374c3833152577788765f5fde6bbe4505b41f975a76a3770",
+        "source_sha256_from_validated_acquisition": "63370a8752754a6de66b09d1b29d26652f24df85941d8ad761fdc56307cabe94"
+      },
+      {
+        "month": "2015-03",
+        "native_grid_bytes": 11173,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201503.npz",
+        "native_grid_sha256": "95396e3e2f17db22c6399f4c538367a0fd534a96330f83e0e8d464b6731969fe",
+        "regional_input_sha256_from_validated_extraction": "1e89847088dbb1faef0c3b0b4ee78cbbdeb8a127b9b30e493ba7676afd518d6f",
+        "source_sha256_from_validated_acquisition": "db4b9bd2cc07dd4e9a3a96acb725288602a86ac8d6411d0797a9ea590ef88b0b"
+      },
+      {
+        "month": "2015-04",
+        "native_grid_bytes": 11174,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201504.npz",
+        "native_grid_sha256": "fb0942924c2bced9e3a0627642f0e7f933148ffc2ec6508f82a29ecc419feeb5",
+        "regional_input_sha256_from_validated_extraction": "372b92b2b9a603195f155183f1f4ca4e8d7d9719c627407030b69a3f63a0845d",
+        "source_sha256_from_validated_acquisition": "5cf9728254a7ad5b3c723d4ba355b84558d6263587deabd7dd7e11682b801500"
+      },
+      {
+        "month": "2015-05",
+        "native_grid_bytes": 11167,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201505.npz",
+        "native_grid_sha256": "c807d3f0f640398b759082b2788edf8a1299f1c9216e1657ed736eed8c517273",
+        "regional_input_sha256_from_validated_extraction": "c3e0e0a7d8fd79305d808bc8c868d6114cbf151621bb5574da5e2c78b7a48072",
+        "source_sha256_from_validated_acquisition": "9e5c50017874bceafc566e026d7107ca12d6faed505f89f9556eebca8d559544"
+      },
+      {
+        "month": "2015-06",
+        "native_grid_bytes": 11214,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201506.npz",
+        "native_grid_sha256": "0ba47be54bcc20ff31f1bf09f94c910a5d2bc1fb4d8d01dd94ed7bc8d0d53452",
+        "regional_input_sha256_from_validated_extraction": "ae625ddf8bd07efcefbac4f7329cbd979fe505422bf51b81747b0d138875d216",
+        "source_sha256_from_validated_acquisition": "d8d4e5cad9b6773182d881f193c38296e89d7c032151fae427c3369f9e9e3efe"
+      },
+      {
+        "month": "2015-07",
+        "native_grid_bytes": 11203,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201507.npz",
+        "native_grid_sha256": "83d3487e9fa12b6352f4d6e625c3edda2ed5b35317209b0a14cf40fad89ab680",
+        "regional_input_sha256_from_validated_extraction": "0dc13f99c325c3ce838142b66a4bfd53e64aabc0141c739f38be24d4c82d67dc",
+        "source_sha256_from_validated_acquisition": "7218055d71301cc9f3b96a92bf0c9378cf9d6480943f49fa9c5ef855f0c8f23e"
+      },
+      {
+        "month": "2015-08",
+        "native_grid_bytes": 11255,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201508.npz",
+        "native_grid_sha256": "1ab471dc23269401781085d0f8e9ba094b473fa2fed9bee61fc90ebb8c9df4b1",
+        "regional_input_sha256_from_validated_extraction": "26c3e19a971ce53396a093a8011bc858127fedc421c2b0f5ba25ee4eb79dc97d",
+        "source_sha256_from_validated_acquisition": "9954fc66418ab3c0c8c6248ceac1f0244ca098129c747be04e2e486ae78c2d2c"
+      },
+      {
+        "month": "2015-09",
+        "native_grid_bytes": 11235,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201509.npz",
+        "native_grid_sha256": "59a6c68cdaa40236c2aa835e36f0298dfd701b21111175083a9a6a223d2616c6",
+        "regional_input_sha256_from_validated_extraction": "31e81b3487e2ae91d3d4ab38d7d0f20cb6b8d54ac42a4614d8f7935bc550b5aa",
+        "source_sha256_from_validated_acquisition": "095f0a4b6997a7ac61dc9fe2050b7113b1dbe98b35a36b159e7f8a677decfa16"
+      },
+      {
+        "month": "2015-10",
+        "native_grid_bytes": 11238,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201510.npz",
+        "native_grid_sha256": "3f0d5eb11ff00b32d3e5fefbc2241c101b4b480129690772946e542855ab2a69",
+        "regional_input_sha256_from_validated_extraction": "af7a60c9f0f053e2f63c8a08e0cef3dfc7b993bf03a61769cb1c053bcdc27261",
+        "source_sha256_from_validated_acquisition": "2bd1e99fceed780a1d29a7da05c2e80b736a91b993d2fb55c1a41e731bbbd0b1"
+      },
+      {
+        "month": "2015-11",
+        "native_grid_bytes": 11228,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201511.npz",
+        "native_grid_sha256": "2d0e2143efb6bd858ef154271da027b9238463d6076f39afa43e3d06fb004e67",
+        "regional_input_sha256_from_validated_extraction": "ac59c129bf71355aa9ed66df4fbbc71f06338dfce5ad8001f271ad76d926afc1",
+        "source_sha256_from_validated_acquisition": "8f61fdb51115812fab5529d239315ff212d169307743202c83d7cacd2a925e14"
+      },
+      {
+        "month": "2015-12",
+        "native_grid_bytes": 11214,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2015/201512.npz",
+        "native_grid_sha256": "c0061a0814373e984f82a99eb1e2d40c2f8fea6f29dc23b5290c6209c82abb83",
+        "regional_input_sha256_from_validated_extraction": "f799d073218e1c72b7ef6b1847890b9b969af9af429245ada8b1c3e89ad9d5a3",
+        "source_sha256_from_validated_acquisition": "92610d1edd34c1741119977db56d5bf2ed8e148a0586d8b12411fb70d8e70927"
+      },
+      {
+        "month": "2016-01",
+        "native_grid_bytes": 11200,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201601.npz",
+        "native_grid_sha256": "f0f472022eeb7a3bfd103822c0f78693ca9e2324a4ff923140c60379c34ea343",
+        "regional_input_sha256_from_validated_extraction": "ad9f9287064a218256c441f413d4dba5746f8257ae8cf5fbfe483596f5b9c2ef",
+        "source_sha256_from_validated_acquisition": "014fd9f1f13cb89294e14c062a86f679652281b15f10cecb6dc4830f562bbbe1"
+      },
+      {
+        "month": "2016-02",
+        "native_grid_bytes": 11206,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201602.npz",
+        "native_grid_sha256": "ae45ea56ec40f0ba372276ee45aaf4bd5b9ef29d20e85b0896b2a9f54c669a14",
+        "regional_input_sha256_from_validated_extraction": "061dc52f2ff8e909cba66d57cc4c00c6756e01fd8b68020199b0b3cae5353cb2",
+        "source_sha256_from_validated_acquisition": "837abb5dc5629a5fe5faa75cfe896b151148b17de5e2388ac6d3c62ae8a22352"
+      },
+      {
+        "month": "2016-03",
+        "native_grid_bytes": 11186,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201603.npz",
+        "native_grid_sha256": "bfa4cea0d8ecba478f46ba0197d190d2f7bcca7cc539f7c7765edd267b60e8bc",
+        "regional_input_sha256_from_validated_extraction": "51fc6e192f6fea7f375f383f66223aa2782b4cb4db30d83916294faea33b40f6",
+        "source_sha256_from_validated_acquisition": "2b62d943dbd9f71e2af27c37a35a2fde8aa6e8d1a7dc96bdaf36e03974139c2d"
+      },
+      {
+        "month": "2016-04",
+        "native_grid_bytes": 11182,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201604.npz",
+        "native_grid_sha256": "79f31d1af2b76de26919a3b36009038c020537d971b358fa0f2adbd972dedbb2",
+        "regional_input_sha256_from_validated_extraction": "3c595a9778c5c467ea716fe7ec5fae22348c358db90fe3e29d30ad2873c42b35",
+        "source_sha256_from_validated_acquisition": "ad202e11f8ed574318844f2d33d6881571752542b97d1c13c067dbc6df3e0348"
+      },
+      {
+        "month": "2016-05",
+        "native_grid_bytes": 11234,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201605.npz",
+        "native_grid_sha256": "fdc498ee55d5d866220ef61c4b5556804e6b91e1ee5cc0dc00e960b16189e3ce",
+        "regional_input_sha256_from_validated_extraction": "b25dcded5a77a0d9178f5c9a55e57351db4160073b4ae3d78e23d06c6fa59d1b",
+        "source_sha256_from_validated_acquisition": "88c14cfd884143ee153f5975ff9d575059802106a3829aa33db4c7b46ed04861"
+      },
+      {
+        "month": "2016-06",
+        "native_grid_bytes": 11252,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201606.npz",
+        "native_grid_sha256": "b76a5c08d48f743f2184b354e9e1f429c319fc66cc23cabc7720629a1288419b",
+        "regional_input_sha256_from_validated_extraction": "ed5a93a6afbb6143c51e3d4ec8a7ed69dd3c0a3f1a9563c33659e680c91f2f69",
+        "source_sha256_from_validated_acquisition": "489a2adc4c9e843148b7dcc4952aee7b01187840009816857ac2efb79aa09dbc"
+      },
+      {
+        "month": "2016-07",
+        "native_grid_bytes": 11235,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201607.npz",
+        "native_grid_sha256": "e5d4f83019d495ec82965e3275c928e17a74fb6546e9a8ce8500764d1e375184",
+        "regional_input_sha256_from_validated_extraction": "67a107fd676591de04f3f30bbb33c806ec486dbb9ff103490ff9186040e50430",
+        "source_sha256_from_validated_acquisition": "579e054c5dda21d436fcb886637183eff843d05f7dfe0312efacbd842c3ffdd6"
+      },
+      {
+        "month": "2016-08",
+        "native_grid_bytes": 11258,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201608.npz",
+        "native_grid_sha256": "bb3c87e4475ea16b06e976247208bdec005fdec75c6e622e809991c9338121b0",
+        "regional_input_sha256_from_validated_extraction": "923210219b29a4317cf1ebfcb140adf0449570155e809e7d20f9f23d3a160e25",
+        "source_sha256_from_validated_acquisition": "b436cb0559e4cf1d8ff278918d9256ab5dbf1089bc8c3c155143a3e1abc5a74a"
+      },
+      {
+        "month": "2016-09",
+        "native_grid_bytes": 11238,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201609.npz",
+        "native_grid_sha256": "18f3487135ed55f3af72d2c7bdc0ab4c893269c68ca465ec0308b329d5c0f413",
+        "regional_input_sha256_from_validated_extraction": "657c2ff1f86ddeb7fff55107cb8040ab1877669d8b5f1ba08d0ef83578976096",
+        "source_sha256_from_validated_acquisition": "5d5aa1b7c8da7808f0ec83a13372a8ee29ca54a8e81339209c40abe085e71b1f"
+      },
+      {
+        "month": "2016-10",
+        "native_grid_bytes": 11240,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201610.npz",
+        "native_grid_sha256": "db53dc05fa0036ec0e6b62bad685908c4ae8a5ea4326e5c1cc34a7c9c5e1f53b",
+        "regional_input_sha256_from_validated_extraction": "dfee3d354969ea508732099035a25014630600aff03852cedc5c0be28e5bf512",
+        "source_sha256_from_validated_acquisition": "f633247f1ca73acf72bbbfc0f4c893918c429c1514079a1fdcc818ff61e8573d"
+      },
+      {
+        "month": "2016-11",
+        "native_grid_bytes": 11215,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201611.npz",
+        "native_grid_sha256": "7db0b5997d508c0d06915375d1db8404b2291f334724d909bb0badffa069586c",
+        "regional_input_sha256_from_validated_extraction": "841abaf00547dbc782a5251d218365c305ce6c24ec0bb786d5561ef8e5814898",
+        "source_sha256_from_validated_acquisition": "6006a36a2076c16af1943f7d7564bba18adb9a29a67697a113ab8c0c1969f897"
+      },
+      {
+        "month": "2016-12",
+        "native_grid_bytes": 11199,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2016/201612.npz",
+        "native_grid_sha256": "fa1c43f7a3c48d607a8b02127270de71162a52db903b7cde0a0a97c8ee7733ad",
+        "regional_input_sha256_from_validated_extraction": "b057874552bc81b09a764118eccf46fc71a7fff5e2e89bb3804b021f9403ffec",
+        "source_sha256_from_validated_acquisition": "bdb6a2e047691fd30837c87f6088e779c926e2da961388954ec80ff12685bf63"
+      },
+      {
+        "month": "2017-01",
+        "native_grid_bytes": 11203,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201701.npz",
+        "native_grid_sha256": "9e1eb76b0dff58fc5e2b0b6898570123a1b88643caeb828dc4539f9f0f72617b",
+        "regional_input_sha256_from_validated_extraction": "6be0cba1b632424bd9d83aab0773a8abdc15d3ad20f142e8ed1ab119c1c6355c",
+        "source_sha256_from_validated_acquisition": "03aa43c668f41ac4911da260c0719532c71471d6a0cd20d6d1e78c6bb26a5b7c"
+      },
+      {
+        "month": "2017-02",
+        "native_grid_bytes": 11191,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201702.npz",
+        "native_grid_sha256": "7d25a2eade53c2ec3274e2a0758c368636520b0c3fdc5d3e3118adfa94439a24",
+        "regional_input_sha256_from_validated_extraction": "306056db037c86f8fdcf8dda500f235a6a3817e7000d06b5f75a07894ec7db72",
+        "source_sha256_from_validated_acquisition": "503a2b8d301780acfee2488343af78d9fc5419ad4e0e3622ecac243502e5b427"
+      },
+      {
+        "month": "2017-03",
+        "native_grid_bytes": 11184,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201703.npz",
+        "native_grid_sha256": "40a11b65483736aa0cc1c6c679350530b830882ee279898b120591bb84803eda",
+        "regional_input_sha256_from_validated_extraction": "e9a78cb42f044fb2fe4dc9118a55334be54ed77b98ae903da7e2454a54290201",
+        "source_sha256_from_validated_acquisition": "a2a538a33055fb29ea5fe48563a944033875aef88937532d992c1f7c2df0de44"
+      },
+      {
+        "month": "2017-04",
+        "native_grid_bytes": 11199,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201704.npz",
+        "native_grid_sha256": "734e633911c74a62b7c0dcfe54d962e37c377a5c375847f2c1728c70d2db6620",
+        "regional_input_sha256_from_validated_extraction": "cbaf94e54f097c628537b58cc3bb58e3b7c3e46aad113ba841544ba37fcfe860",
+        "source_sha256_from_validated_acquisition": "45e3ce1c6d15835d7d8eef6f31e067c30f27c16764c8c559874146c153f60d07"
+      },
+      {
+        "month": "2017-05",
+        "native_grid_bytes": 11215,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201705.npz",
+        "native_grid_sha256": "55d590af3e8f2ff0aa37d297cd992e654384179ace92d90ed0516018ec8008e6",
+        "regional_input_sha256_from_validated_extraction": "64db7f8b8ef4632709589646d1c34756f56291681796415740445361c5fe62d9",
+        "source_sha256_from_validated_acquisition": "23e19e2a629a3d538246e2823798db5c7a3327f97ece73e00c4423b03bc5c0d9"
+      },
+      {
+        "month": "2017-06",
+        "native_grid_bytes": 11210,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201706.npz",
+        "native_grid_sha256": "f1e85bf0d8cd3b9d6bd713232c7782d8189fa2f1ab30a03fb226b60db7fa09be",
+        "regional_input_sha256_from_validated_extraction": "d98695e8bfd6e70e8fd7ab51b37b92381d030e17f8473152beb6dc4b8ce738f1",
+        "source_sha256_from_validated_acquisition": "05c2c57f027fb02d40461b682277bbd69e542cf8a1fefd070bae63a209e2152c"
+      },
+      {
+        "month": "2017-07",
+        "native_grid_bytes": 11282,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201707.npz",
+        "native_grid_sha256": "55fffe6e30c6ad4601a308365baf4620a1b8cdc4ae3428f6b2b07350924c29ea",
+        "regional_input_sha256_from_validated_extraction": "e919fdc1ea7381f10605677370d4162fe719b2b0c352ed8e309d4a24b40b66cd",
+        "source_sha256_from_validated_acquisition": "3e65717b2de1d4a89c745c5fb388915b2cd2be5dd369aac02e0dcf257faffea8"
+      },
+      {
+        "month": "2017-08",
+        "native_grid_bytes": 11251,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201708.npz",
+        "native_grid_sha256": "6de071bb6749cfc5ceef45efe849c16c3570a942e6554610f1ae7dcdcd3ad34c",
+        "regional_input_sha256_from_validated_extraction": "89ce49638860c00291d83fc9e2dcd5771bc4448f4e0754009c68c4dcd82efa7d",
+        "source_sha256_from_validated_acquisition": "a91ba6a22fe5d540cdae1817cdb276ad53f25616305f9181b2a98cb5a56ffa2a"
+      },
+      {
+        "month": "2017-09",
+        "native_grid_bytes": 11256,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201709.npz",
+        "native_grid_sha256": "9e3ba24b3b6a5645891bbfffffed244b6b1e92e86a23047ef98ad86d22959e1f",
+        "regional_input_sha256_from_validated_extraction": "7741f8bc6c8ff327ab72f8414395c831d1bbeaff36612271f9ac7bc383ea97fc",
+        "source_sha256_from_validated_acquisition": "43bd408040db58e0371d2685b36a83df03360f8b846f736a280c6acb9d295cc0"
+      },
+      {
+        "month": "2017-10",
+        "native_grid_bytes": 11232,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201710.npz",
+        "native_grid_sha256": "612bda48b15eac861538bc7cdd8bdcf5d7a2a5256ce4e5637a195aa1237c09cf",
+        "regional_input_sha256_from_validated_extraction": "d973ec0b9819a07f89b3615ecfd71d33ed3bb99e7c817b2a920dfade42c1da26",
+        "source_sha256_from_validated_acquisition": "2b823c875a7c08d2482a1216806a7dcbb4a2faec1e52fbd71f401b7084aa8c23"
+      },
+      {
+        "month": "2017-11",
+        "native_grid_bytes": 11224,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201711.npz",
+        "native_grid_sha256": "a87f40cea797537d78aa9a17d968b86bcad7177d0585fb51f7dbd0ad11995923",
+        "regional_input_sha256_from_validated_extraction": "74fb45733b7248f3c4b84d98ba946f91e61f733cd343d53674193a2e4a2bca18",
+        "source_sha256_from_validated_acquisition": "04934963679c2b1303ad111732d505031446a10ac651af92ad03bc48cfe1d80b"
+      },
+      {
+        "month": "2017-12",
+        "native_grid_bytes": 11203,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2017/201712.npz",
+        "native_grid_sha256": "d16f18c97442568655bee0458e24f1c18776aa6ede0ad4ab88c6a4ebafc837c6",
+        "regional_input_sha256_from_validated_extraction": "0925da220ee4cb7f64c9115cf1da0f324c8961b8b346d598175f46a9f9b12ac5",
+        "source_sha256_from_validated_acquisition": "e14e2067ee8b08fa8044ab3cb9e34aab385f7936e4251be262c15855facb2a27"
+      },
+      {
+        "month": "2018-01",
+        "native_grid_bytes": 11243,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201801.npz",
+        "native_grid_sha256": "a72f8a3e007ce2da4dc510465810a5cd34b6e0295fe9dddcaf147311b5e0d0ef",
+        "regional_input_sha256_from_validated_extraction": "f91218cddf5eaa95310ae4b1e90b4624ce014e0f59ca804ca1a815206246c753",
+        "source_sha256_from_validated_acquisition": "3239817c7a675eb4fa3c99ef3dfadd6a4294a532a9319319b6684934cec5fb5c"
+      },
+      {
+        "month": "2018-02",
+        "native_grid_bytes": 11210,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201802.npz",
+        "native_grid_sha256": "9a1f7f571ea01c19e2ad958ac5c9b18483631473d8115dd8e58905df4d0fe0ce",
+        "regional_input_sha256_from_validated_extraction": "35b179f4bbc44cabd3afebb7f6f10c02f897df433b34d9b604b135539374406f",
+        "source_sha256_from_validated_acquisition": "4f8d0689d9856828bbd4e665ae701c242baa4e7e67337b4acb520818d5b0d6ae"
+      },
+      {
+        "month": "2018-03",
+        "native_grid_bytes": 11229,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201803.npz",
+        "native_grid_sha256": "29b4e8331a222f859c9bb23dd89522cea1b037208e8ac99b1bf5dc7c62f88b12",
+        "regional_input_sha256_from_validated_extraction": "8eccdc24d9712e63299b991554436adb1abc695984920e757cd669fa48c88b81",
+        "source_sha256_from_validated_acquisition": "57bc2370a646e04bb5fbe2388d6e5aa4a0535824f60398ff4b9c5a1138b1677f"
+      },
+      {
+        "month": "2018-04",
+        "native_grid_bytes": 11223,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201804.npz",
+        "native_grid_sha256": "506b13f32f583ef6bca1f33c746b4c503b6ebf4a0ebce9568f5def5ad1c11b73",
+        "regional_input_sha256_from_validated_extraction": "467385c7ac9600ea6449573e45a4db8b06e77d6bd7b09450e5ef5d7665bd6cfe",
+        "source_sha256_from_validated_acquisition": "8f86eefc29ea15f74eab289fc4788eddcfb7f1550f050e362b47259672f6af64"
+      },
+      {
+        "month": "2018-05",
+        "native_grid_bytes": 11211,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201805.npz",
+        "native_grid_sha256": "a505512c974fc73f479d43d708610623ffbd8694619414077f12236eaf785e9a",
+        "regional_input_sha256_from_validated_extraction": "933a60dd8ecffc9e3fc2afe33906264fd726239f165580983d787ad4aa6c5160",
+        "source_sha256_from_validated_acquisition": "dd665271954776cc591cc6f30f6f755eeb3ac4e00d6b3c42b7a20e96e5e4ae8a"
+      },
+      {
+        "month": "2018-06",
+        "native_grid_bytes": 11240,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201806.npz",
+        "native_grid_sha256": "041a7015767774f328d2fdc4046e4f3ac0e7282d48ab535bf83eeaec15261a1e",
+        "regional_input_sha256_from_validated_extraction": "a2c1a547b1deeff9727b3703544cacc677eda70a991169578dd4b054c5ad0e92",
+        "source_sha256_from_validated_acquisition": "efc1e3079ef6441f6e972c013a081fea100fc82a55be2e69ac00c10b802d2018"
+      },
+      {
+        "month": "2018-07",
+        "native_grid_bytes": 11234,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201807.npz",
+        "native_grid_sha256": "607c9500998220aac03164cbb1737f47acf4e53cad8d18b4fba964bcb2586330",
+        "regional_input_sha256_from_validated_extraction": "1ed8bfe1b7a429eff017e20421da73f6f579cef4607e2f25d2e83eb0f2a4cfcb",
+        "source_sha256_from_validated_acquisition": "357cd91b6f37a6a134dc6f063070f1b09b34b9984fc0e8b266c92f20a55285b1"
+      },
+      {
+        "month": "2018-08",
+        "native_grid_bytes": 11256,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201808.npz",
+        "native_grid_sha256": "d05644ec21eab2ac957e066936996e892a6a07a2f7646347399724b05cb6a06d",
+        "regional_input_sha256_from_validated_extraction": "36f2ea83f0766ef7405b500f805641e89c6285dcc7a9fafba4882cd28bfd67ce",
+        "source_sha256_from_validated_acquisition": "f72a234ed4fa36fff4c47ff5df3ef702e77293d5e438a724b17368815cb71f60"
+      },
+      {
+        "month": "2018-09",
+        "native_grid_bytes": 11248,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201809.npz",
+        "native_grid_sha256": "ee4bd73fe28651b8003a2eba6715e0965308d16df774cfed25115e408133c3c5",
+        "regional_input_sha256_from_validated_extraction": "bf148f98439d3334c6dd6429d3dfd9a607a871807f9f71360de94c21f05f678a",
+        "source_sha256_from_validated_acquisition": "ea3c40ac375a9f95cef94f9acf656149ebb10c4b780d52940bafd6e90f134907"
+      },
+      {
+        "month": "2018-10",
+        "native_grid_bytes": 11243,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201810.npz",
+        "native_grid_sha256": "a55adcc783c71812e7078da113f862fb53c4173dafde501f24dc9aded95e985a",
+        "regional_input_sha256_from_validated_extraction": "2da2a1bddb199476b6fafa6fc0e8e969dfcfbcf376ed8215a0f2c6ebdfbd3ac1",
+        "source_sha256_from_validated_acquisition": "b11df7ddf50aeccfecf1feee357f4b676412af8341aabf9c84fb19142d043752"
+      },
+      {
+        "month": "2018-11",
+        "native_grid_bytes": 11217,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201811.npz",
+        "native_grid_sha256": "98f660e2627a9e3aef8a84c8d3516c798a49ac300f340bd70951a6db624d3fd3",
+        "regional_input_sha256_from_validated_extraction": "f55434b8eb1838cf174db99088f4bdb36864fb4e4d4a44ac0c95817522759435",
+        "source_sha256_from_validated_acquisition": "f34790811db50b5e83a32a971b20f998cbcebdee194ade7357fcb74058fc628a"
+      },
+      {
+        "month": "2018-12",
+        "native_grid_bytes": 11213,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2018/201812.npz",
+        "native_grid_sha256": "1bd34c169f187a0cfd4e19403722c72d4ee4630e6e20eb5456b799f89bb685ce",
+        "regional_input_sha256_from_validated_extraction": "3d56d36a642f7742f6153f604d12ee37e8a1278dd555f916acdb7a23a1424846",
+        "source_sha256_from_validated_acquisition": "f5c49cf2bc55ba8e075eb66f449aab105af6e25e444a06f1345ee5f1f3f29e56"
+      },
+      {
+        "month": "2019-01",
+        "native_grid_bytes": 11225,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201901.npz",
+        "native_grid_sha256": "89a164e8596522eb2f004775922d05f7bf8a04c6f88d3b7a8895a2ba7062096f",
+        "regional_input_sha256_from_validated_extraction": "b5348e928d2aa4be9cbf12ee4931ffe8846d906b54695093eb267577262433a3",
+        "source_sha256_from_validated_acquisition": "2cddd894cfb449b8af1ac52c88af9c12b60d39f69ff0f738ad205aa31e2cf5ed"
+      },
+      {
+        "month": "2019-02",
+        "native_grid_bytes": 11193,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201902.npz",
+        "native_grid_sha256": "6ab287f2b9f0c0cb6741e1868b9cadff905041306330c7d35e4abe1e8751677c",
+        "regional_input_sha256_from_validated_extraction": "acf9dee375ef1dec36112c6b0df006cba5b6c7f33794227fd21b13b45114788f",
+        "source_sha256_from_validated_acquisition": "2fb1194293ca1c7454806a8a65b9dfc758f16a3ec3b923efb63708ad6055b456"
+      },
+      {
+        "month": "2019-03",
+        "native_grid_bytes": 11210,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201903.npz",
+        "native_grid_sha256": "36871a99b31b804ecbed2d7bd24ae6c76ea45c151f28954b00abffa95e6d7eba",
+        "regional_input_sha256_from_validated_extraction": "67b679ec425412c418d91fc5059fa2025e331187319f1b858dce29be1d0563c5",
+        "source_sha256_from_validated_acquisition": "8264dd15c76f18c56071ebe62f7355adf6a8a7c3beb5f3506fd78a99271ac564"
+      },
+      {
+        "month": "2019-04",
+        "native_grid_bytes": 11214,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201904.npz",
+        "native_grid_sha256": "1116310942e1dba44568a530b3221079bcccbbc88e35eca8d0c9b7c049567253",
+        "regional_input_sha256_from_validated_extraction": "f2ee11d804601309965f4f0c64dc40569e6cfd3e84107bb6bcf393957b870402",
+        "source_sha256_from_validated_acquisition": "5048d9406905b18bd502783d36b9b3fd1cedc7d894c51f11209c2e506971347a"
+      },
+      {
+        "month": "2019-05",
+        "native_grid_bytes": 11246,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201905.npz",
+        "native_grid_sha256": "6f4b26a8101a39fc1fac52667b975fc32cc131cc3f4a592e1cdfa1abcf9bbff9",
+        "regional_input_sha256_from_validated_extraction": "edc26b3cd258e236fc174f2ac72bc104fc6e356584197321c8bcb78826e07a2b",
+        "source_sha256_from_validated_acquisition": "f52b9a146a68450dc838a730c65e36d9ac7decbd3c33efd1a9ed75d95ce828f0"
+      },
+      {
+        "month": "2019-06",
+        "native_grid_bytes": 11264,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201906.npz",
+        "native_grid_sha256": "371b51673e20c906ea0e703f2e77d8cebe654e8151f52bd3a4178d2412e51491",
+        "regional_input_sha256_from_validated_extraction": "302734a14d641f168257f2b5c3da0c4af89f9d2f1f20da673c0df43e001ae4fe",
+        "source_sha256_from_validated_acquisition": "e956063a869afeff6cb2818f8519383bd03512254c42e388435551a41ddf2151"
+      },
+      {
+        "month": "2019-07",
+        "native_grid_bytes": 11260,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201907.npz",
+        "native_grid_sha256": "27b93a5e2937e2d15ba99128f043865c8cbcd90fc69cf4367beebfeebd0da7cd",
+        "regional_input_sha256_from_validated_extraction": "eec01afbe5be3f9c5f1346045ce8a04898a2133fd7192939bf6ef0adf047cfcd",
+        "source_sha256_from_validated_acquisition": "61a8a5efafec4ffe583f49d77dda6ba48115445684b141baea5424be8c5fba8a"
+      },
+      {
+        "month": "2019-08",
+        "native_grid_bytes": 11288,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201908.npz",
+        "native_grid_sha256": "6fc2fb117d33eb99b7a69c387bd1778d2f22dbf15e43e496a6dd465f61d80de8",
+        "regional_input_sha256_from_validated_extraction": "4319bc007d3642c2e58bcdba24c7ab63e895f2a097b416d992158a03d05740dc",
+        "source_sha256_from_validated_acquisition": "6276530bdccb6ed7c987d66a69ab4b3d75fe11b526109c05505eb9f250ce35aa"
+      },
+      {
+        "month": "2019-09",
+        "native_grid_bytes": 11260,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201909.npz",
+        "native_grid_sha256": "3a39f660e288d377e4d9555b5ff71befadb3c25918da678e3428c1bc03d474d9",
+        "regional_input_sha256_from_validated_extraction": "a1f192b099d8abb630750674d6d0c2b5105e873aa248c41f70a850d7ff06be5f",
+        "source_sha256_from_validated_acquisition": "bb523ccc83c74196ef45bd98f92515d7b63c9c8e2d561f6c7406c10178f5d118"
+      },
+      {
+        "month": "2019-10",
+        "native_grid_bytes": 11234,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201910.npz",
+        "native_grid_sha256": "6dd58fbbe669f45dd07924c2c8a1514355e06a9d6c840a512662505b18ab2baf",
+        "regional_input_sha256_from_validated_extraction": "383d675f01f1ecabe5707fc8ea68569ec7e90c189e1139adec992951fdb20976",
+        "source_sha256_from_validated_acquisition": "69a6da057e42d8aa9f9d8dc4e987ca23d459811063ffff982b5b1c6dc03ad667"
+      },
+      {
+        "month": "2019-11",
+        "native_grid_bytes": 11219,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201911.npz",
+        "native_grid_sha256": "2b43fd7c4fcff3b14765ee43cf14a68d498ec21d45d004fc217da28bcf4e53a6",
+        "regional_input_sha256_from_validated_extraction": "1a0d61b3a56ca4dc9934b1d3a55a541cae8780d899e9623e834538874befb86e",
+        "source_sha256_from_validated_acquisition": "dc55bb8cc233c4bea38283548a1277dca50f9415024d332622a5b5a92287ab5a"
+      },
+      {
+        "month": "2019-12",
+        "native_grid_bytes": 11243,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2019/201912.npz",
+        "native_grid_sha256": "2cd44c4239dd2a1b84d29799f4817e407580d71018404726d960ed434ff6f48a",
+        "regional_input_sha256_from_validated_extraction": "b0e1fc65a4635cd32c2545cce209e9c64a1bd6ab00f987d1e729fca86728cb53",
+        "source_sha256_from_validated_acquisition": "eac134ebcaa34601cc1e06b1cf628daeb5afd053dbfb6d13af1c2796ed0c2109"
+      },
+      {
+        "month": "2020-01",
+        "native_grid_bytes": 11215,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202001.npz",
+        "native_grid_sha256": "e2bd18dc1a8555ab5b11691a72987b5384039242cddba0ac92362c43ea2f8c88",
+        "regional_input_sha256_from_validated_extraction": "0fb68e61c291b46c4cc8cf362d7b55710f459dd39e55bb17ad58d6a5a8cdcf96",
+        "source_sha256_from_validated_acquisition": "f75aa33ec20f2f45adbd50e433a8fc0ac4536b1adf923f534610d717357f6e1a"
+      },
+      {
+        "month": "2020-02",
+        "native_grid_bytes": 11216,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202002.npz",
+        "native_grid_sha256": "6515a3c7942a4b30c50284dc6b84aa177aa05ce16b301ff43fc42a96dd8fd8c3",
+        "regional_input_sha256_from_validated_extraction": "e8553acdcbddcea8e14c46604af2691054d886627627dbdaa6b33873b624ee2b",
+        "source_sha256_from_validated_acquisition": "4ce19b76f7a0b17e034972a73ed5263537facc78e7de9507ee43f1217cd52bea"
+      },
+      {
+        "month": "2020-03",
+        "native_grid_bytes": 11213,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202003.npz",
+        "native_grid_sha256": "d8b1178570a3b088f935a95a91598f754d3446f698e30f05171a1a522a73ad5a",
+        "regional_input_sha256_from_validated_extraction": "c38cd00989c67ff5a7ac509521bcf8d2246a9e9be82b61c1300a590729a73fe3",
+        "source_sha256_from_validated_acquisition": "434b73c8970f841564b8f6e71600fc799987e1abb26be989ffc7e9be60c32e7c"
+      },
+      {
+        "month": "2020-04",
+        "native_grid_bytes": 11228,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202004.npz",
+        "native_grid_sha256": "7a3797e86636095ccf8955a61a02e76c4452df7eab0626ce4303acf4076baffb",
+        "regional_input_sha256_from_validated_extraction": "400fb6966433765d7866824ff3a206d355900bcb9b708b7fe9008c0bcb814047",
+        "source_sha256_from_validated_acquisition": "68a9005b9debfb912a055e02d486de1edd7c78981649036e862edf773d33fa1b"
+      },
+      {
+        "month": "2020-05",
+        "native_grid_bytes": 11252,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202005.npz",
+        "native_grid_sha256": "350ba8a8f2352502c9a848988e1da2763bd5af7a7fa7e9afa45ec088c5866e06",
+        "regional_input_sha256_from_validated_extraction": "be4865264c00c143aa951e6032068ae1ea7cc2033b681b59c591188c7a4f8715",
+        "source_sha256_from_validated_acquisition": "fdf289906b319b4ad0e57fc8fcdac33357329eec64a0ac41103f9c17c8da0e0c"
+      },
+      {
+        "month": "2020-06",
+        "native_grid_bytes": 11248,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202006.npz",
+        "native_grid_sha256": "818b2838806a9b3c0168051b6962fa017ccdfb94b347302e33a0167d163309e2",
+        "regional_input_sha256_from_validated_extraction": "fe7950f9230adae97fa3091905ebf8a822bad1767a35ac37484a25821cad82b7",
+        "source_sha256_from_validated_acquisition": "f7da356b1ef763a2826dee5feef1d2e538c80a3708b3c1ffb6d442015514c2b9"
+      },
+      {
+        "month": "2020-07",
+        "native_grid_bytes": 11315,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202007.npz",
+        "native_grid_sha256": "6cda7a00b56532c49d6d954ef8af20c6033a41f14bd1c9a43cd3cac836c5d3ab",
+        "regional_input_sha256_from_validated_extraction": "334165ba8297de5af8f2120833b46fc776eb99923f392b2ba588a990dc0fb90e",
+        "source_sha256_from_validated_acquisition": "d955efd65aa3edd867ab78aafb61e41df5f5c211127d4e29563560bc901ec30b"
+      },
+      {
+        "month": "2020-08",
+        "native_grid_bytes": 11319,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202008.npz",
+        "native_grid_sha256": "19bb9f63034e7c329f88a27dd0822b235d29e2d0dcdd97a9ca92c05c3da47aa5",
+        "regional_input_sha256_from_validated_extraction": "0ce1a23b380a68df6d6ba34b8dbcf1056be89feccf8e8847db6c6b6399021f39",
+        "source_sha256_from_validated_acquisition": "1b3d39f665dc75faa7474e65904598c246f601f94e64116e1795accc94dba3e5"
+      },
+      {
+        "month": "2020-09",
+        "native_grid_bytes": 11324,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202009.npz",
+        "native_grid_sha256": "21d26ac9a7de3978f31362136dc9ab5ad76ec02f956f16153ef5035fa3e1a978",
+        "regional_input_sha256_from_validated_extraction": "f538888911da01876ea9d3daa58ded6c78ade8bec92e85489f4e12fabefc056c",
+        "source_sha256_from_validated_acquisition": "c86f3076e8f9cad91388d02a81bc1ebdcd6eead34606f21c4465c93f1d80453d"
+      },
+      {
+        "month": "2020-10",
+        "native_grid_bytes": 11332,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202010.npz",
+        "native_grid_sha256": "a8db3e7414ff81b249d47d80bb1065bba2285139ae640484d0e10af3ce1eaa9a",
+        "regional_input_sha256_from_validated_extraction": "7e7a7860bbede92d95f6e2567888436450eb5a8778374625639b54f4fcb50769",
+        "source_sha256_from_validated_acquisition": "abfe097e5cb8b10479aaa6ede376b68d83aa0d16f97034c255ff64415565c564"
+      },
+      {
+        "month": "2020-11",
+        "native_grid_bytes": 11294,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202011.npz",
+        "native_grid_sha256": "57a00ae97a76ccaf0eefa4d8ff139c0eeef4b7480c0e2ed611610b9f2d554468",
+        "regional_input_sha256_from_validated_extraction": "a9727c156aefcecb2009493057ef97b8e0b8dfd3f1caca5e8cdd4998805c74e2",
+        "source_sha256_from_validated_acquisition": "612bb5d2ed55936efee24aef81ebb587a47ef839b0a333475d9b785a1cbfc73f"
+      },
+      {
+        "month": "2020-12",
+        "native_grid_bytes": 11279,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2020/202012.npz",
+        "native_grid_sha256": "e32cb7358545866053ff9b22736a8d9aed17a5af6fd571da66df973728fa833b",
+        "regional_input_sha256_from_validated_extraction": "801e749f4fbd06c968861c0d3ba5f1d2303d2ec55628c8ab173dfb1a1b259e0f",
+        "source_sha256_from_validated_acquisition": "a03fe73b238404b21777a0388358b605f17a2b4fed19c465da51940d703dc418"
+      },
+      {
+        "month": "2021-01",
+        "native_grid_bytes": 11282,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202101.npz",
+        "native_grid_sha256": "abcdc1a1dc38279c88f25330db6edc067a3d3c2d6174e694632d6cc7e4d4f91b",
+        "regional_input_sha256_from_validated_extraction": "d90c0fc3509ae37917bf21cc5d47fb9e187eea50f69e8cd72f72329c83f70a8e",
+        "source_sha256_from_validated_acquisition": "2f1ec2cd12fd0f8e910c23956fc010f942c1cc7bf88454445fd012361fb0244d"
+      },
+      {
+        "month": "2021-02",
+        "native_grid_bytes": 11285,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202102.npz",
+        "native_grid_sha256": "95f97e1fd39f15a087e65f0c8bf93de3ac7c92474f9e5ef9309608fa183225fd",
+        "regional_input_sha256_from_validated_extraction": "e898f643a69b3221737c88d076b4f36b97097e01588a728c3d05d81d2f089312",
+        "source_sha256_from_validated_acquisition": "575f920a01604f06d012355ba731fd39762c856e997f9fc3a68536900ce3940f"
+      },
+      {
+        "month": "2021-03",
+        "native_grid_bytes": 11282,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202103.npz",
+        "native_grid_sha256": "4648161558d4db1d8adec0792e94460d8970f91b739600d2076fd8fe1aefa990",
+        "regional_input_sha256_from_validated_extraction": "4a30eaa3cd3307946a6c664d97ad1f4bf63801aa7d3614827db01c0ccfbedf74",
+        "source_sha256_from_validated_acquisition": "dc0df1051187d02bc652385148ae69c16293674b9e7585cc0c1b9f1e07aaf7c1"
+      },
+      {
+        "month": "2021-04",
+        "native_grid_bytes": 11291,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202104.npz",
+        "native_grid_sha256": "3727eafbc0e4ef76fefbb1c76aafe672d9fe990dfbaee3f56a5eb7a2b53f2940",
+        "regional_input_sha256_from_validated_extraction": "8665d9de75c49f96cd8b86f4628fd7c010303e1519bd0825eac8f4c1777f64f6",
+        "source_sha256_from_validated_acquisition": "5e77d235e82fb57b45969bbf16c2a3bbe86069bed08266236095882844ec3967"
+      },
+      {
+        "month": "2021-05",
+        "native_grid_bytes": 11315,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202105.npz",
+        "native_grid_sha256": "89c023619fe5746393b82a4a4efec9f5085f4309a5589ec5b1e6d76e119022b3",
+        "regional_input_sha256_from_validated_extraction": "1ffd693b65bb1fcc3c02453761ab59051a9f2cd232dcd34aa964d89df9f7ea13",
+        "source_sha256_from_validated_acquisition": "63c7eeb09d62393836fffe207ce26ae6119d1d3b005a1829b8bf6871c38dda56"
+      },
+      {
+        "month": "2021-06",
+        "native_grid_bytes": 11397,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202106.npz",
+        "native_grid_sha256": "d64373dd054523911c305143d9fa322948fa2c2624b739894cb366786f324388",
+        "regional_input_sha256_from_validated_extraction": "519446ab5b917e69fecac4f25efda302db6f571ca3d3c8a4a0aa80369f44a6f8",
+        "source_sha256_from_validated_acquisition": "d7ed5d4eae3da383dbcdadaedfaa7cb5bb3eb57f94ecf5895330a680e8e4a3b9"
+      },
+      {
+        "month": "2021-07",
+        "native_grid_bytes": 11415,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202107.npz",
+        "native_grid_sha256": "6846f3f06417c528e650f47af19a6f3f2329bb077794d6736e5f98ea205c5590",
+        "regional_input_sha256_from_validated_extraction": "3e99fcda98d35296ad28aabca5eb0a812281271b515408adcf6c120d982e48f3",
+        "source_sha256_from_validated_acquisition": "7f8bcdb5a3cd433b2345788122509dac9ba12d5a3924a6f02da3455cba8b85e5"
+      },
+      {
+        "month": "2021-08",
+        "native_grid_bytes": 11371,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202108.npz",
+        "native_grid_sha256": "2abcc9a1443da46a497060dfda747f6a76613070f0125b1f56889ecc3b14c6f1",
+        "regional_input_sha256_from_validated_extraction": "99ef1a54e9267198ea360385dc7a36e482e567874226445e9e38a5308f397b17",
+        "source_sha256_from_validated_acquisition": "8bae789818061d4310045c854136059d4354414a471201fda3783beda1d563b5"
+      },
+      {
+        "month": "2021-09",
+        "native_grid_bytes": 11407,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202109.npz",
+        "native_grid_sha256": "90fac3ceb4a1f902a7d2aeb2a49d3b3008e7a4857a0512f6402d052fda5d83e9",
+        "regional_input_sha256_from_validated_extraction": "a85ba1a9dee114816cc44513f4e21e4bd8c048fb68be4e1f7c552846c8bfefd2",
+        "source_sha256_from_validated_acquisition": "0bb96d756ff75c322780aa99d2f82eefe749cd7ffd0ede4938e2ff76c94496e6"
+      },
+      {
+        "month": "2021-10",
+        "native_grid_bytes": 11319,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202110.npz",
+        "native_grid_sha256": "3937a52ec6fe6dd79f348f8cd52bbc797c09afb9a6315f56243a5fe1e76205fc",
+        "regional_input_sha256_from_validated_extraction": "3808eb4a2165d0c69937efb04c7996d7110164b153853724c82adace52232aec",
+        "source_sha256_from_validated_acquisition": "c10f43f80861fa80be710a263bf4daa862304694fb5c0208265b83a51ba417f0"
+      },
+      {
+        "month": "2021-11",
+        "native_grid_bytes": 11316,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202111.npz",
+        "native_grid_sha256": "97254ca409715a750f07eab2a404dd6f1d3472c1a676eee70ba6a7bcf3f7c3fe",
+        "regional_input_sha256_from_validated_extraction": "a73b8aff20a0741bbf852a1a69eba570d3084cbf6d4f702097e127be9a7dfdc3",
+        "source_sha256_from_validated_acquisition": "a4b2defdc059d8911f4a995a05d41249c7cc7caf88190d81e00c64fb1c7067e1"
+      },
+      {
+        "month": "2021-12",
+        "native_grid_bytes": 11288,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2021/202112.npz",
+        "native_grid_sha256": "80cc92f25a4b2b8324976f4babae06711c92815b9b762bfe8cd462f47a85c52d",
+        "regional_input_sha256_from_validated_extraction": "4ba30b6a352be508c0b2ebacaae404b89d93bd92070ece45be3a8985a8bbe5eb",
+        "source_sha256_from_validated_acquisition": "f0124c8ea7a43ce267af754c56456209c144cf93b058f203c2f4259d4badf609"
+      },
+      {
+        "month": "2022-01",
+        "native_grid_bytes": 11277,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202201.npz",
+        "native_grid_sha256": "f09f58cdcbec1791ca9a7c3ae559f713d20f2e7631bcbd70120cffb19ee7bc9c",
+        "regional_input_sha256_from_validated_extraction": "c0a642e5d320ab907b3c3e690b4e3434f1831359efcd77e9fff63d2ade69a646",
+        "source_sha256_from_validated_acquisition": "5cce797c12572a9f47ecd2591fda64e67cf4f07433be6760c2cb4ec07fd96054"
+      },
+      {
+        "month": "2022-02",
+        "native_grid_bytes": 11292,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202202.npz",
+        "native_grid_sha256": "7b1595345b67af55887c19fe9e57f3a76a55f3497023e89777955343ba48d49e",
+        "regional_input_sha256_from_validated_extraction": "a1d4de4945bc9dbeb435f1a17af11515758e5eb0fb134c62acec09b22897c5a6",
+        "source_sha256_from_validated_acquisition": "9361d05ecec3263abb6650d8df8069a938b7aba6971b941bd6099e5673f731ed"
+      },
+      {
+        "month": "2022-03",
+        "native_grid_bytes": 11288,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202203.npz",
+        "native_grid_sha256": "09547a72f199e3374942da6bf0837491f7d29a2b839b0f08e15c0c6b0bb1d8dd",
+        "regional_input_sha256_from_validated_extraction": "cd5f6e63e57772d26b4ee567e31f2bdea2823c081f57e8bdc7a7646ce0a57870",
+        "source_sha256_from_validated_acquisition": "b975f645dc1678ee6270f3562f48a1679ceadf72cfb7997dd2f61495b7db471e"
+      },
+      {
+        "month": "2022-04",
+        "native_grid_bytes": 11274,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202204.npz",
+        "native_grid_sha256": "58c5444f5798030f432761adfb4901be8f188e82cb1aa200d890968c61676525",
+        "regional_input_sha256_from_validated_extraction": "2d2611af1d82a0c43816e6c6d65181ac79672f0c70562a64325949a34c73dd82",
+        "source_sha256_from_validated_acquisition": "fe8fc79c08aa005fbf51bb2e285df4cc31e40646238219ae4e480d09432d655f"
+      },
+      {
+        "month": "2022-05",
+        "native_grid_bytes": 11308,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202205.npz",
+        "native_grid_sha256": "198d37c843cb6bbd6ea4042db4e0ee91d32ac43b34d3182b791daf30f0a6ab6a",
+        "regional_input_sha256_from_validated_extraction": "bebb9a5d4dad1a850f16de746ca6da2d23dda97c07e8c0e23de413a9ccfbeebb",
+        "source_sha256_from_validated_acquisition": "6144a444673eaf40fcb1cf4150cf7659d7e266c31abe984c46ed8f8105d75c3f"
+      },
+      {
+        "month": "2022-06",
+        "native_grid_bytes": 11337,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202206.npz",
+        "native_grid_sha256": "ff87960ca923c8b0cc5cb34bd2423f178c0c2f61789ef4467617d531217431d2",
+        "regional_input_sha256_from_validated_extraction": "15b5901157311619d8790c1335ee57a39a178b146dd70f9abd777766b35fb323",
+        "source_sha256_from_validated_acquisition": "e60bc88e95cc3abfd4451cdd94564b37b7412219e5b2fd73f6376942bebbc3ac"
+      },
+      {
+        "month": "2022-07",
+        "native_grid_bytes": 11325,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202207.npz",
+        "native_grid_sha256": "0e6a30ff0112f7c6d0cfc96737b5600fdd79cef22e7c9406e3041060adf2fbf5",
+        "regional_input_sha256_from_validated_extraction": "d3e15bf5fdd2eb33a08bf0a40e4646280d7abf7fc677681045136e147e885872",
+        "source_sha256_from_validated_acquisition": "ab695236e83560eacb72c900ed27de0ccd33fff880a67f02120d90c7cf0b3f0e"
+      },
+      {
+        "month": "2022-08",
+        "native_grid_bytes": 11338,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202208.npz",
+        "native_grid_sha256": "d93f7fed7003f1e9dcac51e1566f68ad55c07a6c67633c0ddeb4655686298306",
+        "regional_input_sha256_from_validated_extraction": "8c163eee8b1b6b79948065fdd2a6a520b4792b9dc080a647b563d8c786897b70",
+        "source_sha256_from_validated_acquisition": "c117976022065f8e97874bc3d940be1c7268183ad664d726a7e695a418d25fef"
+      },
+      {
+        "month": "2022-09",
+        "native_grid_bytes": 11331,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202209.npz",
+        "native_grid_sha256": "c77cc36a748b5138f258d46b8d085abbe19b561622b5408cfd749f8f247b2230",
+        "regional_input_sha256_from_validated_extraction": "4f07e2add2aa2188f13be5a94b79f210fad58662d7ec7b5a2875258b99809a35",
+        "source_sha256_from_validated_acquisition": "4247ab94a1e23d530ca8e4c88261dcb1b86f566a5b4473dd1ec72a587f0e93a2"
+      },
+      {
+        "month": "2022-10",
+        "native_grid_bytes": 11303,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202210.npz",
+        "native_grid_sha256": "493aa09ea9d062d289c7db4e35fb7ebaee11c72b509dd5138f3a50cb4ae0ece4",
+        "regional_input_sha256_from_validated_extraction": "bb88c900a5678fbd4d4c6b1783e42980b0603dbee46bdca9973de5817a9800a1",
+        "source_sha256_from_validated_acquisition": "f36e7b5929168a0b74a39eb3f55027bcfa5587baec882a8ee2bac5cc30fb2886"
+      },
+      {
+        "month": "2022-11",
+        "native_grid_bytes": 11331,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202211.npz",
+        "native_grid_sha256": "a4d168c597628a6b9b7a6c7264697945c3c0cbdba66a2ddb4d1292bb37f6044c",
+        "regional_input_sha256_from_validated_extraction": "b62abd6b402ea92967a5da8fbb14fc5a007e6dcc75ded970ab5103f90df52e0d",
+        "source_sha256_from_validated_acquisition": "4799cff7a5a7463622bc10cae042869d14dfbf0048e8b8ff1d011202213f4e9e"
+      },
+      {
+        "month": "2022-12",
+        "native_grid_bytes": 11321,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2022/202212.npz",
+        "native_grid_sha256": "0b2e6ad3017abee406f38234015e55d2b602a643934759ed1c5c1f6a60ec48e9",
+        "regional_input_sha256_from_validated_extraction": "19af9d9bd41807e03813fbc4cf4c7e2f79cc01675d90271d6456c853c990394b",
+        "source_sha256_from_validated_acquisition": "cfbdd75dec8abe5e028434f497da8b3c0b3c288251ae6d36d0be7b5d5b27d7d0"
+      },
+      {
+        "month": "2023-01",
+        "native_grid_bytes": 11279,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202301.npz",
+        "native_grid_sha256": "4052c7f3cd776ed4debe86bcfb1dbfbaf03909d50978eddf2b0d205cc742e4ee",
+        "regional_input_sha256_from_validated_extraction": "dad413071a8d1b663cd46ffd62257fe857da246dbfc63a0d03cd8dcb2452bae8",
+        "source_sha256_from_validated_acquisition": "5093782fcebff8398d6986865e3edad5deec068ee1241d5b2d3e85f91072014f"
+      },
+      {
+        "month": "2023-02",
+        "native_grid_bytes": 11276,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202302.npz",
+        "native_grid_sha256": "21090e3310b11fcd826c6c846d9f134168738654de4d95acd8c564092d3da338",
+        "regional_input_sha256_from_validated_extraction": "333a98375ca082f7562309a7328d7ff206e8b9940f00f083d9fa4f4856ed451d",
+        "source_sha256_from_validated_acquisition": "14c3c45e657b28c27f67f91056ddc96e298186ff62ff245c0a131a86d70f5929"
+      },
+      {
+        "month": "2023-03",
+        "native_grid_bytes": 11278,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202303.npz",
+        "native_grid_sha256": "7c19ff43b63b40fb654da4002acd58ad61a3a53c3a0167cd4960c083bebd4c15",
+        "regional_input_sha256_from_validated_extraction": "d09675f67dc8e3494c18a3d85e0dfce58db807ffbc4fbeba6f8ade6c273adeb9",
+        "source_sha256_from_validated_acquisition": "94ed97bfa34550f3a8530c07c0266de68e59c67f153871691f582ce9c5938b09"
+      },
+      {
+        "month": "2023-04",
+        "native_grid_bytes": 11269,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202304.npz",
+        "native_grid_sha256": "ec67b4787dc5053738be3e907b826227d9e9a3600a5bb2da3fed7ad8bb00ae87",
+        "regional_input_sha256_from_validated_extraction": "0bac2467087dd98809fd7f38bc542f4d68e4934d6c04ecea1fb37c2b80a9adf4",
+        "source_sha256_from_validated_acquisition": "1c1c3dfc3db3a2b9b088204a2601ab141e0f81d529c46428a75bb2bc050c0983"
+      },
+      {
+        "month": "2023-05",
+        "native_grid_bytes": 11301,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202305.npz",
+        "native_grid_sha256": "7d45306fb28f420827058a2ca8d0f76eec3ba189c6e024840735afbb773780cd",
+        "regional_input_sha256_from_validated_extraction": "99f2b7457d88bdc63570f77f6fa21318b7753f4b82ee9ad28bfd58fd4190cd34",
+        "source_sha256_from_validated_acquisition": "cc5fbbfae95dd552ab2138eeca5ef802f228444fd489cfc931790bbbaf836f26"
+      },
+      {
+        "month": "2023-06",
+        "native_grid_bytes": 11313,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202306.npz",
+        "native_grid_sha256": "5749fd5b3c69da0be62ee222d1b415842fa89bb892cab753256212a06de94afe",
+        "regional_input_sha256_from_validated_extraction": "d56dc2940cd177d0d773301f222eea3d0dca7fb33ecc862108a634b328bbcf02",
+        "source_sha256_from_validated_acquisition": "40a9c3a1a714ec56e70844a8b142967eabff6d697989d453dbfc87bdd4a445b7"
+      },
+      {
+        "month": "2023-07",
+        "native_grid_bytes": 11274,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202307.npz",
+        "native_grid_sha256": "da795e4245e85cd70af69e6e169c0dcb1dae27590e754ccb564a00cb6319caa4",
+        "regional_input_sha256_from_validated_extraction": "221f113e89c01a395e9bd034f8ccd1eeb93badc88bdaa1783ac98bf12ac78506",
+        "source_sha256_from_validated_acquisition": "2b72bda7197111ea716c1295a54987e237107548b7bfd6dfdb238066f10010b0"
+      },
+      {
+        "month": "2023-08",
+        "native_grid_bytes": 11327,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202308.npz",
+        "native_grid_sha256": "e9369a54bf128bc28610cecfb7f4cb829ee17c7ab60e22de49a5ef040b8ef606",
+        "regional_input_sha256_from_validated_extraction": "ec7e37ce0d2a264f91459d5ca22cadcc3a69c4717385a4efd91e34a177e057a0",
+        "source_sha256_from_validated_acquisition": "ad09ecef9e216ce1aa9c5abf5f8673dc14614d17f8fb57ead28095728be6e605"
+      },
+      {
+        "month": "2023-09",
+        "native_grid_bytes": 11329,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202309.npz",
+        "native_grid_sha256": "e724b0ecde4eb36d3046860f6fd0241c775a3b1363d9977da76db5d9d392e2a1",
+        "regional_input_sha256_from_validated_extraction": "f6e79e8437ff9a6ffc826146b48b8e3dbe807cf860a35417cbe2775c2de241e9",
+        "source_sha256_from_validated_acquisition": "e81f51814a18b8a607bd260a15052bc72741fc73b655b68876744d2bc5472b0d"
+      },
+      {
+        "month": "2023-10",
+        "native_grid_bytes": 11319,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202310.npz",
+        "native_grid_sha256": "7c4ef8d1fa18fe0f0183327d986b6e2d7aded4ece290af824b71698b5e66f75d",
+        "regional_input_sha256_from_validated_extraction": "435406b6eea489a6821d44d6b2d538c878d72c9ae740b2d44b7cdb24064a5804",
+        "source_sha256_from_validated_acquisition": "417bcebff91c7ede9953f2cdf52fe753477bfa747cfab48e3b930ca3f5a30487"
+      },
+      {
+        "month": "2023-11",
+        "native_grid_bytes": 11308,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202311.npz",
+        "native_grid_sha256": "f60c7a80363ec679a2b34b30bf93f896b8bffce48482f858828d3480667fbb51",
+        "regional_input_sha256_from_validated_extraction": "4828eb38e5d3fba3c1324bfcdf790f481a6cd1e73c67d5d68656165a24696730",
+        "source_sha256_from_validated_acquisition": "db15cbad7e8934000e9d0a454bd5ae96a1935cc7802ee7f4cf1e30a362ff6396"
+      },
+      {
+        "month": "2023-12",
+        "native_grid_bytes": 11291,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2023/202312.npz",
+        "native_grid_sha256": "d13a4c163e1b33c55b9a90aa15d1f315f3057a90542654a2e014cf183f2887d5",
+        "regional_input_sha256_from_validated_extraction": "a6a8e0498974fffea369b9ba66e0a4f526b17f48858cec1d423e5dc42fe2c895",
+        "source_sha256_from_validated_acquisition": "8224e4e26c739f8404d276e0e8616f9d8b51c9167e95430b82bd8f71a7c4878b"
+      },
+      {
+        "month": "2024-01",
+        "native_grid_bytes": 11300,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202401.npz",
+        "native_grid_sha256": "f9139b1b77869096f056875a4623448778e60c74ec470c35386af8239408ca0b",
+        "regional_input_sha256_from_validated_extraction": "63656fc7043fd0ffaf15429ba3e1c04c70a7e80f05447eea715c88a447f539ba",
+        "source_sha256_from_validated_acquisition": "5e53ee3addd4c6d6165d5f62cd1e78450fe4139212ae6684db539a631b03faea"
+      },
+      {
+        "month": "2024-02",
+        "native_grid_bytes": 11255,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202402.npz",
+        "native_grid_sha256": "4f9af9902baad439f4d3fb1037797dbdcc1047b9b789b762b606a58c39e8fe90",
+        "regional_input_sha256_from_validated_extraction": "ac09ea95946cf8df4e5766b228cf86ddd33b43a92160177affc17976cd8f245d",
+        "source_sha256_from_validated_acquisition": "339e393adef9fdd08a3c201ecf53c32a3447097be3d525c67ffbf049e29e5ebe"
+      },
+      {
+        "month": "2024-03",
+        "native_grid_bytes": 11275,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202403.npz",
+        "native_grid_sha256": "ee652ba12dae35b1a8cd2168ccef03415c7d7f060141bfd9cbaa2a3958417fde",
+        "regional_input_sha256_from_validated_extraction": "dd5b840606e20680530240a0682dacf45645e71c10f332bf78be7fe21820ff11",
+        "source_sha256_from_validated_acquisition": "5e770eb09a13c7b0fead1c9692220fe1a45843d8af34a1a94a130f2805746e8c"
+      },
+      {
+        "month": "2024-04",
+        "native_grid_bytes": 11280,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202404.npz",
+        "native_grid_sha256": "43dbc7f297857e973909e5fd1d535624f7aae10a0f1a66005d05727074c32d6f",
+        "regional_input_sha256_from_validated_extraction": "197ed14f3c9d5c96bb0a86d312d8822318ea87e7a950d4fde82284b8612f3496",
+        "source_sha256_from_validated_acquisition": "76fdae4130095c552300b8ef19895b9cc2a5f0df36171c9af2ad9f79ce571839"
+      },
+      {
+        "month": "2024-05",
+        "native_grid_bytes": 11285,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202405.npz",
+        "native_grid_sha256": "f1ee94228e68865c55b9d6a825b95caa91673ab80a3ae793ca5b93a368e186aa",
+        "regional_input_sha256_from_validated_extraction": "438671738c54a3f8e832ac2fe06bd2be4f30b25bbee8bac8c78ee86861ce5ad5",
+        "source_sha256_from_validated_acquisition": "27022ce407b0d791018ebd17f274bc1d0005b91273f28cab9adb4b808ad09281"
+      },
+      {
+        "month": "2024-06",
+        "native_grid_bytes": 11317,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202406.npz",
+        "native_grid_sha256": "de15775139ab5a5de494e851631a43ab0215f54d43cfc10499625ebd52d48a1f",
+        "regional_input_sha256_from_validated_extraction": "2dea0ba2d5ed0eb2a04513e17b802a9fbb9451d83056840df58082c02aa30b40",
+        "source_sha256_from_validated_acquisition": "a609dca9ac4dba620ece1ba2611feef3460963858a48d46114fe348ead2c869c"
+      },
+      {
+        "month": "2024-07",
+        "native_grid_bytes": 11317,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202407.npz",
+        "native_grid_sha256": "2f0bc2a7b7cb8fcf727dbf2a049610f1408054e4e59bf98bb1fe65e0373002bb",
+        "regional_input_sha256_from_validated_extraction": "dd9247bce55fc0ff59243e722ad51e9db735a4c963fc3bd8a8bcdd9a7d23f670",
+        "source_sha256_from_validated_acquisition": "051d4e3964e00077cf1f7c612d91b603c1bbb76c4d1323160f5d5ab09c7d4279"
+      },
+      {
+        "month": "2024-08",
+        "native_grid_bytes": 11320,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202408.npz",
+        "native_grid_sha256": "194d763adecc69aec63eb53c53fc932f6d383761045fe6c14180202f9bfe76d3",
+        "regional_input_sha256_from_validated_extraction": "08263267e5f76c1ad015e9fe83a09ef8d5e80415bc0cc73c4455511954707d4f",
+        "source_sha256_from_validated_acquisition": "08cb20d0d646bc3727b43289b0a81a853ccaace3714bd53e469ad5adc3f7a270"
+      },
+      {
+        "month": "2024-09",
+        "native_grid_bytes": 11341,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202409.npz",
+        "native_grid_sha256": "d4e2efd94d42942d07ed7cceff63257b98607d6178f63275126940d378827cfa",
+        "regional_input_sha256_from_validated_extraction": "e0390692809ca7797eb8bfdd6415bbf540eea8214313cb3ca9b27b0051e7dd55",
+        "source_sha256_from_validated_acquisition": "36d54efb62acb334892afcf795bdeb05cbbb94724f8b042d5f6d0887b15dc2c6"
+      },
+      {
+        "month": "2024-10",
+        "native_grid_bytes": 11316,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202410.npz",
+        "native_grid_sha256": "0db518655d97c509a9a9a3ce2be0a4beb91bea7349db562e53845580aa78a701",
+        "regional_input_sha256_from_validated_extraction": "bbd8dab175f6b4a9ebd4b819d5e6b11e95f68ce039aa9c1ef886182ae27f26c3",
+        "source_sha256_from_validated_acquisition": "8b025c11bded2ccb3ab0221eab51f0b027be39d8c87f3bbf4ba4c064288dd406"
+      },
+      {
+        "month": "2024-11",
+        "native_grid_bytes": 11321,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202411.npz",
+        "native_grid_sha256": "004e8426cdef30e19b34f2d6fb260282e34f3322267d2fab5b13ad5e7b648d09",
+        "regional_input_sha256_from_validated_extraction": "4aa8e691e9ced5492bff38820a21eca07aa952722fd0d9326f13928fc63396fd",
+        "source_sha256_from_validated_acquisition": "35a27292ceb712469bc7eee8a00fc8917b5d24a0b843c7461e2f65f713b1a0d9"
+      },
+      {
+        "month": "2024-12",
+        "native_grid_bytes": 11299,
+        "native_grid_path": "data/silver/processed_native_grid/v1/merra2_monthly_slv/2024/202412.npz",
+        "native_grid_sha256": "44ce3f2a8403b4ad0bcf629963a9f78ba2759c5be0d7f73fc4a9ed034f4a89e4",
+        "regional_input_sha256_from_validated_extraction": "e2c9508344fe98ecb56e529bb1c1dd4eddc82ff463b3cb4aca94ac081e93de50",
+        "source_sha256_from_validated_acquisition": "62dfa8f6d1ed576360f6510f5d770c7dd9c9afaa69c32567fd7e8aabb78b727e"
+      }
+    ],
+    "preprocessing_manifest_sha256": "a74491fa2351c6680dc5aac9d873cf33689eb0aa1c32dbd65f288620e8e5cd3c",
+    "regional_extraction_manifest_sha256": "bf425764232526ff3a249d9b1cdb00696cfafde93d980eb45f02515f1ca4a3e8",
+    "station_tables": {
+      "INAMHI_yearbook_temperature": {
+        "bias_c": -1.2330404391889402,
+        "csv_provenance_sidecar_sha256": "3efdacc0a803491ffe391c8f4c2af46dc1a1745715a20ae1235feb83ee94799c",
+        "eligible_months_in_window": 132,
+        "eligible_station_months_in_window": 10499,
+        "eligible_stations_in_window": 151,
+        "input_sha256": "6d65437c58a8dec4ed1ac28517791b7cd9176610ab013475401524fc79d86512",
+        "input_table": "data/external/processed/phase2_v12_native_grid_collocation_inputs/inamhi_pilot_bbox_station_monthly_2002_2012_v1.csv",
+        "mae_c": 2.9822948812972796,
+        "match_fraction_of_eligible_station_months": 1.0,
+        "matched_months": 132,
+        "matched_station_months": 10499,
+        "matched_stations": 151,
+        "mean_cell_distance_km": 24.015920798194575,
+        "p95_cell_distance_km": 37.054368424596454,
+        "pearson_r": 0.8052234650528292,
+        "rmse_c": 3.7840913929832665,
+        "source_manifest_sha256": "dc941b4a055ba23d2a30bb0b9181bfa485d1c29a7bd074c5571afd0450f03345",
+        "source_parquet_sha256": "2a19d8c57a5a0b5e588eced42394f35fc9fe492327c7790420c59e60a5f2a90d",
+        "source_parquet_table": "data/external/processed/phase2_v12_native_grid_collocation_inputs/inamhi_pilot_bbox_station_monthly_2002_2012_v1.parquet",
+        "station_ids_with_coordinate_variants": 32,
+        "unique_grid_cells": 48
+      },
+      "NOAA_GHCN_M_QCU": {
+        "bias_c": -0.8650834010725192,
+        "csv_provenance_sidecar_sha256": "9b61642c604a695e14fe94308034d0664eef43c61e681f18668c3389e2803fa1",
+        "eligible_months_in_window": 276,
+        "eligible_station_months_in_window": 2446,
+        "eligible_stations_in_window": 14,
+        "input_sha256": "ea1e192b5685a623e433247d69fccd0b375a51be43927b897ceea31291ccb5ef",
+        "input_table": "data/external/processed/phase2_v12_native_grid_collocation_inputs/ghcnm_ecuador_bbox_station_monthly_v1.csv",
+        "mae_c": 1.900332688014227,
+        "match_fraction_of_eligible_station_months": 1.0,
+        "matched_months": 276,
+        "matched_station_months": 2446,
+        "matched_stations": 14,
+        "mean_cell_distance_km": 22.152170996625845,
+        "p95_cell_distance_km": 36.00647703600825,
+        "pearson_r": 0.9337437209543415,
+        "rmse_c": 2.412515465006562,
+        "source_manifest_sha256": "65905f6e6f88d51dd7f0400f155e53930ccdc582e11528d10af20acdc893677e",
+        "source_parquet_sha256": "24b8f775327a60adcddd9864bf2522831f89bdf3c8261c4c4a8b9df17e2f0fac",
+        "source_parquet_table": "data/external/processed/phase2_v12_native_grid_collocation_inputs/ghcnm_ecuador_bbox_station_monthly_v1.parquet",
+        "station_ids_with_coordinate_variants": 0,
+        "unique_grid_cells": 14
+      }
+    }
+  },
+  "limitations": [
+    "The pilot bbox includes land/ocean cells and is not an administrative or physiographic mask.",
+    "Nearest-cell distances and elevation differences limit point-to-grid comparability.",
+    "MERRA-2 is a reanalysis; station observations may not be independent of assimilated inputs.",
+    "NOAA GHCN-M QC records can overlap other station networks; independence is not claimed.",
+    "INAMHI yearbook tables provide eligible station months only for their existing 2002\u20132012 coverage.",
+    "This comparison does not evaluate the regional-mean forecasting model and does not alter training or test partitions."
+  ],
+  "manifest_version": "kuntur-phase2-v12-native-grid-collocation-0.1.0",
+  "native_grid_months_hash_verified": 276,
+  "outputs": {
+    "monthly_summary": {
+      "bytes": 68966,
+      "path": "data/external/processed/phase2_v12_native_grid_collocation/full_2002_2024/monthly_summary.csv",
+      "rows": 552,
+      "sha256": "8c6374d29dea26b3983ed441807747f447e0a09c2fbe94732c7aad95a8b9a0af"
+    },
+    "station_monthly_collocation": {
+      "bytes": 3049960,
+      "path": "data/external/processed/phase2_v12_native_grid_collocation/full_2002_2024/station_monthly_collocation.csv",
+      "retention": "Private KUNTUR workspace only; station-level records are excluded from Git.",
+      "rows": 12945,
+      "sha256": "c2f31333e22c1f3dca850cedc10cf2b323661be6d015d729e44455ae7f6498fd"
+    }
+  },
+  "period_end": "2024-12",
+  "period_start": "2002-01",
+  "region_id": "ecuador_pilot_bbox",
+  "requested_month_count": 276,
+  "scope": "Descriptive temperature agreement between eligible Ecuador station-months and their nearest native MERRA-2 grid-cell centers; not a forecast evaluation or independent ground truth.",
+  "software_versions": {
+    "numpy": "1.26.4",
+    "pandas": "2.1.4",
+    "python": "3.10.14"
+  },
+  "spatial_method": "Nearest existing native MERRA-2 cell center by haversine distance; no interpolation, regridding, or elevation adjustment.",
+  "status": "VALIDATED",
+  "superseded_preprocessing_rows_ignored_by_current_artifact_hash": 1,
+  "temperature_units": "degrees_Celsius"
+}

@@ -60,7 +60,7 @@ NASA inputs and original acquisition checksums are described in the local handof
 
 ## Security, data use, and license
 
-The repository is private. Git excludes raw data, derivatives, cache files, logs, runtime models, credentials, and machine-specific acquisition configuration. Gitleaks scans pushes and pull requests. No license is granted pending contributor ownership and third-party data-license review; see [LICENSE](LICENSE).
+The GitHub repository is public. Git excludes raw data, derivatives, cache files, logs, runtime models, credentials, and machine-specific acquisition configuration. Gitleaks scans pushes and pull requests. The all-rights-reserved notice remains in force; see [LICENSE](LICENSE).
 
 The observed source data are not bundled. Follow the providers’ terms and the institution’s access and storage policies when using them. Coast/Andes/Amazon and external-comparison regional masks remain pending approved geographic definitions.
 

@@ -1,0 +1,128 @@
+{
+  "candidate_registry_rows": 106,
+  "current_selection_progress": [
+    {
+      "checkpoint_sha256": "edcf891c8b07dd170c4db0943ca86cf2cf8c8be5b9a9f2ca3b5fcf5fe0d24566",
+      "convergence_failures": null,
+      "coverage_95": null,
+      "coverage_mc95_high": null,
+      "coverage_mc95_low": null,
+      "decision": "INCONCLUSIVE",
+      "mean_ci_width_per_decade": null,
+      "method": null,
+      "method_configuration_json": "[{\"block\":12,\"lag\":6,\"method\":\"ols_hac\",\"name\":\"OLS_HAC_LAG6\"},{\"block\":12,\"lag\":12,\"method\":\"ols_hac\",\"name\":\"OLS_HAC_LAG12\"},{\"block\":12,\"lag\":18,\"method\":\"ols_hac\",\"name\":\"OLS_HAC_LAG18\"},{\"block\":12,\"lag\":24,\"method\":\"ols_hac\",\"name\":\"OLS_HAC_LAG24\"},{\"block\":12,\"lag\":12,\"method\":\"ols_hac_calendar\",\"name\":\"OLS_HAC_CALENDAR12\"},{\"block\":12,\"lag\":12,\"method\":\"gls_ar1\",\"name\":\"FEGLS_AR1\"},{\"block\":12,\"lag\":12,\"method\":\"sarimax_ar1\",\"name\":\"SARIMAX_AR1\"},{\"block\":12,\"lag\":12,\"method\":\"arma11\",\"name\":\"SARIMAX_ARMA11\"},{\"block\":12,\"lag\":12,\"method\":\"seasonal_ar12\",\"name\":\"SARIMAX_SEASONAL_AR12\"},{\"block\":6,\"lag\":12,\"method\":\"moving_block_bootstrap\",\"name\":\"MOVING_BLOCK6\"},{\"block\":12,\"lag\":12,\"method\":\"moving_block_bootstrap\",\"name\":\"MOVING_BLOCK12\"},{\"block\":24,\"lag\":12,\"method\":\"moving_block_bootstrap\",\"name\":\"MOVING_BLOCK24\"},{\"block\":24,\"lag\":12,\"method\":\"seasonal_block_bootstrap\",\"name\":\"SEASONAL_BLOCK_YEAR2\"},{\"block\":36,\"lag\":12,\"method\":\"seasonal_block_bootstrap\",\"name\":\"SEASONAL_BLOCK_YEAR3\"},{\"block\":24,\"lag\":12,\"method\":\"seasonal_mk_block\",\"name\":\"SEASONAL_MK_YEAR2\"},{\"block\":36,\"lag\":12,\"method\":\"seasonal_mk_block\",\"name\":\"SEASONAL_MK_YEAR3\"}]",
+      "n_months": 276,
+      "note": "Aggregate method metrics are withheld until this scenario reaches its declared replication count.",
+      "phase": "v1_2_selection",
+      "power_005": null,
+      "power_mc95_high": null,
+      "power_mc95_low": null,
+      "process": "seasonal_ar1_12",
+      "replications_completed": 425,
+      "replications_requested": 500,
+      "replications_valid": null,
+      "round_manifest_sha256": null,
+      "scenario_id": "seasonal_ar1_12|n=276|slope=0.0",
+      "seed": 23021726,
+      "slope_bias_per_decade": null,
+      "slope_rmse_per_decade": null,
+      "source": "results/statistical_correction/selection/checkpoints",
+      "source_table_sha256": null,
+      "status": "RUNNING_INCOMPLETE",
+      "true_slope_per_decade": 0.0,
+      "type1_fpr_005": null,
+      "type1_mc95_high": null,
+      "type1_mc95_low": null
+    }
+  ],
+  "experiment_registry_rows": 317,
+  "generated_at_utc": "2026-11-16T05:51:28.289832+00:00",
+  "independent_validation_status": "NOT_STARTED_SELECTION_IN_PROGRESS",
+  "inputs": {
+    "descriptive_trend_estimates_sha256": "43ee306cd8e1d93b541d5b2d3d7a6b6a5fd854b09788b315a271b58f4ee4ca60",
+    "descriptive_trend_manifest_sha256": "e968a86612370e6a85d065476e46204431bce43789e817da770025194147b63f",
+    "native_grid_collocation_summary_sha256": "1766aec1e5a42fea2eb5a4a2773d51ebe5ad39c12f53197952ee393be1fecea9",
+    "native_grid_collocation_validation_sha256": "982eed21a7c0f1e3e8b15b24e7c7ccda11c191fa499f816443c8b9161730043d",
+    "round_01_manifest_sha256": "e5e1112ae6440f7f4663ebc479126f3890c2cdf55bee0a69683fcdecf1d440a2",
+    "round_02_manifest_sha256": "6f507a294a51949bd372fcdea3a3849a479f8fc4164b754ec4da8ab46dc0e857",
+    "round_03_manifest_sha256": "413ab88f01d599a6daca5ed13e634a4ecc7a70ce4ff3dc5ea1f4025fe96d7400",
+    "round_04_manifest_sha256": "968b35f5133b2a2497a981cca72c8475e1928157e45b79a101719dc664be0b15",
+    "round_05_manifest_sha256": "cb13cf94fa75ad15892e3377bb61837de3993905c4e8788852b2b5019b631d7a",
+    "round_06_score_sha256": "5d524bacea80e4c6c42144e143d6096d5ebba249c661f8d82501ce0bda324f19",
+    "statistical_protocol_sha256": "f2fdf0e7941eb548568b8e1979c89799433872df131a36ca56709bef395a65b8"
+  },
+  "limitations": [
+    "Completed synthetic R4 is a historical exploratory pilot and is not the frozen independent-validation phase.",
+    "The active v1.2 selection scenario is incomplete; no aggregate method result is emitted for it until its checkpoint completes.",
+    "No v1.2 independent validation has started, so the real-series engine withholds environmental p-values and intervals.",
+    "Station comparisons are nearest-grid-cell descriptive checks, not independent ground truth or station-adjusted validation."
+  ],
+  "manifest_version": "kuntur-phase2-v12-release-artifacts-0.1.0",
+  "outputs": {
+    "descriptive_trend_estimates": {
+      "bytes": 3448,
+      "path": "results/statistical_correction/real_series_v12/descriptive_trend_estimates.csv",
+      "sha256": "43ee306cd8e1d93b541d5b2d3d7a6b6a5fd854b09788b315a271b58f4ee4ca60"
+    },
+    "descriptive_trend_manifest": {
+      "bytes": 1771,
+      "path": "results/statistical_correction/real_series_v12/descriptive_trend_manifest.json",
+      "sha256": "e968a86612370e6a85d065476e46204431bce43789e817da770025194147b63f"
+    },
+    "experiment_registry": {
+      "bytes": 683541,
+      "path": "results/optimization/experiment_registry.jsonl",
+      "sha256": "061c5a200d037afed9985eea2304afdfb2a457af640fd947aff8e424f3fb276c"
+    },
+    "frozen_test_manifest": {
+      "bytes": 4495,
+      "path": "results/optimization/round_06_frozen_test/frozen_test_manifest.json",
+      "sha256": "d2fe1e017ea49625471f14a322f2aa85becb83b3967daaaa713ace45bc86ee59"
+    },
+    "metric_dashboard": {
+      "path": "reports/optimization/metric_dashboard.html",
+      "sha256": "23e1c587f2579558ba74616cdac34fb4b730e20d3b7cd3c97d54beddd1917c5a"
+    },
+    "metric_history": {
+      "path": "results/optimization/metric_history.parquet",
+      "sha256": "9113ff99724f80f9496684135835850368d0eb8e0b2c7a67b6880a1acab55e36"
+    },
+    "model_comparison": {
+      "path": "results/optimization/model_comparison.csv",
+      "sha256": "6f2b3d471ddf0528a508de304806b234ffdd5386bdb9ac3fc5c7a3bfa38acc44"
+    },
+    "native_grid_collocation_summary": {
+      "bytes": 151874,
+      "path": "results/optimization/native_grid_collocation_summary.json",
+      "sha256": "1766aec1e5a42fea2eb5a4a2773d51ebe5ad39c12f53197952ee393be1fecea9"
+    },
+    "native_grid_collocation_validation": {
+      "bytes": 1823,
+      "path": "results/optimization/native_grid_collocation_validation.json",
+      "sha256": "982eed21a7c0f1e3e8b15b24e7c7ccda11c191fa499f816443c8b9161730043d"
+    },
+    "noise_robustness": {
+      "bytes": 93899,
+      "path": "results/optimization/round_03_augmentation_robustness/noise_robustness_by_scheme.csv",
+      "sha256": "ec123c3c71da3da89a360d3c231ab02449cc8ae16938142ce2943456d54e76bb"
+    },
+    "sealed_2025_score": {
+      "bytes": 3426,
+      "path": "results/optimization/round_06_2025_test_score/sealed_2025_score.json",
+      "sha256": "5d524bacea80e4c6c42144e143d6096d5ebba249c661f8d82501ce0bda324f19"
+    },
+    "statistical_calibration": {
+      "bytes": 123476,
+      "path": "results/optimization/statistical_calibration.csv",
+      "sha256": "0095819aa97e8a5ec551f822f7b29a84e2d9e7c398c000cb9fe661cf8bc73a29"
+    }
+  },
+  "scope": "Aggregate candidate metrics, experiment provenance, and calibration scenario summaries only; raw environmental observations, prediction rows, and model binaries are excluded.",
+  "software_versions": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "python": "3.12.10"
+  },
+  "statistical_calibration_rows": 202,
+  "status": "AGGREGATES_BUILT_STATISTICAL_SELECTION_INCOMPLETE"
+}

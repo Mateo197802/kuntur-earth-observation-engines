@@ -18,7 +18,10 @@ import sklearn
 
 from kuntur_data.phase2.optimization_features import FEATURE_GROUPS, build_feature_pair
 from kuntur_data.phase2.predictive import PeakRSS, TemporalCNN, regression_metrics, sha256_file
-from run_phase2_v12_round1 import FOLDS, SEEDS, STOCHASTIC, _block_bootstrap_delta, _fit_model, _sha_obj, _atomic_json
+try:  # Support both `python scripts/...py` and package imports in pytest.
+    from .run_phase2_v12_round1 import FOLDS, SEEDS, STOCHASTIC, _block_bootstrap_delta, _fit_model, _sha_obj, _atomic_json
+except ImportError:  # pragma: no cover - direct-script execution path
+    from run_phase2_v12_round1 import FOLDS, SEEDS, STOCHASTIC, _block_bootstrap_delta, _fit_model, _sha_obj, _atomic_json
 
 
 ROOT = Path(__file__).resolve().parents[1]

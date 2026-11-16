@@ -29,7 +29,7 @@ QA eligibility thresholds were 0.80 valid bbox area for MERRA-2, IMERG, and GLDA
 
 Machine-readable output: `results/statistical_correction/real_series_v12/descriptive_trend_estimates.csv` (8 rows, SHA-256 `43ee306cd8e1d93b541d5b2d3d7a6b6a5fd854b09788b315a271b58f4ee4ca60`). Provenance and configuration: `results/statistical_correction/real_series_v12/descriptive_trend_manifest.json`. These outputs are local ignored results and are not scientific source data committed to Git.
 
-The calibration gate is still incomplete. At the recorded checkpoint on Nov 15 at 23:49 Guayaquil time, the local selection worker had completed the 500-replicate IID Gaussian zero-slope scenario and was 175/500 through the IID Gaussian +0.25-slope scenario. It had run 15:37 elapsed, used 921 CPU seconds (about 98% of one CPU core), and used 207 MiB working set (245 MiB peak). This is selection-only simulation work, not independent validation. The worker must finish the locked selection phase and separate final validation before any inferential result can be released. Its checkpoint directory is `results/statistical_correction/selection/checkpoints/`; do not restart it from scratch.
+The calibration gate is still incomplete. At the latest measured checkpoint (Nov 16, 2026, 00:51 Guayaquil time), the local selection worker had completed six of ten locked process/slope scenarios and was 450/500 through seasonal AR(1), slope zero. Its current JSON checkpoint was atomically updated at 00:51:36. The worker had run 1:18:14 elapsed, used 4,654 CPU seconds (about 99% of one CPU core), and used 196 MiB working set. This is selection-only simulation work, not independent validation. Four selection scenarios remain; the separate final-validation phase has not started. Its checkpoint directory is `results/statistical_correction/selection/checkpoints/`; do not restart it from scratch.
 
 ## 3. Predictive evaluation
 
@@ -88,7 +88,22 @@ For team access, connect to CEDIA, change to the authorized KUNTUR workspace, an
 
 Previously validated external data remain separate from training and model selection: CHIRPS monthly precipitation covers 276/276 months, NOAA GHCN-M temperature has 275/276 months meeting the minimum station criterion, and extracted INAMHI yearbooks cover 2002–2012 (132 temperature and 124 precipitation comparison months meeting the prior comparison rule). The INAMHI extraction checkpoints are preserved. Station composites, blended precipitation products, reanalysis, and satellite products have different spatial support and dependencies; they are corroboration, not interchangeable ground truth. The v1.2 2025 test is not an external validation.
 
-The failed polygonal geographic-mask attempt is pending work. Coast, Andes, Amazon, and the team's external-comparison region require approved geographic definitions before regional series can be claimed. No new mask, statistical trend result, model, or dashboard is claimed for those regions.
+### Independently checked MERRA-2 native-grid point-to-grid comparison
+
+The CEDIA KUNTUR workspace contains the full 2002-01–2024-12 comparison at `<KUNTUR_CEDIA_REPO>/data/external/processed/phase2_v12_native_grid_collocation/full_2002_2024/`. The directory is mode 700 and its files are mode 600. It uses the existing 276 validated MERRA-2 native-grid NPZs (14 × 11 cells); no NASA granules were downloaded again, and no regridding or elevation correction was applied. A separate verifier rehashed all 276 NPZ files, followed each to validated acquisition and regional-extraction checksums, checked the station-table / Parquet / source-manifest / CSV-sidecar checksums, recomputed all point-to-grid metrics, and confirmed the monthly coverage. Exact owner-only paths and access notes are kept in the local CEDIA handoff, which is excluded from Git.
+
+| CEDIA artifact | Rows / bytes | SHA-256 | Purpose |
+|---|---:|---|---|
+| `station_monthly_collocation.csv` | 12,945 / 3,049,960 | `c2f31333e22c1f3dca850cedc10cf2b323661be6d015d729e44455ae7f6498fd` | Eligible station-month pair detail; keep in CEDIA |
+| `monthly_summary.csv` | 552 / 68,966 | `8c6374d29dea26b3983ed441807747f447e0a09c2fbe94732c7aad95a8b9a0af` | Two sources × 276 calendar months; keep in CEDIA |
+| `summary.json` | 151,874 | `1766aec1e5a42fea2eb5a4a2773d51ebe5ad39c12f53197952ee393be1fecea9` | Aggregate metrics, input/output provenance and limitations |
+| `validation.json` | 1,823 | `982eed21a7c0f1e3e8b15b24e7c7ccda11c191fa499f816443c8b9161730043d` | Independent validation receipt; status `PASSED` |
+
+The validated comparison covered 2,446 eligible NOAA GHCN-M QCU station-months (14 stations, 276 months): MAE 1.9003 °C, RMSE 2.4125 °C, bias (MERRA-2 minus station) −0.8651 °C, Pearson r 0.9337, mean nearest-cell distance 22.15 km (p95 36.01 km). INAMHI covered 10,499 eligible station-months (151 stations, 132 months in 2002–2012): MAE 2.9823 °C, RMSE 3.7841 °C, bias −1.2330 °C, r 0.8052, mean nearest-cell distance 24.02 km (p95 37.05 km); 32 station IDs have coordinate variants, retained at the per-record level. These are descriptive point-to-grid agreements, not independent ground truth: MERRA-2 may assimilate station observations, stations and grid cells have different spatial support/elevation, NOAA station coverage is sparse, and INAMHI ends in 2012. The full station-level files and inputs remain only in the permission-restricted CEDIA directories.
+
+Safe-to-publish aggregate copies are `results/optimization/native_grid_collocation_summary.json` and `results/optimization/native_grid_collocation_validation.json`; they are included in the experiment registry, metric history, and dashboard with their checksums. No CEDIA SLURM job was submitted for this bounded collocation; other project jobs were not touched.
+
+The failed polygonal geographic-mask attempt is pending work. Coast, Andes, Amazon, and the team's external-comparison region require approved geographic definitions before regional series can be claimed. The point-to-grid comparison above uses only the Ecuador pilot bounding box; it does not create or validate those regional masks.
 
 ## 6. Reproduction and integrity
 
@@ -99,7 +114,7 @@ python scripts/run_phase2_v12_descriptive_trends.py
 python -m pytest -q tests/test_phase2_v12_descriptive_trends.py tests/test_phase2_v12_gold_preparation.py tests/test_phase2_v12_sealed_2025_scoring.py tests/test_statistical_inference_v12.py
 ```
 
-The trend command verifies the frozen Gold SHA against its manifest before producing output. The focused reproducibility run for this handoff passed: **31 tests passed**. The sealed 2025 scorer was run once; do not rerun it as part of routine reproduction. Scientific data, source manifests with private paths, and the fitted model bundle are not included in the code release.
+The trend command verifies the frozen Gold SHA against its manifest before producing output. The focused reproducibility run for the v1.0 data-engineering handoff passed: **31 tests passed**. The full v1.2 repository suite passed **138 tests** on Nov 16, 2026. The sealed 2025 scorer was run once; do not rerun it as part of routine reproduction. Scientific data, source manifests with private paths, and the fitted model bundle are not included in the code release.
 
 ## 7. Release limitations
 

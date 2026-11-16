@@ -1,0 +1,45 @@
+{
+  "engine": {
+    "path": "src/kuntur_data/phase2/statistical_v12.py",
+    "sha256": "a0788c56e556f2ba2c0bb6a048b3a890933e0e87789d01a576b9637928e35143"
+  },
+  "entrypoint": {
+    "path": "scripts/run_phase2_v12_descriptive_trends.py",
+    "sha256": "3a4459c4ffcbfd569e6a263be02b2c2b4bea4fdd00c86f45d4a309cc81913f52"
+  },
+  "generated_at_utc": "2026-11-16T04:48:00.831696+00:00",
+  "inference_policy": "p-values, confidence intervals, and multiplicity-adjusted results are omitted until an independently validated method-regime registry passes the frozen acceptance gates.",
+  "input": {
+    "manifest_sha256": "c5bdac892d92670c3c52e2cf2fe268e00890e86b0e3cdbe07d5a040f139c5543",
+    "path": "kuntur_ecuador_pilot_bbox_monthly_v1.parquet",
+    "sha256": "5883fe2f7af8a8d0a58dd87c6bc90340a157c71e0d3fed51fff3a850eb2368b2"
+  },
+  "manifest_version": "kuntur-phase2-v12-real-series-descriptive-trends-0.1.0",
+  "method": "ols_hac",
+  "output": {
+    "bytes": 3448,
+    "path": "descriptive_trend_estimates.csv",
+    "sha256": "43ee306cd8e1d93b541d5b2d3d7a6b6a5fd854b09788b315a271b58f4ee4ca60"
+  },
+  "protocol": {
+    "path": "docs/protocols/statistical_correction_v1_2.md",
+    "sha256": "f2fdf0e7941eb548568b8e1979c89799433872df131a36ca56709bef395a65b8"
+  },
+  "qa_thresholds": {
+    "default": 0.8,
+    "modis": 0.1
+  },
+  "region_id": "ecuador_pilot_bbox",
+  "rows": 8,
+  "scope": "Eight predeclared real-series variables from the frozen Ecuador pilot-bbox v1.0 Gold; no model selection or inferential claims.",
+  "software_versions": {
+    "pandas": "3.0.3",
+    "python": "3.12.10"
+  },
+  "status": "DESCRIPTIVE_ESTIMATES_COMPLETE_INFERENCE_WITHHELD",
+  "temporal_coverage": {
+    "calendar_months": 276,
+    "end_month": "2024-12",
+    "start_month": "2002-01"
+  }
+}
