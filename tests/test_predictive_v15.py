@@ -154,6 +154,10 @@ def test_outer_and_inner_training_labels_must_be_produced_by_first_validation_is
     inner = chronological_inner_folds_v15(
         outer[0].train, min_train_months=18, label_production_dates_utc=production
     )
+    assert all(
+        set(pd.PeriodIndex(part.train.target_month, freq="M").month) == set(range(1, 13))
+        for part in inner
+    )
     final_inner = inner[-1]
     issue = final_inner.validation.sort_values("target_month").iloc[0].issue_date_utc
     eligible = labels_published_by_issue(final_inner.train, issue, production)
@@ -168,6 +172,23 @@ def test_moving_blocks_include_only_complete_calendar_contiguous_blocks():
 
     assert blocks == [(0, 1, 2), (1, 2, 3)]
     assert all(len(block) == 3 for block in blocks)
+
+
+def test_inner_folds_skip_training_sets_without_all_calendar_months_after_release_guard():
+    months = pd.period_range("2015-10", "2018-10", freq="M").astype(str)
+    months = [month for month in months if month != "2016-06"]
+    samples = pd.DataFrame({
+        "target_month": months,
+        "issue_date_utc": [f"{pd.Period(month, freq='M') - 1}-01T00:00:00Z" for month in months],
+    })
+    production = {month: f"{month}-15T00:00:00Z" for month in months}
+
+    inner = chronological_inner_folds_v15(
+        samples, min_train_months=18, label_production_dates_utc=production
+    )
+
+    assert "inner_2017_h2" not in {fold.name for fold in inner}
+    assert all(set(pd.PeriodIndex(fold.train.target_month, freq="M").month) == set(range(1, 13)) for fold in inner)
 
 
 def test_outer_folds_reject_any_consumed_test_target():

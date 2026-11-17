@@ -333,6 +333,10 @@ def chronological_inner_folds_v15(
                 train = labels_published_by_issue(train, issue_time, label_production_dates_utc)
                 if len(train) < min_train_months:
                     continue
+            training_calendar_months = set(pd.PeriodIndex(train.target_month.astype(str), freq="M").month.astype(int))
+            if training_calendar_months != set(range(1, 13)):
+                # feature_pair needs a complete training-only monthly climatology.
+                continue
             folds.append(TemporalFoldV15(f"inner_{year}_h{half}", train, validation))
     if len(folds) < 2:
         raise ValueError("at least two nested chronological inner folds are required")
