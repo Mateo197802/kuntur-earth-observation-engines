@@ -1,0 +1,473 @@
+{
+  "configuration": {
+    "blend_strengths": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "candidates": [
+      "climatology",
+      "compact_residual",
+      "regularized_anomaly",
+      "smooth_shrinkage",
+      "regime_mixture"
+    ],
+    "development_cutoff": "2021-12",
+    "development_start": "2003-03",
+    "gate_proxies": [
+      "t2m_anomaly_lag_03",
+      "t2m_anomaly_mean_03",
+      "t2m_anomaly_mean_06",
+      "t2m_anomaly_sd_06",
+      "t2m_anomaly_slope_06",
+      "target_month_sin",
+      "target_month_cos"
+    ],
+    "hgb": {
+      "early_stopping": false,
+      "l2_regularization": 5.0,
+      "learning_rate": 0.05,
+      "max_iter": 40,
+      "max_leaf_nodes": 3,
+      "min_samples_leaf": 8
+    },
+    "history_months": 12,
+    "inner_validation_windows": "expanding half-year windows; minimum 18 eligible training samples",
+    "issue_time": "00:00 UTC on the first day of target_month minus one month",
+    "merra_predictor_months": "T-14 through T-3 inclusive",
+    "metrics": [
+      "MAE",
+      "RMSE",
+      "bias",
+      "paired skill",
+      "worst-fold skill",
+      "retrospective regime scores",
+      "anomaly calibration",
+      "3-month paired moving-block interval"
+    ],
+    "outer_validation_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "ridge_alphas": [
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "seed": 2026,
+    "selection_metric": "inner-fold pooled MAE; RMSE and simple stable priority resolve ties"
+  },
+  "created_at_utc": "2026-11-17T23:50:51.072375Z",
+  "environment": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "pyarrow": "26.0.1",
+    "python": "3.12.10",
+    "requests": "2.34.2",
+    "scikit_learn": "1.9.0",
+    "wall_seconds": 7.594478
+  },
+  "evaluation": {
+    "outer_fold_count": 3,
+    "outer_folds": [
+      "outer_2019",
+      "outer_2020",
+      "outer_2021"
+    ],
+    "outer_oof_sample_count": 31,
+    "selected_strategies_by_fold": [
+      {
+        "gate_proxy": "t2m_anomaly_mean_03",
+        "gate_strength": 1.0,
+        "outer_fold": "outer_2019",
+        "ridge_alpha": 10.0,
+        "selected_strategy": "smooth_shrinkage",
+        "smooth_alpha": 1.0
+      },
+      {
+        "gate_proxy": "t2m_anomaly_mean_03",
+        "gate_strength": 1.0,
+        "outer_fold": "outer_2020",
+        "ridge_alpha": 100.0,
+        "selected_strategy": "smooth_shrinkage",
+        "smooth_alpha": 1.0
+      },
+      {
+        "gate_proxy": "t2m_anomaly_mean_03",
+        "gate_strength": 1.0,
+        "outer_fold": "outer_2021",
+        "ridge_alpha": 100.0,
+        "selected_strategy": "regime_mixture",
+        "smooth_alpha": 0.75
+      }
+    ],
+    "target_range": [
+      "2019-01",
+      "2021-08"
+    ]
+  },
+  "experiment_id": "KUNTUR-PREDICTIVE-V1.5",
+  "input_data_root_read_only": "existing KUNTUR v1.4 data tree; external_data_root paths in input_files are relative to this read-only root",
+  "input_files": {
+    "forecast": {
+      "path": "external_data_root/gold/kuntur_ecuador_pilot_bbox_forecast_plus1_v1.parquet",
+      "sha256": "67c69236a8516b11b900b90f63926c1047aae3af991b726c567b5c85020ce2ff",
+      "size_bytes": 280450
+    },
+    "gold_manifest": {
+      "path": "external_data_root/manifests/gold_manifest_v1.json",
+      "sha256": "c5bdac892d92670c3c52e2cf2fe268e00890e86b0e3cdbe07d5a040f139c5543",
+      "size_bytes": 25375
+    },
+    "implementation_module": {
+      "path": "src/kuntur_data/phase2/predictive_v15.py",
+      "sha256": "ee6f0af8f6784c8cb8df45c3169520895d12adf7a9d7e57b3a8687a4f7eb854c",
+      "size_bytes": 16965
+    },
+    "implementation_runner": {
+      "path": "scripts/run_predictive_v15.py",
+      "sha256": "19e24e466fb71f66a15409ee512a66fa32562fad8b2e48ea578a1ef4e6717431",
+      "size_bytes": 68098
+    },
+    "implementation_tests": {
+      "path": "tests/test_predictive_v15.py",
+      "sha256": "17c21d32d7beca9d64a96f9a758b4253b0f778c8db15da61e27076962b46eac4",
+      "size_bytes": 8012
+    },
+    "implementation_verifier": {
+      "path": "scripts/verify_predictive_v15.py",
+      "sha256": "a5d562e998555dcb0f160547099a160a73e1d0d7e4e305cf09126b47fd0ad169",
+      "size_bytes": 18284
+    },
+    "monthly_gold": {
+      "path": "external_data_root/gold/kuntur_ecuador_pilot_bbox_monthly_v1.parquet",
+      "sha256": "5883fe2f7af8a8d0a58dd87c6bc90340a157c71e0d3fed51fff3a850eb2368b2",
+      "size_bytes": 332337
+    },
+    "split_indices": {
+      "path": "external_data_root/gold/kuntur_forecast_split_indices_v1.parquet",
+      "sha256": "c2fbca4ac9636622a08e778913e2edfb23cc210453bf05114e1b3775b9b0726c",
+      "size_bytes": 6075
+    },
+    "split_manifest": {
+      "path": "external_data_root/manifests/forecast_split_manifest_v1.json",
+      "sha256": "6b72ab2f5db8107e9980f5e0435f94a3fe1220a4de8e055d5f6dae5e6332258e",
+      "size_bytes": 8629
+    },
+    "v14_fold_predictions": {
+      "path": "results/predictive_v14/fold_predictions.parquet",
+      "sha256": "ea9f97e898086e11079a76b6ff844ace68bcd934cdeda7a56712864bcabc0cd3",
+      "size_bytes": 50515
+    },
+    "v14_regime_metrics": {
+      "path": "results/predictive_v14/anomaly_regime_metrics.csv",
+      "sha256": "373d61039a1df8c0f650810f08de1dce564f9204c522e198e5ce949ad394a4c7",
+      "size_bytes": 557
+    }
+  },
+  "output_files": [
+    "source_availability_cmr_snapshot.json",
+    "overall_metrics.csv",
+    "fold_metrics.csv",
+    "regime_metrics.csv",
+    "paired_mae_skill_intervals.csv",
+    "inner_candidate_scores.csv",
+    "inner_tuning_scores.csv",
+    "fold_selections.csv",
+    "fit_timings.csv",
+    "fit_cost_summary.csv",
+    "gate_diagnostic.csv",
+    "v14_regime_recomputed.json",
+    "leakage_audit.json",
+    "experiment_registry_v1_5.json",
+    "artifact_hashes_v1_5.json",
+    "reports/predictive_v15/PREDICTIVE_V15_REPORT.md"
+  ],
+  "paired_mae_skill_intervals": [
+    {
+      "block_length_months": 3,
+      "bootstrap_replicates": 4000,
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean_mae_improvement": 0.0,
+      "resampling_scheme": "complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded",
+      "sample_count": 31,
+      "strategy": "climatology"
+    },
+    {
+      "block_length_months": 3,
+      "bootstrap_replicates": 4000,
+      "ci_high": 0.03803733908328073,
+      "ci_low": -0.06706277329178188,
+      "mean_mae_improvement": -0.028413819407687346,
+      "resampling_scheme": "complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded",
+      "sample_count": 31,
+      "strategy": "compact_residual"
+    },
+    {
+      "block_length_months": 3,
+      "bootstrap_replicates": 4000,
+      "ci_high": 0.060237817801258274,
+      "ci_low": -0.049346034515842845,
+      "mean_mae_improvement": -0.0015371144635972383,
+      "resampling_scheme": "complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded",
+      "sample_count": 31,
+      "strategy": "regularized_anomaly"
+    },
+    {
+      "block_length_months": 3,
+      "bootstrap_replicates": 4000,
+      "ci_high": 0.03428442863917998,
+      "ci_low": -0.0647064485029594,
+      "mean_mae_improvement": -0.026649940764305862,
+      "resampling_scheme": "complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded",
+      "sample_count": 31,
+      "strategy": "smooth_shrinkage"
+    },
+    {
+      "block_length_months": 3,
+      "bootstrap_replicates": 4000,
+      "ci_high": 0.03830823571131145,
+      "ci_low": -0.0034875141333968016,
+      "mean_mae_improvement": 0.010341690814864673,
+      "resampling_scheme": "complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded",
+      "sample_count": 31,
+      "strategy": "regime_mixture"
+    },
+    {
+      "block_length_months": 3,
+      "bootstrap_replicates": 4000,
+      "ci_high": 0.02428390086047514,
+      "ci_low": -0.06593573427618338,
+      "mean_mae_improvement": -0.028438389439705523,
+      "resampling_scheme": "complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded",
+      "sample_count": 31,
+      "strategy": "nested_selected"
+    }
+  ],
+  "private_output_artifacts": [
+    {
+      "path": "eligible_development_samples.csv",
+      "sha256": "19ed2fa20ca91590e6beb50616e91f08c66c0fb52f96439e61105c79bc60a35f",
+      "size_bytes": 5447
+    },
+    {
+      "path": "inner_selection_oof.parquet",
+      "sha256": "a23e05e82a9763f9d8e2908142e09b90aed1abe4192c7ed3cae16167b4f6ebaa",
+      "size_bytes": 37400
+    },
+    {
+      "path": "issue_time_availability_audit.csv",
+      "sha256": "c60a1c32392a54343a135b525a57bd2f02ba8a4ade57f1eeef7f396988d2ec57",
+      "size_bytes": 282133
+    },
+    {
+      "path": "outer_fold_predictions.parquet",
+      "sha256": "a463850c7f77fe139b3f2fc0290704b8456cc8c688282d50bc1e04f6e699447c",
+      "size_bytes": 19898
+    }
+  ],
+  "repository": {
+    "branch": "feat/predictive-regime-v1.5",
+    "head_commit": "16ece322244f2d983e320ded63b90fe481d26367",
+    "working_tree": "source snapshot is pinned by implementation SHA-256 values in input_files"
+  },
+  "run_id": "20261117T235039438415Z",
+  "schema_version": "1.0",
+  "source_availability": {
+    "audit_semantics": "source latency window + CMR granule production-time guard + finite validated Gold history; not proof of exact first public release",
+    "first_publication_timestamp_verified": false,
+    "policy": {
+      "gldas_noah025_monthly": {
+        "latest_lag": 6,
+        "short_name": "GLDAS_NOAH025_M",
+        "version": "2.1"
+      },
+      "gpm_imerg_monthly_final": {
+        "latest_lag": 6,
+        "short_name": "GPM_3IMERGM",
+        "version": "07"
+      },
+      "merra2_monthly_slv": {
+        "latest_lag": 3,
+        "short_name": "M2TMNXSLV",
+        "version": "5.12.4"
+      }
+    },
+    "required_gold_variables": {
+      "gldas_noah025_monthly": [
+        "gldas_soil_moisture_0_10cm",
+        "gldas_soil_moisture_10_40cm",
+        "gldas_soil_moisture_40_100cm",
+        "gldas_soil_moisture_100_200cm"
+      ],
+      "gpm_imerg_monthly_final": [
+        "imerg_precip_monthly_total"
+      ],
+      "merra2_monthly_slv": [
+        "merra2_t2m_c",
+        "merra2_qv2m",
+        "merra2_u2m",
+        "merra2_v2m",
+        "merra2_ps"
+      ]
+    },
+    "source_documents": {
+      "cmr_production_datetime": "https://wiki.earthdata.nasa.gov/spaces/CMR/pages/133727054/Production+Date+Time",
+      "cmr_provider_dates": "https://wiki.earthdata.nasa.gov/spaces/CMR/pages/135834714/Provider+Dates",
+      "gldas_21_latency": "https://forum.earthdata.nasa.gov/viewtopic.php?t=7953",
+      "imerg_final_latency": "https://gpm.nasa.gov/resources/faq/what-determines-latency-imerg",
+      "merra2_monthly_latency": "https://gmao.gsfc.nasa.gov/gmao-products/merra-2/system-characteristics_merra-2/"
+    },
+    "sources": {
+      "gldas_noah025_monthly": {
+        "collection_concept_id": "C1342986036-GES_DISC",
+        "cross_source_candidate_decision": "not_scored_no_chronological_issue-time training history before the 2019 outer evaluation window",
+        "cross_source_candidate_scored": false,
+        "development_sample_count": 226,
+        "issue_time_eligible_by_target_year": {
+          "2003": 0,
+          "2004": 0,
+          "2005": 0,
+          "2006": 0,
+          "2007": 0,
+          "2008": 0,
+          "2009": 0,
+          "2010": 0,
+          "2011": 0,
+          "2012": 0,
+          "2013": 0,
+          "2014": 0,
+          "2015": 0,
+          "2016": 0,
+          "2017": 0,
+          "2018": 0,
+          "2019": 0,
+          "2020": 1,
+          "2021": 12
+        },
+        "issue_time_eligible_sample_count": 13,
+        "issue_time_eligible_target_range": [
+          "2020-12",
+          "2021-12"
+        ],
+        "issue_time_eligible_training_targets_before_2019": 0,
+        "latest_lag_months": 6,
+        "required_history_months": 12,
+        "version": "2.1"
+      },
+      "gpm_imerg_monthly_final": {
+        "collection_concept_id": "C2723754851-GES_DISC",
+        "cross_source_candidate_decision": "not_scored_no_chronological_issue-time training history before the 2019 outer evaluation window",
+        "cross_source_candidate_scored": false,
+        "development_sample_count": 226,
+        "issue_time_eligible_by_target_year": {
+          "2003": 0,
+          "2004": 0,
+          "2005": 0,
+          "2006": 0,
+          "2007": 0,
+          "2008": 0,
+          "2009": 0,
+          "2010": 0,
+          "2011": 0,
+          "2012": 0,
+          "2013": 0,
+          "2014": 0,
+          "2015": 0,
+          "2016": 0,
+          "2017": 0,
+          "2018": 0,
+          "2019": 0,
+          "2020": 0,
+          "2021": 0
+        },
+        "issue_time_eligible_sample_count": 0,
+        "issue_time_eligible_target_range": null,
+        "issue_time_eligible_training_targets_before_2019": 0,
+        "latest_lag_months": 6,
+        "required_history_months": 12,
+        "version": "07"
+      },
+      "merra2_monthly_slv": {
+        "collection_concept_id": "C1276812859-GES_DISC",
+        "cross_source_candidate_scored": "MERRA-2 primary predictors",
+        "development_sample_count": 226,
+        "issue_time_eligible_by_target_year": {
+          "2003": 0,
+          "2004": 0,
+          "2005": 0,
+          "2006": 0,
+          "2007": 0,
+          "2008": 0,
+          "2009": 0,
+          "2010": 0,
+          "2011": 0,
+          "2012": 0,
+          "2013": 0,
+          "2014": 0,
+          "2015": 3,
+          "2016": 11,
+          "2017": 12,
+          "2018": 12,
+          "2019": 12,
+          "2020": 11,
+          "2021": 8
+        },
+        "issue_time_eligible_sample_count": 69,
+        "issue_time_eligible_target_range": [
+          "2015-10",
+          "2021-08"
+        ],
+        "issue_time_eligible_training_targets_before_2019": 38,
+        "latest_lag_months": 3,
+        "required_history_months": 12,
+        "version": "5.12.4"
+      }
+    }
+  },
+  "v1_4_immutability": {
+    "hashes_after": {
+      "v14_fold_predictions": "ea9f97e898086e11079a76b6ff844ace68bcd934cdeda7a56712864bcabc0cd3",
+      "v14_regime_metrics": "373d61039a1df8c0f650810f08de1dce564f9204c522e198e5ce949ad394a4c7"
+    },
+    "hashes_before": {
+      "v14_fold_predictions": "ea9f97e898086e11079a76b6ff844ace68bcd934cdeda7a56712864bcabc0cd3",
+      "v14_regime_metrics": "373d61039a1df8c0f650810f08de1dce564f9204c522e198e5ce949ad394a4c7"
+    },
+    "status": "PASS"
+  },
+  "v1_4_result_recomputed": {
+    "regimes": {
+      "large_anomaly": {
+        "mean_absolute_target_anomaly_c": 0.8643793611744125,
+        "nested_model_relative_mae_change_pct": -15.692868525728967,
+        "nested_selected_pipeline_mae_c": 0.728733444461776,
+        "sample_count": 13,
+        "threshold_rule": "row-level training_anomaly_q75_c; retrospective diagnostic only",
+        "training_climatology_mae_c": 0.8643793611744125
+      },
+      "ordinary": {
+        "mean_absolute_target_anomaly_c": 0.2410545818901,
+        "nested_model_relative_mae_change_pct": 18.033627041854125,
+        "nested_selected_pipeline_mae_c": 0.2845254661554615,
+        "sample_count": 107,
+        "threshold_rule": "row-level training_anomaly_q75_c; retrospective diagnostic only",
+        "training_climatology_mae_c": 0.2410545818901
+      }
+    },
+    "rows": 120,
+    "source_artifact": "results/predictive_v14/fold_predictions.parquet",
+    "source_sha256": "ea9f97e898086e11079a76b6ff844ace68bcd934cdeda7a56712864bcabc0cd3",
+    "status": "RECOMPUTED_FROM_OOF_ROWS",
+    "target_range": [
+      "2012-01",
+      "2021-12"
+    ]
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "cross_source_candidates": "not scored unless guard-eligible training rows precede the 2019 outer fold",
+  "development_cutoff": "2021-12",
+  "forecast_input_filter": "target_month <= 2021-12 applied in Arrow before pandas conversion",
+  "gate_feature_allowlist": [
+    "t2m_anomaly_lag_03",
+    "t2m_anomaly_mean_03",
+    "t2m_anomaly_mean_06",
+    "t2m_anomaly_sd_06",
+    "t2m_anomaly_slope_06",
+    "target_month_cos",
+    "target_month_sin"
+  ],
+  "gate_features_used": [
+    "t2m_anomaly_lag_03",
+    "t2m_anomaly_mean_03",
+    "t2m_anomaly_mean_06",
+    "t2m_anomaly_sd_06",
+    "t2m_anomaly_slope_06",
+    "target_month_sin",
+    "target_month_cos"
+  ],
+  "independent_final_test_claim": false,
+  "monthly_gold_filter": "month <= 2021-12 applied in Arrow before pandas conversion",
+  "outer_folds": [
+    "outer_2019",
+    "outer_2020",
+    "outer_2021"
+  ],
+  "post_hoc_only_fields": [
+    "actual_target_anomaly_c",
+    "retrospective_regime"
+  ],
+  "prior_v1_4_development_inspection": true,
+  "source_cmr_temporal_filter": "2021-12",
+  "split_filter": "partition != test and target_month <= 2021-12 applied in Arrow before pandas conversion",
+  "status": "PASS",
+  "target_label_availability_guard": {
+    "fold_training_summaries": [
+      {
+        "first_validation_issue_time_utc": "2018-12-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2018-11-12T04:02:36.000Z",
+        "latest_training_label_month": "2018-10",
+        "outer_fold": "outer_2019",
+        "scope": "outer",
+        "training_label_count": 36
+      },
+      {
+        "first_validation_issue_time_utc": "2017-12-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2017-11-12T06:09:11.000Z",
+        "latest_training_label_month": "2017-10",
+        "outer_fold": "outer_2019",
+        "scope": "inner:inner_2018_h1",
+        "training_label_count": 24
+      },
+      {
+        "first_validation_issue_time_utc": "2018-06-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2018-05-12T05:37:14.000Z",
+        "latest_training_label_month": "2018-04",
+        "outer_fold": "outer_2019",
+        "scope": "inner:inner_2018_h2",
+        "training_label_count": 30
+      },
+      {
+        "first_validation_issue_time_utc": "2019-12-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2019-11-12T09:21:07.000Z",
+        "latest_training_label_month": "2019-10",
+        "outer_fold": "outer_2020",
+        "scope": "outer",
+        "training_label_count": 48
+      },
+      {
+        "first_validation_issue_time_utc": "2017-12-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2017-11-12T06:09:11.000Z",
+        "latest_training_label_month": "2017-10",
+        "outer_fold": "outer_2020",
+        "scope": "inner:inner_2018_h1",
+        "training_label_count": 24
+      },
+      {
+        "first_validation_issue_time_utc": "2018-06-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2018-05-12T05:37:14.000Z",
+        "latest_training_label_month": "2018-04",
+        "outer_fold": "outer_2020",
+        "scope": "inner:inner_2018_h2",
+        "training_label_count": 30
+      },
+      {
+        "first_validation_issue_time_utc": "2018-12-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2018-11-12T04:02:36.000Z",
+        "latest_training_label_month": "2018-10",
+        "outer_fold": "outer_2020",
+        "scope": "inner:inner_2019_h1",
+        "training_label_count": 36
+      },
+      {
+        "first_validation_issue_time_utc": "2019-06-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2019-05-15T15:10:22.000Z",
+        "latest_training_label_month": "2019-04",
+        "outer_fold": "outer_2020",
+        "scope": "inner:inner_2019_h2",
+        "training_label_count": 42
+      },
+      {
+        "first_validation_issue_time_utc": "2020-12-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2020-11-22T03:21:46.000Z",
+        "latest_training_label_month": "2020-10",
+        "outer_fold": "outer_2021",
+        "scope": "outer",
+        "training_label_count": 60
+      },
+      {
+        "first_validation_issue_time_utc": "2017-12-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2017-11-12T06:09:11.000Z",
+        "latest_training_label_month": "2017-10",
+        "outer_fold": "outer_2021",
+        "scope": "inner:inner_2018_h1",
+        "training_label_count": 24
+      },
+      {
+        "first_validation_issue_time_utc": "2018-06-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2018-05-12T05:37:14.000Z",
+        "latest_training_label_month": "2018-04",
+        "outer_fold": "outer_2021",
+        "scope": "inner:inner_2018_h2",
+        "training_label_count": 30
+      },
+      {
+        "first_validation_issue_time_utc": "2018-12-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2018-11-12T04:02:36.000Z",
+        "latest_training_label_month": "2018-10",
+        "outer_fold": "outer_2021",
+        "scope": "inner:inner_2019_h1",
+        "training_label_count": 36
+      },
+      {
+        "first_validation_issue_time_utc": "2019-06-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2019-05-15T15:10:22.000Z",
+        "latest_training_label_month": "2019-04",
+        "outer_fold": "outer_2021",
+        "scope": "inner:inner_2019_h2",
+        "training_label_count": 42
+      },
+      {
+        "first_validation_issue_time_utc": "2019-12-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2019-11-12T09:21:07.000Z",
+        "latest_training_label_month": "2019-10",
+        "outer_fold": "outer_2021",
+        "scope": "inner:inner_2020_h1",
+        "training_label_count": 48
+      },
+      {
+        "first_validation_issue_time_utc": "2020-06-01T00:00:00Z",
+        "latest_label_cmr_production_time_utc": "2020-05-12T00:40:44.000Z",
+        "latest_training_label_month": "2020-04",
+        "outer_fold": "outer_2021",
+        "scope": "inner:inner_2020_h2",
+        "training_label_count": 54
+      }
+    ],
+    "rule": "training label MERRA-2 CMR ProductionDateTime must be no later than the earliest validation issue time; missing production timestamps are excluded",
+    "semantics": "conservative production-time proxy, not proof of first public release",
+    "status": "PASS"
+  },
+  "target_value_rows_accessed_after_cutoff": false,
+  "v1_4_inputs_unchanged": true,
+  "v1_4_threshold_use": "training_anomaly_q75_c is used only for retrospective diagnostics; never for inference gate input"
+}

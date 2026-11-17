@@ -16,6 +16,13 @@ reports/**
 !reports/phase2/
 !reports/phase2/PHASE2_HANDOFF_v1.md
 !reports/phase2/phase2_release_manifest_v1.json
+!results/predictive_v15/
+!results/predictive_v15/*.csv
+!results/predictive_v15/*.json
+results/predictive_v15/eligible_development_samples.csv
+results/predictive_v15/issue_time_availability_audit.csv
+!reports/predictive_v15/
+!reports/predictive_v15/*.md
 __pycache__/
 .pytest_cache/
 *.py[cod]
@@ -37,3 +44,4 @@ venv/
 *.log
 *.sqlite
 *.db
+!results/predictive_v15/*.parquet

@@ -1,0 +1,4 @@
+outer_fold,selected_strategy,ridge_alpha,smooth_alpha,gate_proxy,gate_strength,selected_inner_mae,selected_inner_rmse,gate_inner_mae,gate_inner_rmse,inner_fold_count
+outer_2019,smooth_shrinkage,10.0,1.0,t2m_anomaly_mean_03,1.0,0.28728064985422924,0.3525278584739995,0.2898155531758981,0.36067604965897526,2
+outer_2020,smooth_shrinkage,100.0,1.0,t2m_anomaly_mean_03,1.0,0.23754297836651392,0.29424918540571,0.2408797400762945,0.30175172754909096,4
+outer_2021,regime_mixture,100.0,0.75,t2m_anomaly_mean_03,1.0,0.23370732583574608,0.2924846427558221,0.23370732583574608,0.2924846427558221,6
