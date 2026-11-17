@@ -6,13 +6,13 @@ Development-only nested chronological evaluation. The source forecast is read wi
 
 ## Outer folds
 
-| Fold | Training target months | Scored target months |
+| Fold | Training target months available at first issue | Scored target months |
 |---|---|---|
-| outer_2012_2014 | 2003-03–2011-12 | 2012-01–2014-12 |
-| outer_2015_2017 | 2003-03–2014-12 | 2015-01–2017-12 |
-| outer_2018_2021 | 2003-03–2017-12 | 2018-01–2021-12 |
+| outer_2012_2014 | 2003-03–2011-10 | 2012-01–2014-12 |
+| outer_2015_2017 | 2003-03–2014-10 | 2015-01–2017-12 |
+| outer_2018_2021 | 2003-03–2017-10 | 2018-01–2021-12 |
 
-Each outer training period has three expanding one-year inner validation windows ending at its cutoff. Inner folds select feature group, model configuration and residual shrinkage alpha. Outer months are scored once by the selection procedure. The 120 outer predictions are a development estimate, not an independent final test.
+Each outer training period has three expanding inner validation windows; the last ends at October of the outer cutoff year, with the model's own two-month target-label availability guard applied at each first validation issue. The final inner window can therefore be shorter than a calendar year. Inner folds select feature group, model configuration and residual shrinkage alpha. Outer months are scored once by the selection procedure. The 120 outer predictions are a development estimate, not an independent final test.
 
 ## Candidates and fixed budget
 
