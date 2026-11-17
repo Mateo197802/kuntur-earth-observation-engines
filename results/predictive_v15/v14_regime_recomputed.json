@@ -1,0 +1,28 @@
+{
+  "regimes": {
+    "large_anomaly": {
+      "mean_absolute_target_anomaly_c": 0.8621321637775955,
+      "nested_model_relative_mae_change_pct": -30.029740138857992,
+      "nested_selected_pipeline_mae_c": 0.60323611534167,
+      "sample_count": 13,
+      "threshold_rule": "row-level training_anomaly_q75_c; retrospective diagnostic only",
+      "training_climatology_mae_c": 0.8621321637775955
+    },
+    "ordinary": {
+      "mean_absolute_target_anomaly_c": 0.2410413481530351,
+      "nested_model_relative_mae_change_pct": 11.56322273388481,
+      "nested_selected_pipeline_mae_c": 0.2689134961207293,
+      "sample_count": 107,
+      "threshold_rule": "row-level training_anomaly_q75_c; retrospective diagnostic only",
+      "training_climatology_mae_c": 0.2410413481530351
+    }
+  },
+  "rows": 120,
+  "source_artifact": "results/predictive_v14/fold_predictions.parquet",
+  "source_sha256": "4227ba155d3566331393325eac07995b0fb7f645d6d88809acfb7d8c29b1f585",
+  "status": "RECOMPUTED_FROM_OOF_ROWS",
+  "target_range": [
+    "2012-01",
+    "2021-12"
+  ]
+}

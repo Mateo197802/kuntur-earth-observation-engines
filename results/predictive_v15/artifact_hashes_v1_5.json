@@ -1,0 +1,107 @@
+{
+  "algorithm": "SHA-256",
+  "files": [
+    {
+      "path": "reports\\predictive_v15\\PREDICTIVE_V15_REPORT.md",
+      "sha256": "9dc64885a8103c7a023c4c547ac335edf1442f2fdd3ab40c8cee9b587062f4c0",
+      "size_bytes": 10881
+    },
+    {
+      "path": "results\\predictive_v15\\eligible_development_samples.csv",
+      "sha256": "19ed2fa20ca91590e6beb50616e91f08c66c0fb52f96439e61105c79bc60a35f",
+      "size_bytes": 5447
+    },
+    {
+      "path": "results\\predictive_v15\\experiment_registry_v1_5.json",
+      "sha256": "182258722f04e64600680c9f76af9f82ff40226529d8207e028c3c75518b4cf5",
+      "size_bytes": 15127
+    },
+    {
+      "path": "results\\predictive_v15\\fit_cost_summary.csv",
+      "sha256": "4b4b0d44512bb77268163a9911edcdad87fd9cfc1fefb04644b2475e9d63d20f",
+      "size_bytes": 630
+    },
+    {
+      "path": "results\\predictive_v15\\fit_timings.csv",
+      "sha256": "0d6b16aa918f0821ea5c2e4d06542869a4f1a78b247943853a6c4249c8af2a08",
+      "size_bytes": 6452
+    },
+    {
+      "path": "results\\predictive_v15\\fold_metrics.csv",
+      "sha256": "3374b80c43a2ed8110c97e519ed73a4b478f84b19d42868e539067df7d174239",
+      "size_bytes": 2559
+    },
+    {
+      "path": "results\\predictive_v15\\fold_selections.csv",
+      "sha256": "b678d5503a843eef08b95782c6167718162fba418c10a964dad45816516bb1f5",
+      "size_bytes": 588
+    },
+    {
+      "path": "results\\predictive_v15\\gate_diagnostic.csv",
+      "sha256": "f6bfa19985612d696267f8dfa1039b2239aacbe5025506cc99cb3ae28d4414fb",
+      "size_bytes": 565
+    },
+    {
+      "path": "results\\predictive_v15\\inner_candidate_scores.csv",
+      "sha256": "011e08cd5f1dbf204e9035dee6409a43aa9ca3435582ed4a7f07d45dc301e03c",
+      "size_bytes": 1181
+    },
+    {
+      "path": "results\\predictive_v15\\inner_selection_oof.parquet",
+      "sha256": "f06f7731347aa6051b2c38d67bb8644cc3d4d1a993821f86527f83704526abc9",
+      "size_bytes": 38863
+    },
+    {
+      "path": "results\\predictive_v15\\inner_tuning_scores.csv",
+      "sha256": "81062d8d3d8d7b8b77ee3b41a1a46f96dc86da350e6c9b7856b93f9694902095",
+      "size_bytes": 11936
+    },
+    {
+      "path": "results\\predictive_v15\\issue_time_availability_audit.csv",
+      "sha256": "c60a1c32392a54343a135b525a57bd2f02ba8a4ade57f1eeef7f396988d2ec57",
+      "size_bytes": 282133
+    },
+    {
+      "path": "results\\predictive_v15\\leakage_audit.json",
+      "sha256": "a3e402127117e18e86a97f9c13a7ebece6ace378764b0f845b4b6870caf50627",
+      "size_bytes": 1390
+    },
+    {
+      "path": "results\\predictive_v15\\outer_fold_predictions.parquet",
+      "sha256": "83737a98a20944b933922f54b6afbf3127c1b6259352deba817495afd0f6ab33",
+      "size_bytes": 19891
+    },
+    {
+      "path": "results\\predictive_v15\\overall_metrics.csv",
+      "sha256": "4869637885f15331a0a37a4dede3b67f9152bb84d68a95cc8df06661890424df",
+      "size_bytes": 1312
+    },
+    {
+      "path": "results\\predictive_v15\\paired_mae_skill_intervals.csv",
+      "sha256": "932750f46ba7b868973edefb7ecbbfbb32913c97c5843ad816be753c2291e500",
+      "size_bytes": 1193
+    },
+    {
+      "path": "results\\predictive_v15\\regime_metrics.csv",
+      "sha256": "ccd3799e7a6912fb2d7b3d385aca9d8a34e61097d18e2757c9620447cbdc875a",
+      "size_bytes": 1748
+    },
+    {
+      "path": "results\\predictive_v15\\source_availability_cmr_snapshot.json",
+      "sha256": "4907205bf8391b862d76a0d533e14d1f9459fe2b083166f8730573153e6f6367",
+      "size_bytes": 329802
+    },
+    {
+      "path": "results\\predictive_v15\\v14_regime_recomputed.json",
+      "sha256": "243e22824a87fc13cbc435a81c95d6a43442be011c82a2a3ce9f918199c5437d",
+      "size_bytes": 1060
+    },
+    {
+      "path": "scripts\\verify_predictive_v15.py",
+      "sha256": "db2114ef208e31103c695ce6717d251ec3d7e3e74bf8e6fe585cbd7ba833f806",
+      "size_bytes": 13336
+    }
+  ],
+  "generated_at_utc": "2026-11-17T21:06:22.108854Z",
+  "schema_version": "1.0"
+}

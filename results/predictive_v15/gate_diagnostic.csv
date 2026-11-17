@@ -1,0 +1,6 @@
+outer_fold,retrospective_regime_diagnostic_only,sample_count,mean_gate_weight,median_gate_weight,gate_weight_ge_0_5_rate,selected_strategy
+outer_2019,ordinary,12,0.23682934564483668,0.0,0.3333333333333333,smooth_shrinkage
+outer_2020,large_anomaly,2,0.1247380181995984,0.1247380181995984,0.0,regime_mixture
+outer_2020,ordinary,9,0.4486543422025275,0.41687979066687253,0.4444444444444444,regime_mixture
+outer_2021,large_anomaly,4,0.20549233546181353,0.2685321335954242,0.0,regime_mixture
+outer_2021,ordinary,4,0.8009019431146129,0.957265567934851,0.75,regime_mixture

@@ -1,0 +1,7 @@
+strategy,sample_count,mean_mae_improvement,ci_low,ci_high,block_length_months,bootstrap_replicates,resampling_scheme
+climatology,31,0.0,0.0,0.0,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
+compact_residual,31,-0.026110738181322684,-0.0792220528798568,0.029397805423002733,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
+regularized_anomaly,31,0.005544546511077232,-0.03781865044527431,0.05428981185174009,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
+smooth_shrinkage,31,-0.023383099748708294,-0.07481075905778982,0.02891231848291103,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
+regime_mixture,31,0.010018688893768536,-0.01623787290948483,0.03922353458943516,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
+nested_selected,31,0.006163711057416707,-0.021539187360341182,0.03768146504601469,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
