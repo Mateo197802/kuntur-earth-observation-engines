@@ -1,0 +1,62 @@
+{
+  "schema_version": "kuntur-statistical-corrective-development-config-v1.3",
+  "protocol_id": "kuntur-statistical-corrective-development-v1.3",
+  "phase": "development_only",
+  "selection_or_validation": false,
+  "outer_replicates_per_cell": 8,
+  "series_length_months": 276,
+  "slopes_per_decade": [0.0, 0.25],
+  "bootstrap_inner_draws": 199,
+  "resource_budget": {
+    "max_wall_seconds": 240,
+    "max_processes": 1,
+    "blas_threads": 1,
+    "max_rss_bytes": 1073741824,
+    "slurm_jobs": 0
+  },
+  "development_seed_namespace": "KUNTUR-STAT-CORRECTIVE-DEVELOPMENT-V1.3-2026-11-16",
+  "reserved_confirmation_seed_namespace": "KUNTUR-STAT-CORRECTIVE-INDEPENDENT-CONFIRMATION-V1.3-2027-01-15",
+  "reserved_confirmation_seed_namespace_used": false,
+  "legacy_selection_seed_base": 20261126,
+  "legacy_validation_seed_base": 20261127,
+  "scenarios": {
+    "iid_gaussian": [
+      "OLS_HAC_LAG6", "OLS_HAC_LAG12", "OLS_HAC_LAG24",
+      "SARIMAX_AR1", "SARIMAX_ARMA11", "SARIMAX_SEASONAL_AR12", "FEGLS_AR1",
+      "SEASONAL_MK_YEAR1", "SEASONAL_MK_YEAR2", "SEASONAL_MK_YEAR3", "SEASONAL_MK_YEAR4"
+    ],
+    "ar1_060_mcar20": [
+      "SARIMAX_AR1", "SARIMAX_ARMA11",
+      "SEASONAL_MK_YEAR1", "SEASONAL_MK_YEAR2", "SEASONAL_MK_YEAR3", "SEASONAL_MK_YEAR4"
+    ],
+    "ar1_0844": [
+      "OLS_HAC_LAG6", "OLS_HAC_LAG12", "OLS_HAC_LAG24",
+      "SARIMAX_AR1", "SARIMAX_ARMA11", "FEGLS_AR1"
+    ],
+    "arma11": [
+      "OLS_HAC_LAG6", "OLS_HAC_LAG12", "SARIMAX_AR1", "SARIMAX_ARMA11", "FEGLS_AR1"
+    ],
+    "seasonal_ar1_12": [
+      "SARIMAX_AR1", "SARIMAX_ARMA11", "SARIMAX_SEASONAL_AR12",
+      "SEASONAL_MK_YEAR2", "SEASONAL_MK_YEAR4"
+    ],
+    "heteroskedastic_iid": [
+      "OLS_HAC_LAG6", "OLS_HAC_LAG12", "OLS_HAC_LAG24",
+      "SARIMAX_ARMA11", "FEGLS_AR1"
+    ]
+  },
+  "candidate_method_specs": {
+    "OLS_HAC_LAG6": {"method": "ols_hac", "lag_months": 6, "block_length_months": 12},
+    "OLS_HAC_LAG12": {"method": "ols_hac", "lag_months": 12, "block_length_months": 12},
+    "OLS_HAC_LAG24": {"method": "ols_hac", "lag_months": 24, "block_length_months": 12},
+    "SARIMAX_AR1": {"method": "sarimax_ar1", "lag_months": 12, "block_length_months": 12},
+    "SARIMAX_ARMA11": {"method": "arma11", "lag_months": 12, "block_length_months": 12},
+    "SARIMAX_SEASONAL_AR12": {"method": "seasonal_ar12", "lag_months": 12, "block_length_months": 12},
+    "FEGLS_AR1": {"method": "gls_ar1", "lag_months": 12, "block_length_months": 12},
+    "SEASONAL_MK_YEAR1": {"method": "seasonal_mk_block", "lag_months": 12, "block_length_months": 12},
+    "SEASONAL_MK_YEAR2": {"method": "seasonal_mk_block", "lag_months": 12, "block_length_months": 24},
+    "SEASONAL_MK_YEAR3": {"method": "seasonal_mk_block", "lag_months": 12, "block_length_months": 36},
+    "SEASONAL_MK_YEAR4": {"method": "seasonal_mk_block", "lag_months": 12, "block_length_months": 48}
+  },
+  "interpretation": "This capped pilot is for implementation and diagnostic development only. No result may tune or change v1.2 selection, change any acceptance criterion, validate a method, promote a method, or support environmental inference."
+}
