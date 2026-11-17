@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import hashlib
+import json
+from pathlib import Path
 
 from scripts.statistical_correction.export_interval_confirmation_public_v1_3_2 import (
     _atomic_write,
@@ -37,3 +39,15 @@ def test_public_hash_matches_lf_normalized_git_text_and_export_is_lf(tmp_path) -
     output = tmp_path / "artifact.json"
     _atomic_write(output, "{\n  \"ok\": true\n}\n")
     assert output.read_bytes() == b"{\n  \"ok\": true\n}\n"
+
+
+def test_public_seed_audit_exposes_hashes_and_counts_but_no_seed_values() -> None:
+    root = Path(__file__).resolve().parents[1]
+    payload = json.loads((root / "results/phase2/public/statistical_validation_v1_3_2.json").read_text(encoding="utf-8"))
+    confirmation = payload["v1_3_2_independent_confirmation"]
+    development_inventory = confirmation["development_seed_inventory"]
+    assert development_inventory["count"] == 3090
+    assert len(development_inventory["sha256"]) == 64
+    assert development_inventory["disjoint_from_confirmation"] is True
+    assert confirmation["seed_disjointness_audit"]["exact_overlap_count"] == 0
+    assert not any("seed_values" in key or "replicate_rows" in key for key in confirmation)

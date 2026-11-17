@@ -23,9 +23,7 @@ def pytest_sessionstart(session) -> None:
 
     public_metrics = repo / "results/phase2/public/statistical_validation_v1_3_2.json"
     public = json.loads(public_metrics.read_text(encoding="utf-8"))
-    inventory_hash = public["v1_3_2_independent_confirmation"]["seed_disjointness_audit"][
-        "v1_3_2_seed_inventory_sha256"
-    ]
+    inventory_hash = public["v1_3_2_independent_confirmation"]["development_seed_inventory"]["sha256"]
     if not isinstance(inventory_hash, str) or len(inventory_hash) != 64:
         raise RuntimeError("Public aggregate evidence lacks the v1.3.2 development seed inventory hash")
 

@@ -1,6 +1,6 @@
 {
   "delivery_policy": "Aggregate metrics and code only. No row-level simulation checkpoints, NASA data, private paths, credentials, or raw source records are included.",
-  "generated_utc": "2026-11-17T21:57:58.403888+00:00",
+  "generated_utc": "2026-11-17T22:09:49.770309+00:00",
   "historical_v1_2_reconstruction": {
     "frozen_selections_unchanged": {
       "ar1_rho_0_6_with_20pct_mcar": "SEASONAL_MK_YEAR2",
@@ -34,7 +34,7 @@
     "docs/protocols/statistical_interval_comparison_v1_3_2.md": "1c5c0668fc1204a626276d0fa094257fa22dba347137a5c81e3f6703392ceebd",
     "docs/protocols/statistical_interval_confirmation_v1_3_2.md": "2f12cd5d23cfe2ba8bbb0fc83fab4a9efd171a950d3ca5237b0ea224c9f2a81a",
     "scripts/statistical_correction/audit_confirmation_seed_disjointness_v1_3_2.py": "58288fa391eb59881f318efcec04f31e192404133dcbf505f81939ad82b5b4b6",
-    "scripts/statistical_correction/export_interval_confirmation_public_v1_3_2.py": "e72c16269b3048ba358c28dfa93a863667df352afd8f9e66fc6de2dbebcb2105",
+    "scripts/statistical_correction/export_interval_confirmation_public_v1_3_2.py": "a34083e955099589b5b9bb75a251a5437b035d8b5dc971616871db5460769944",
     "scripts/statistical_correction/freeze_interval_comparison_v1_3_2.py": "f9f7e1e002218fa00492cf41c3b760640cef8fde7b5befd6add3538bd7e12083",
     "scripts/statistical_correction/freeze_interval_confirmation_v1_3_2.py": "c8ae143471e99695b3b0e2fbb3a3d82d2034eef90a4480f9b6f156f386bd5ee8",
     "scripts/statistical_correction/interval_comparison_v1_3_2.py": "8ea1171583659254e2f81f96a3f817b60544e6a0bff7571ff7af4b4f3cf58b93",
@@ -909,6 +909,11 @@
       }
     ],
     "decision": "INDEPENDENT_CONFIRMATION_PASS_FOR_IID_SYNTHETIC_SCOPE",
+    "development_seed_inventory": {
+      "count": 3090,
+      "disjoint_from_confirmation": true,
+      "sha256": "120a70e10ebad5167d74a3fb7b47b4d5926df40633f96baa398ac20950bf8403"
+    },
     "metrics_sha256": "894dc5bd67b090c4ec7a9848bb1cba4480b3b4e63a8fa52fb249d6b09e6e3030",
     "protocol_freeze_sha256": "18bb4bcf7f6ccde1ad1b34e6039a2cc96589e6bd11f940dacff402e356ec30bd",
     "replications": 3000,

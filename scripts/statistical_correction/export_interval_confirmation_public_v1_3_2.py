@@ -215,6 +215,11 @@ def build_payload() -> dict[str, Any]:
             "resource_usage": confirmation["resource_usage"],
             "seed_namespace": confirmation["seed_namespace"],
             "seed_inventory_sha256": confirmation["seed_inventory"]["confirmation_seed_inventory_sha256"],
+            "development_seed_inventory": {
+                "count": confirmation["seed_inventory"]["v1_3_2_preflight_and_development_seed_count"],
+                "sha256": confirmation["seed_inventory"]["v1_3_2_seed_inventory_sha256"],
+                "disjoint_from_confirmation": confirmation["seed_inventory"]["no_overlap_with_v1_3_2_preflight_or_development"],
+            },
             "seed_disjointness_audit": seed_audit,
             "metrics_sha256": sha256_file(CONF_METRICS),
             "report_sha256": sha256_file(CONF_REPORT),

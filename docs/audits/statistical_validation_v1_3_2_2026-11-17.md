@@ -2,7 +2,7 @@
 
 **Scientific result:** the finite-sample Student-t interval (`wald_student_t`) passed the frozen 3,000-fit independent confirmation for the declared IID Gaussian synthetic regime. The original v1.3 normal-Wald failure remains unchanged. This evidence does not validate inferential claims for dependent regimes or real NASA observations.
 
-Aggregate handoff JSON SHA-256: `2927161b75c70666f20de7d0f2318e7ceb5e15ad6b8e287a88a1124339f1117c`.
+Aggregate handoff JSON SHA-256: `6e3450a1a914f99fdc958f3fb80aa55f4f5071eeb7619a27098a4ad8f17ac8cc`.
 v1.3.2 development freeze SHA-256: `f7d3799f5ea56592bcd202a69a5c4759c0b0956954106e96d686b0a45ab96e4a`.
 Independent-confirmation freeze SHA-256: `18bb4bcf7f6ccde1ad1b34e6039a2cc96589e6bd11f940dacff402e356ec30bd`.
 
@@ -52,7 +52,7 @@ The original negative 2025 forecasting score is preserved and was not rerun or u
 
 ## Provenance and reproduction
 
-- Public-safe aggregate JSON SHA-256: `2927161b75c70666f20de7d0f2318e7ceb5e15ad6b8e287a88a1124339f1117c`.
+- Public-safe aggregate JSON SHA-256: `6e3450a1a914f99fdc958f3fb80aa55f4f5071eeb7619a27098a4ad8f17ac8cc`.
 - Development metrics SHA-256: `5dd7ec3b0e2ce236537dd51b58a2b10196d48bf15f256886d776229384b1cadf`; development report SHA-256: `d5da67b55dd5639ecac78f7d3657d65909ea9d06781a9a8b1e1df5f40584c155`.
 - Independent-confirmation metrics SHA-256: `894dc5bd67b090c4ec7a9848bb1cba4480b3b4e63a8fa52fb249d6b09e6e3030`; report SHA-256: `b2594d064f0a2fdfd477db66d08a481ba54e0f20cc5de2d3d67ea8b2c39d29c4`.
 - v1.2 registry SHA-256 (unchanged): `d68ddbf8825d98699198140593a871df307d71a3edb490ca02f992bae7f13580`.

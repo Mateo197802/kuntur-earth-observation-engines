@@ -29,6 +29,8 @@ flowchart LR
 - [Forecast and augmentation protocol](docs/protocols/predictive_model_protocol_v1.md)
 - [External comparison protocol](docs/protocols/external_validation_protocol_v1.md)
 - [v1.3.2 statistical correction and independent confirmation](docs/audits/statistical_validation_v1_3_2_2026-11-17.md)
+- [v1.3 six-regime development expansion (aggregate metrics; no non-IID confirmation)](docs/audits/v1_3_cross_regime_development_expansion_2026-11-17.md)
+- [Frozen v1.3 cross-regime development protocol](docs/protocols/statistical_corrective_development_expansion_v1_3.md)
 - [Machine-readable public statistical evidence](results/phase2/public/statistical_validation_v1_3_2.json)
 - [Downstream Python interface](docs/phase2_api.md)
 - [Benchmark and external comparison tables](results/phase2/public/)
