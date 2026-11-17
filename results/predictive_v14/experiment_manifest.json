@@ -1,0 +1,593 @@
+{
+  "artifacts": {
+    "reports/predictive_v14/ANOMALY_FORECASTING.md": {
+      "bytes": 6035,
+      "sha256": "6373e85f01c51eaa37ee9ad1c24e20dfc9ad4f80437e056d28f4c76feba9ff1a"
+    },
+    "reports/predictive_v14/EXPERIMENTAL_PROTOCOL.md": {
+      "bytes": 3588,
+      "sha256": "dd946cab4f6ef7d17fd4d63a988d56739d427d1e24378cb0bf0f7cbe5f728c4d"
+    },
+    "reports/predictive_v14/FEATURE_ABLATION.md": {
+      "bytes": 2486,
+      "sha256": "e527dc21082be3e94d177e0adbbc081f508eeb57e0df53de2420fdb556a8ac37"
+    },
+    "reports/predictive_v14/FEATURE_CONTRACT_AUDIT.md": {
+      "bytes": 1450,
+      "sha256": "c23c41f0ee2bb1775a476094731780c4813aea233780e240ab441ec7943b62fa"
+    },
+    "reports/predictive_v14/FINAL_SCIENTIFIC_VERDICT.md": {
+      "bytes": 1737,
+      "sha256": "736809db0ee5ce9d1772bbc5184013fcb577af42c27b13bba54a75df027bdb64"
+    },
+    "reports/predictive_v14/MODEL_COMPARISON.md": {
+      "bytes": 3348,
+      "sha256": "d54eb9115e4de87431b9c740c67a56b1b85fa2de3b8208a71b930517a00209fd"
+    },
+    "reports/predictive_v14/ROBUSTNESS_COMPARISON.md": {
+      "bytes": 2745,
+      "sha256": "f567729ecce29c2ab9693195ea8415168d1dfdbe21033bf2b340600985852689"
+    },
+    "reports/predictive_v14/ROOT_CAUSE_DIAGNOSTIC.md": {
+      "bytes": 4076,
+      "sha256": "559e8c092eeaea5c7a730f2398e876d42fcb1032aff6912622e51d1456f8ae10"
+    },
+    "reports/predictive_v14/UNCERTAINTY_CALIBRATION.md": {
+      "bytes": 4163,
+      "sha256": "1a8c6804372586eee71173d72684a1da3f6aeceee2440b8b1eb2fca021003619"
+    },
+    "reports/predictive_v14/figures/feature_ablation_mae.png": {
+      "bytes": 55198,
+      "sha256": "ac12351825f5a751b4db80b0411677d2fe065f5f8efd85eeb8b23bc5cf4ec3a9"
+    },
+    "reports/predictive_v14/figures/interval_coverage_vs_width.png": {
+      "bytes": 108189,
+      "sha256": "a70842efc48019dae2a3321451647fc8a447f836acc5d7171067ff6b8a0edeb4"
+    },
+    "reports/predictive_v14/figures/oof_absolute_error_timeseries.png": {
+      "bytes": 191209,
+      "sha256": "a10d0e812a5603d8e2b7404171425de6bd166362d05add9a58242bd716a83f48"
+    },
+    "reports/predictive_v14/figures/oof_predicted_vs_observed.png": {
+      "bytes": 92970,
+      "sha256": "3ea6d2c57eebda52d6a73e67034bf830b5685fc2120072dac9cbb805355d4b0a"
+    },
+    "reports/predictive_v14/figures/robustness_degradation.png": {
+      "bytes": 70553,
+      "sha256": "ab5011a8c8de15844069ca8fe542e478e1e184f78b8074eae41eddea97f9601d"
+    },
+    "reports/predictive_v14/figures/seasonal_prediction_bias.png": {
+      "bytes": 94444,
+      "sha256": "2547a95a35e794dc04312001e40bd2ae080bdc6f12b4e1f22ae988881965655a"
+    },
+    "reports/predictive_v14/figures/skill_by_outer_fold.png": {
+      "bytes": 40500,
+      "sha256": "a29d7b7b5ef40253234262a7bb899dcc64760ef627e160f7a65a4a3b2dc0e5a9"
+    },
+    "results/predictive_v14/anomaly_regime_metrics.csv": {
+      "bytes": 567,
+      "sha256": "a14e07908abc02608dce6c7db46ea07524d6bdfde6c5e6c48e451a29ed867cd8"
+    },
+    "results/predictive_v14/baseline_comparison.csv": {
+      "bytes": 2516,
+      "sha256": "d383854ac20c8a08d411e8ab05fd3682165e9694fb78921ef91f76bcf750d31f"
+    },
+    "results/predictive_v14/checkpoints/outer_2012_2014.joblib": {
+      "bytes": 215078,
+      "sha256": "e2cff42d6829a6ff529133caee180b81ba15afa534c317e22faee997c16c095c"
+    },
+    "results/predictive_v14/checkpoints/outer_2015_2017.joblib": {
+      "bytes": 221077,
+      "sha256": "48af36282ab7e188ec5b2abb1ee34bec04e4b0082b58925302a1930a5e0e660e"
+    },
+    "results/predictive_v14/checkpoints/outer_2018_2021.joblib": {
+      "bytes": 243526,
+      "sha256": "27cd6df790b71c30850ef8e58b42fa3338022830b071621aecb29e4d3c1071a1"
+    },
+    "results/predictive_v14/distribution_shift.csv": {
+      "bytes": 10148,
+      "sha256": "56b72f2de1540d48e5b6351caccfe2868ec15780c8f8f08ae82776c9c2a10bb7"
+    },
+    "results/predictive_v14/experiment_registry.csv": {
+      "bytes": 2115002,
+      "sha256": "f664335d356b8817a766613f96080c1ec8e3354fd17026c129d8f91a83aa3f1e"
+    },
+    "results/predictive_v14/feature_ablation.csv": {
+      "bytes": 2100,
+      "sha256": "2e163d889359da1fb3e7994185332a234db403b32d8af83f7fcaef7a334ce440"
+    },
+    "results/predictive_v14/fold_predictions.parquet": {
+      "bytes": 51288,
+      "sha256": "4227ba155d3566331393325eac07995b0fb7f645d6d88809acfb7d8c29b1f585"
+    },
+    "results/predictive_v14/interval_calibration.csv": {
+      "bytes": 563860,
+      "sha256": "75e01c17fea7dc68f66d282eb90778ebe1cc823fdcb0baa9cc2c03f7c644d1a1"
+    },
+    "results/predictive_v14/interval_calibration_summary.csv": {
+      "bytes": 12677,
+      "sha256": "6148e0d295cb3a07c920289b0133c7eafe4e44bdaa40e9b1e90765eacc9e1980"
+    },
+    "results/predictive_v14/model_metrics.csv": {
+      "bytes": 25550,
+      "sha256": "97a3bec6a19658eccfe2ecc2655cba94a09016c94b5df14ae4822a6be3a1b2e0"
+    },
+    "results/predictive_v14/models/model_bundle_v14.joblib": {
+      "bytes": 25658,
+      "sha256": "72443dfe37d04e5feeb9c3dba0e0143ae79eab8c3cab3fa434785f92ec1174e7"
+    },
+    "results/predictive_v14/models/preprocessing_v14.json": {
+      "bytes": 8473,
+      "sha256": "9405e78ed8bbef26e14eeb5f3f6ebc940ff39c4ffbcaaee4b313444882dad9b8"
+    },
+    "results/predictive_v14/residual_autocorrelation.csv": {
+      "bytes": 2118,
+      "sha256": "9756b2fceb5676dc580d9a2c9bcacbac9a2249c26a3e49582c3f99a1d4ad18e9"
+    },
+    "results/predictive_v14/robustness_metrics.csv": {
+      "bytes": 6888,
+      "sha256": "1510371c7a5959ca30b3c07de0b1d795305d268546cb97f79fecbbf48e2a56b4"
+    },
+    "results/predictive_v14/robustness_predictions.parquet": {
+      "bytes": 16101,
+      "sha256": "a7d87aa6e07138875b181f05016747ba1385b91711a4a5335f41ee7f3a8e0670"
+    },
+    "results/predictive_v14/seasonal_bias.csv": {
+      "bytes": 4167,
+      "sha256": "57fffd48e14d4c8d3ae71e6ecdc36dee257cf5694d339d9788d25e2b66069f74"
+    }
+  },
+  "augmentation_registry": {
+    "completed_inner_candidate_rows": 180,
+    "failed_inner_candidate_rows": 0
+  },
+  "code_commit": "b1a507b2311d63674f4f776e6c0b2bf494d8a1d9",
+  "code_files_sha256": {
+    "scripts/run_predictive_v14.py": "3da4c94ab1fed666895c927a6193265f1acd1ab1534ba5c96ef5578075c6d95f",
+    "src/kuntur_data/phase2/predictive_v14.py": "74d611970d04a5a99f5f92d6dd007544819ba0a4185ae432d481d5e59fd6927d"
+  },
+  "created_at_utc": "2026-11-17T14:42:46.638359-05:00",
+  "evaluation_scope": {
+    "2025_feature_coverage": "sealed Gold schema is MERRA-2-only; cross-source candidates are not applied or scored there",
+    "development_cutoff": "2021-12",
+    "development_start": "2003-03",
+    "excluded_target_months": "2022-01 onward including consumed 2022-2024 and 2025 tests",
+    "independent_unseen_test_completed": false,
+    "outer_folds": [
+      {
+        "name": "outer_2012_2014",
+        "train": [
+          "2003-03",
+          "2011-12"
+        ],
+        "train_month_count": 106,
+        "validation": [
+          "2012-01",
+          "2014-12"
+        ],
+        "validation_month_count": 36
+      },
+      {
+        "name": "outer_2015_2017",
+        "train": [
+          "2003-03",
+          "2014-12"
+        ],
+        "train_month_count": 142,
+        "validation": [
+          "2015-01",
+          "2017-12"
+        ],
+        "validation_month_count": 36
+      },
+      {
+        "name": "outer_2018_2021",
+        "train": [
+          "2003-03",
+          "2017-12"
+        ],
+        "train_month_count": 178,
+        "validation": [
+          "2018-01",
+          "2021-12"
+        ],
+        "validation_month_count": 48
+      }
+    ],
+    "outer_oof_months": 120,
+    "prior_2019_2021_validation_status": "previously inspected; treated as development observations, not a fresh holdout",
+    "training_availability_policy": "two-month source-release lag from frozen contract; source publication timestamps unverified"
+  },
+  "frozen_inputs": {
+    "forecast_features_sha256": "67c69236a8516b11b900b90f63926c1047aae3af991b726c567b5c85020ce2ff",
+    "forecast_path": "data/gold/kuntur_ecuador_pilot_bbox_forecast_plus1_v1.parquet",
+    "frozen_split_indices_sha256": "c2fbca4ac9636622a08e778913e2edfb23cc210453bf05114e1b3775b9b0726c",
+    "frozen_split_manifest_sha256": "6b72ab2f5db8107e9980f5e0435f94a3fe1220a4de8e055d5f6dae5e6332258e",
+    "monthly_gold_path": "data/gold/kuntur_ecuador_pilot_bbox_monthly_v1.parquet",
+    "monthly_gold_sha256": "5883fe2f7af8a8d0a58dd87c6bc90340a157c71e0d3fed51fff3a850eb2368b2",
+    "split_indices_path": "data/gold/kuntur_forecast_split_indices_v1.parquet",
+    "split_manifest_path": "data/manifests/forecast_split_manifest_v1.json"
+  },
+  "manifest_version": "kuntur-predictive-v1.4.0",
+  "nested_candidate_registry": {
+    "alpha_scores_per_completed_fit": 5,
+    "completed_candidate_fits": 720,
+    "expected_candidate_fits": 720,
+    "failed_candidate_fits": 0
+  },
+  "protocol": {
+    "acceptance_rule": "positive OOF MAE skill, paired MBB CI entirely below zero, worst-fold degradation <=0.10 C, absolute bias <=0.15 C; otherwise climatology preferred",
+    "alpha_grid": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "augmentation_policies": [
+      "clean",
+      "10% Gaussian",
+      "10% feature dropout",
+      "inner-selected Gaussian from 5%, 10%, 20%"
+    ],
+    "feature_groups": {
+      "all_sources": [
+        "target_month_sin",
+        "target_month_cos",
+        "t2m_anomaly_lag_03",
+        "t2m_anomaly_lag_04",
+        "t2m_anomaly_lag_05",
+        "t2m_anomaly_mean_03",
+        "t2m_anomaly_mean_06",
+        "t2m_anomaly_mean_12",
+        "t2m_anomaly_sd_06",
+        "t2m_anomaly_slope_06",
+        "qv_anomaly_lag_03",
+        "qv_anomaly_mean_03",
+        "wind_speed_anomaly_lag_03",
+        "wind_speed_anomaly_mean_03",
+        "ps_anomaly_lag_03",
+        "ps_anomaly_mean_03",
+        "precip_log_anomaly_lag_03",
+        "precip_log_anomaly_mean_03",
+        "precip_log_anomaly_mean_06",
+        "soil_0_10_anomaly_mean_03",
+        "soil_10_40_anomaly_mean_03",
+        "soil_40_100_anomaly_mean_03",
+        "soil_100_200_anomaly_mean_03"
+      ],
+      "all_without_atmosphere_extras": [
+        "target_month_sin",
+        "target_month_cos",
+        "t2m_anomaly_lag_03",
+        "t2m_anomaly_lag_04",
+        "t2m_anomaly_lag_05",
+        "t2m_anomaly_mean_03",
+        "t2m_anomaly_mean_06",
+        "t2m_anomaly_mean_12",
+        "t2m_anomaly_sd_06",
+        "t2m_anomaly_slope_06",
+        "precip_log_anomaly_lag_03",
+        "precip_log_anomaly_mean_03",
+        "precip_log_anomaly_mean_06",
+        "soil_0_10_anomaly_mean_03",
+        "soil_10_40_anomaly_mean_03",
+        "soil_40_100_anomaly_mean_03",
+        "soil_100_200_anomaly_mean_03"
+      ],
+      "all_without_precipitation": [
+        "target_month_sin",
+        "target_month_cos",
+        "t2m_anomaly_lag_03",
+        "t2m_anomaly_lag_04",
+        "t2m_anomaly_lag_05",
+        "t2m_anomaly_mean_03",
+        "t2m_anomaly_mean_06",
+        "t2m_anomaly_mean_12",
+        "t2m_anomaly_sd_06",
+        "t2m_anomaly_slope_06",
+        "qv_anomaly_lag_03",
+        "qv_anomaly_mean_03",
+        "wind_speed_anomaly_lag_03",
+        "wind_speed_anomaly_mean_03",
+        "ps_anomaly_lag_03",
+        "ps_anomaly_mean_03",
+        "soil_0_10_anomaly_mean_03",
+        "soil_10_40_anomaly_mean_03",
+        "soil_40_100_anomaly_mean_03",
+        "soil_100_200_anomaly_mean_03"
+      ],
+      "all_without_soil": [
+        "target_month_sin",
+        "target_month_cos",
+        "t2m_anomaly_lag_03",
+        "t2m_anomaly_lag_04",
+        "t2m_anomaly_lag_05",
+        "t2m_anomaly_mean_03",
+        "t2m_anomaly_mean_06",
+        "t2m_anomaly_mean_12",
+        "t2m_anomaly_sd_06",
+        "t2m_anomaly_slope_06",
+        "qv_anomaly_lag_03",
+        "qv_anomaly_mean_03",
+        "wind_speed_anomaly_lag_03",
+        "wind_speed_anomaly_mean_03",
+        "ps_anomaly_lag_03",
+        "ps_anomaly_mean_03",
+        "precip_log_anomaly_lag_03",
+        "precip_log_anomaly_mean_03",
+        "precip_log_anomaly_mean_06"
+      ],
+      "atmosphere": [
+        "target_month_sin",
+        "target_month_cos",
+        "t2m_anomaly_lag_03",
+        "t2m_anomaly_lag_04",
+        "t2m_anomaly_lag_05",
+        "t2m_anomaly_mean_03",
+        "t2m_anomaly_mean_06",
+        "t2m_anomaly_mean_12",
+        "t2m_anomaly_sd_06",
+        "t2m_anomaly_slope_06",
+        "qv_anomaly_lag_03",
+        "qv_anomaly_mean_03",
+        "wind_speed_anomaly_lag_03",
+        "wind_speed_anomaly_mean_03",
+        "ps_anomaly_lag_03",
+        "ps_anomaly_mean_03"
+      ],
+      "atmosphere_precipitation": [
+        "target_month_sin",
+        "target_month_cos",
+        "t2m_anomaly_lag_03",
+        "t2m_anomaly_lag_04",
+        "t2m_anomaly_lag_05",
+        "t2m_anomaly_mean_03",
+        "t2m_anomaly_mean_06",
+        "t2m_anomaly_mean_12",
+        "t2m_anomaly_sd_06",
+        "t2m_anomaly_slope_06",
+        "qv_anomaly_lag_03",
+        "qv_anomaly_mean_03",
+        "wind_speed_anomaly_lag_03",
+        "wind_speed_anomaly_mean_03",
+        "ps_anomaly_lag_03",
+        "ps_anomaly_mean_03",
+        "precip_log_anomaly_lag_03",
+        "precip_log_anomaly_mean_03",
+        "precip_log_anomaly_mean_06"
+      ],
+      "atmosphere_soil": [
+        "target_month_sin",
+        "target_month_cos",
+        "t2m_anomaly_lag_03",
+        "t2m_anomaly_lag_04",
+        "t2m_anomaly_lag_05",
+        "t2m_anomaly_mean_03",
+        "t2m_anomaly_mean_06",
+        "t2m_anomaly_mean_12",
+        "t2m_anomaly_sd_06",
+        "t2m_anomaly_slope_06",
+        "qv_anomaly_lag_03",
+        "qv_anomaly_mean_03",
+        "wind_speed_anomaly_lag_03",
+        "wind_speed_anomaly_mean_03",
+        "ps_anomaly_lag_03",
+        "ps_anomaly_mean_03",
+        "soil_0_10_anomaly_mean_03",
+        "soil_10_40_anomaly_mean_03",
+        "soil_40_100_anomaly_mean_03",
+        "soil_100_200_anomaly_mean_03"
+      ],
+      "temperature_only": [
+        "target_month_sin",
+        "target_month_cos",
+        "t2m_anomaly_lag_03",
+        "t2m_anomaly_lag_04",
+        "t2m_anomaly_lag_05",
+        "t2m_anomaly_mean_03",
+        "t2m_anomaly_mean_06",
+        "t2m_anomaly_mean_12",
+        "t2m_anomaly_sd_06",
+        "t2m_anomaly_slope_06"
+      ]
+    },
+    "forecast_timeline": "target T; forecast origin T-1; issue 00:00 UTC on first day T-1; features T-14 through T-3",
+    "model_configurations": [
+      {
+        "config": {
+          "alpha": 1.0
+        },
+        "config_id": "ridge_alpha_1",
+        "model_id": "ridge"
+      },
+      {
+        "config": {
+          "alpha": 10.0
+        },
+        "config_id": "ridge_alpha_10",
+        "model_id": "ridge"
+      },
+      {
+        "config": {
+          "alpha": 0.01,
+          "l1_ratio": 0.2
+        },
+        "config_id": "elastic_net_a001_l02",
+        "model_id": "elastic_net"
+      },
+      {
+        "config": {
+          "alpha": 0.1,
+          "l1_ratio": 0.5
+        },
+        "config_id": "elastic_net_a01_l05",
+        "model_id": "elastic_net"
+      },
+      {
+        "config": {
+          "C": 0.25,
+          "epsilon": 0.1,
+          "gamma": "scale"
+        },
+        "config_id": "svr_c025",
+        "model_id": "svr_rbf"
+      },
+      {
+        "config": {
+          "C": 1.0,
+          "epsilon": 0.1,
+          "gamma": "scale"
+        },
+        "config_id": "svr_c1",
+        "model_id": "svr_rbf"
+      },
+      {
+        "config": {
+          "l2_regularization": 5.0,
+          "learning_rate": 0.05,
+          "max_iter": 40,
+          "max_leaf_nodes": 2,
+          "min_samples_leaf": 10
+        },
+        "config_id": "hgb_leaf2",
+        "model_id": "hist_gradient_boosting"
+      },
+      {
+        "config": {
+          "l2_regularization": 5.0,
+          "learning_rate": 0.05,
+          "max_iter": 50,
+          "max_leaf_nodes": 3,
+          "min_samples_leaf": 10
+        },
+        "config_id": "hgb_leaf3",
+        "model_id": "hist_gradient_boosting"
+      },
+      {
+        "config": {
+          "max_depth": 2,
+          "max_features": 0.8,
+          "min_samples_leaf": 5,
+          "n_estimators": 60
+        },
+        "config_id": "rf_depth2",
+        "model_id": "random_forest"
+      },
+      {
+        "config": {
+          "max_depth": 3,
+          "max_features": 0.8,
+          "min_samples_leaf": 8,
+          "n_estimators": 60
+        },
+        "config_id": "rf_depth3",
+        "model_id": "random_forest"
+      }
+    ],
+    "native_thread_limit_per_fit": 1,
+    "paired_uncertainty": {
+      "block_months": 12,
+      "method": "non-circular moving-block bootstrap",
+      "replicates": 2000,
+      "seed": 20261117
+    },
+    "robustness_intensities": [
+      0.25,
+      0.5
+    ],
+    "robustness_scenarios": [
+      "Gaussian",
+      "missingness",
+      "Gaussian + missingness"
+    ],
+    "selection_metric": "pooled inner-validation MAE; then RMSE, feature count, model priority, config id, alpha"
+  },
+  "resource_usage": {
+    "elapsed_wall_seconds": 172.24962399998913,
+    "elapsed_cpu_seconds": 237.09375,
+    "peak_rss_bytes": 234668032,
+    "measurement_scope": "original complete three-fold candidate fitting run; measured before the checkpoint-only reproducibility replay"
+  },
+  "resumed_outer_folds": [
+    "outer_2012_2014",
+    "outer_2015_2017",
+    "outer_2018_2021"
+  ],
+  "selected_development_refit": {
+    "augmentation_intensity": 0.05,
+    "deployment_status": "development candidate only; independent temporal generalization unverified",
+    "fit": {
+      "fit_cpu_seconds": 0.203125,
+      "fit_wall_seconds": 0.19265879999147728,
+      "model_sha256": "72443dfe37d04e5feeb9c3dba0e0143ae79eab8c3cab3fa434785f92ec1174e7"
+    },
+    "out_of_fold_metrics": {
+      "bootstrap_replicates": 2000,
+      "bootstrap_seed": 3711348517,
+      "mae": 0.31505944629018373,
+      "mae_difference_vs_training_climatology": 0.006733259777821299,
+      "mae_skill_vs_training_climatology": -0.021838105462220758,
+      "mean_bias": -0.04687282067271218,
+      "model_id": "nested_selected_augmentation_pipeline",
+      "monthly_win_rate_vs_training_climatology": 0.5,
+      "moving_block_length_months": 12,
+      "paired_mae_difference_ci95_high": 0.09061314965207108,
+      "paired_mae_difference_ci95_low": -0.05778498232224029,
+      "rmse": 0.3893806231433878,
+      "rmse_difference_vs_training_climatology": -0.010575210575770766,
+      "rmse_skill_vs_training_climatology": 0.026440945935036653,
+      "sample_count": 120,
+      "uncertainty_interpretation": "descriptive; serial dependence and model selection limit inferential claims",
+      "worst_fold_mae": 0.34042509816501326,
+      "worst_fold_mae_difference_vs_climatology": 0.047227587992706904
+    },
+    "specification": {
+      "alpha": 1.0,
+      "config": {
+        "max_depth": 3,
+        "max_features": 0.8,
+        "min_samples_leaf": 8,
+        "n_estimators": 60
+      },
+      "config_id": "rf_depth3",
+      "feature_group": "atmosphere_precipitation",
+      "model_id": "random_forest"
+    },
+    "training_month_count": 226,
+    "training_month_range": [
+      "2003-03",
+      "2021-12"
+    ],
+    "training_policy": "mild_gaussian"
+  },
+  "software": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "python": "3.12.10",
+    "scikit_learn": "1.9.0"
+  },
+  "status": "COMPLETED_DEVELOPMENT_ONLY",
+  "validation": {
+    "checks": {
+      "120_common_unique_outer_oof_months": true,
+      "all_fixed_nested_candidates_completed": true,
+      "all_oof_predictions_finite": true,
+      "authentic_labels_unchanged_by_augmentation": true,
+      "exact_226_development_samples": true,
+      "no_2022_2024_or_2025_target_rows_loaded_for_scoring": true,
+      "source_forecast_predicate_ends_at_2021_12": true,
+      "source_monthly_gold_predicate_ends_at_2021_12": true,
+      "source_release_lag_is_labeled_assumption": true,
+      "target_t2m_matches_frozen_gold": true,
+      "three_expanding_outer_folds": true,
+      "training_climatology_and_preprocessing_fit_fold_locally": true
+    },
+    "status": "PASSED"
+  },
+  "latest_checkpoint_replay_usage": {
+    "elapsed_cpu_seconds": 9.484375,
+    "elapsed_wall_seconds": 9.764657799969427,
+    "peak_rss_bytes": 210272256
+  }
+}

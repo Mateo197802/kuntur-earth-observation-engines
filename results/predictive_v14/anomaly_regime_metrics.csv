@@ -1,0 +1,7 @@
+model_id,anomaly_regime,sample_count,mae_c,mean_absolute_anomaly_c
+nested_selected_augmentation_pipeline,large_anomaly,13,0.6057587966641527,0.8621321637775955
+nested_selected_augmentation_pipeline,ordinary,107,0.2797408336279258,0.2410413481530351
+nested_selected_pipeline,large_anomaly,13,0.60323611534167,0.8621321637775955
+nested_selected_pipeline,ordinary,107,0.2689134961207293,0.2410413481530351
+training_monthly_climatology,large_anomaly,13,0.8621321637775955,0.8621321637775955
+training_monthly_climatology,ordinary,107,0.2410413481530351,0.2410413481530351
