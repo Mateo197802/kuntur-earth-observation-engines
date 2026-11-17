@@ -266,7 +266,7 @@ def chronological_outer_folds(frame: pd.DataFrame) -> list[TemporalFold]:
 
 
 def chronological_inner_folds(train: pd.DataFrame) -> list[TemporalFold]:
-    """Three expanding, one-year validation windows ending at the outer cutoff."""
+    """Three expanding validation windows, with the last window ending at the outer cutoff."""
     validate_forecast_timeline(train)
     ordered = train.sort_values("target_month", kind="stable").reset_index(drop=True)
     end = pd.Period(str(ordered.target_month.max()), freq="M")

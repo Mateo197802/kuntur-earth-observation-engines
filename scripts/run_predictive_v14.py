@@ -1491,35 +1491,6 @@ def _render_figures(
     figure_root = report_root / "figures"
     figure_root.mkdir(parents=True, exist_ok=True)
     made: list[Path] = []
-    climate = predictions[predictions.model_id == "training_monthly_climatology"].set_index("sample_id")
-    candidate = predictions[predictions.model_id == "nested_selected_augmentation_pipeline"].sort_values("target_month")
-    fig, ax = plt.subplots(figsize=(6.2, 5.2))
-    ax.scatter(candidate.observed_t2m_c, candidate.prediction_t2m_c, s=20, alpha=0.7, label="Nested selected candidate")
-    climate_values = np.asarray([climate.loc[sid, "prediction_t2m_c"] for sid in candidate.sample_id])
-    ax.scatter(candidate.observed_t2m_c, climate_values, s=20, alpha=0.55, label="Training climatology")
-    low = float(min(candidate.observed_t2m_c.min(), candidate.prediction_t2m_c.min(), climate_values.min()))
-    high = float(max(candidate.observed_t2m_c.max(), candidate.prediction_t2m_c.max(), climate_values.max()))
-    ax.plot([low, high], [low, high], color="black", linewidth=1)
-    ax.set(xlabel="Observed monthly T2M (°C)", ylabel="Predicted monthly T2M (°C)", title="Nested chronological out-of-fold predictions")
-    ax.legend(frameon=False)
-    fig.tight_layout()
-    path = figure_root / "oof_predicted_vs_observed.png"
-    fig.savefig(path, dpi=160)
-    plt.close(fig)
-    made.append(path)
-
-    fig, ax = plt.subplots(figsize=(8.2, 4.6))
-    compare = predictions[predictions.model_id.isin(["training_monthly_climatology", "nested_selected_pipeline", "nested_selected_augmentation_pipeline"])].copy()
-    compare["absolute_error"] = np.abs(compare.prediction_t2m_c - compare.observed_t2m_c)
-    compare.pivot(index="target_month", columns="model_id", values="absolute_error").plot(ax=ax, linewidth=1.2)
-    ax.set(ylabel="Absolute error (°C)", xlabel="Target month", title="Out-of-fold absolute error by month")
-    ax.legend(frameon=False, fontsize=8)
-    fig.tight_layout()
-    path = figure_root / "oof_absolute_error_timeseries.png"
-    fig.savefig(path, dpi=160)
-    plt.close(fig)
-    made.append(path)
-
     seasonal = _seasonal_bias_table(predictions)
     fig, ax = plt.subplots(figsize=(8.0, 4.6))
     for model_id, group in seasonal.groupby("model_id", sort=False):
@@ -1650,7 +1621,7 @@ Frozen input SHA-256: `{json.dumps(source_hashes, sort_keys=True)}`. Code revisi
 - Target is MERRA-2 Ecuador pilot-bbox monthly mean T2M in °C for month T.
 - Forecast origin is T-1; assumed issue time is 00:00 UTC on the first of T-1.
 - All inputs are from exact monthly records T-14 through T-3, ending before issue month.
-- The two-month release lag is inherited from the frozen contract. Actual NASA publication timestamps were not established; this is a retrospective availability assumption.
+- The two-month release lag is inherited from the frozen contract. Both fit labels and predictor availability are restricted to that issue-time assumption; actual NASA publication timestamps were not established.
 - Development predictors: MERRA-2 T2M, specific humidity, u/v wind components and pressure; IMERG monthly precipitation total; four GLDAS soil-moisture layers.
 - IMERG precipitation is transformed with `log1p` before training-period calendar-month anomaly calculation. Wind speed is deterministically `hypot(u2m, v2m)`; the native source components remain in Gold.
 - Calendar-month predictor means, target monthly climatology, imputation means and StandardScaler parameters are fitted separately inside each inner/outer training fold.
@@ -1669,13 +1640,13 @@ Development-only nested chronological evaluation. The source forecast is read wi
 
 ## Outer folds
 
-| Fold | Training target months | Scored target months |
+| Fold | Training target months available at first issue | Scored target months |
 |---|---|---|
-| outer_2012_2014 | 2003-03–2011-12 | 2012-01–2014-12 |
-| outer_2015_2017 | 2003-03–2014-12 | 2015-01–2017-12 |
-| outer_2018_2021 | 2003-03–2017-12 | 2018-01–2021-12 |
+| outer_2012_2014 | 2003-03–2011-10 | 2012-01–2014-12 |
+| outer_2015_2017 | 2003-03–2014-10 | 2015-01–2017-12 |
+| outer_2018_2021 | 2003-03–2017-10 | 2018-01–2021-12 |
 
-Each outer training period has three expanding one-year inner validation windows ending at its cutoff. Inner folds select feature group, model configuration and residual shrinkage alpha. Outer months are scored once by the selection procedure. The 120 outer predictions are a development estimate, not an independent final test.
+Each outer training period has three expanding inner validation windows; the last ends at October of the outer cutoff year, with the model's own two-month target-label availability guard applied at each first validation issue. The final inner window can therefore be shorter than a calendar year. Inner folds select feature group, model configuration and residual shrinkage alpha. Outer months are scored once by the selection procedure. The 120 outer predictions are a development estimate, not an independent final test.
 
 ## Candidates and fixed budget
 
