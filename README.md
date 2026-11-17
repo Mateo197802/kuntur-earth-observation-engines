@@ -28,8 +28,12 @@ flowchart LR
 - [Variable dictionary](docs/data_dictionary_v1.csv)
 - [Forecast and augmentation protocol](docs/protocols/predictive_model_protocol_v1.md)
 - [External comparison protocol](docs/protocols/external_validation_protocol_v1.md)
+- [v1.3.2 statistical correction and independent confirmation](docs/audits/statistical_validation_v1_3_2_2026-11-17.md)
+- [Machine-readable public statistical evidence](results/phase2/public/statistical_validation_v1_3_2.json)
 - [Downstream Python interface](docs/phase2_api.md)
 - [Benchmark and external comparison tables](results/phase2/public/)
+
+The finite-sample Student-t interval passed independent confirmation for its declared IID Gaussian synthetic regime only. This does not validate dependent-error regimes or real NASA series; the inferential registry remains unchanged, and confirmatory p-values, confidence intervals, and FDR q-values remain withheld for real Gold data.
 
 The final test selected histogram gradient boosting using the untouched validation set, then evaluated the frozen model once on 36 months from 2022–2024. Results and the disclosed process-access caveat are in the handoff. Model intervals had 55.6% empirical coverage against a nominal 90% target and must not be treated as calibrated guarantees. Internal stress tests use 38 unique chronological months; the many perturbed records do not increase the number of independent months.
 
