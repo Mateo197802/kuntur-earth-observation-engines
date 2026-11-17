@@ -28,6 +28,7 @@ from kuntur_data.phase2.predictive_v15 import (
     ALLOWED_GATE_FEATURES,
     chronological_inner_folds_v15,
     chronological_outer_folds_v15,
+    complete_moving_blocks,
     gate_proxy_values,
     history_months_for_target,
     history_published_by_issue,
@@ -599,27 +600,21 @@ def paired_block_interval(
     if target_months is not None:
         if len(target_months) != n:
             raise ValueError("target_months must align with the paired forecast rows")
-        ordered = pd.DataFrame({"month": pd.PeriodIndex(target_months, freq="M"), "index": np.arange(n)})
-        if ordered.month.duplicated().any() or not ordered.month.is_monotonic_increasing:
-            raise ValueError("target_months must be unique and chronological for moving-block intervals")
-        segments: list[list[int]] = []
-        current: list[int] = []
-        previous: pd.Period | None = None
-        for row in ordered.itertuples(index=False):
-            if previous is None or row.month == previous + 1:
-                current.append(int(row.index))
-            else:
-                if current:
-                    segments.append(current)
-                current = [int(row.index)]
-            previous = row.month
-        if current:
-            segments.append(current)
-        blocks = [segment[start : start + block_length] for segment in segments for start in range(len(segment))]
-        scheme = "moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap"
+        blocks = complete_moving_blocks(target_months, block_length=block_length)
+        scheme = "complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded"
     else:
-        blocks = [list(range(start, min(start + block_length, n))) for start in range(n)]
-        scheme = "moving blocks over row order"
+        blocks = [tuple(range(start, start + block_length)) for start in range(max(0, n - block_length + 1))]
+        scheme = "complete moving blocks over row order; incomplete suffix excluded"
+    if not blocks:
+        return {
+            "sample_count": int(n),
+            "mean_mae_improvement": float(np.mean(improvement)),
+            "ci_low": None,
+            "ci_high": None,
+            "block_length_months": int(block_length),
+            "bootstrap_replicates": int(replicates),
+            "resampling_scheme": "insufficient contiguous observations for one complete declared block",
+        }
     for repeat in range(replicates):
         chosen: list[int] = []
         while len(chosen) < n:
@@ -837,6 +832,8 @@ The source guard combines CMR granule production timestamps with a conservative 
 
 CMR `ProductionDateTime` means the exact time a granule was produced, while `ProviderDates.Insert` is the time it entered the provider database. Neither field is a guaranteed first-publication timestamp. The registry therefore labels these as **latency-and-production-guard eligible**, records `first_publication_timestamp_verified=false`, and does not overstate the positive availability proof. A granule produced after issue is rejected. Cross-source predictors were not scored unless a chronological, guard-eligible training set preceded 2019.
 
+The corrected folds also apply this production-time rule to **target labels used for fitting**. Every outer and inner model's training labels must have a MERRA-2 CMR production timestamp no later than the earliest issue in that validation window; missing timestamps are excluded. Fold-level cutoff/count evidence is recorded in `leakage_audit.json`.
+
 NASA references: [MERRA-2 system characteristics](https://gmao.gsfc.nasa.gov/gmao-products/merra-2/system-characteristics_merra-2/), [IMERG Final latency](https://gpm.nasa.gov/resources/faq/what-determines-latency-imerg), [GLDAS-2.1 latency note](https://forum.earthdata.nasa.gov/viewtopic.php?t=7953), [CMR ProductionDateTime definition](https://wiki.earthdata.nasa.gov/spaces/CMR/pages/133727054/Production+Date+Time), [CMR ProviderDates definition](https://wiki.earthdata.nasa.gov/spaces/CMR/pages/135834714/Provider+Dates).
 
 {format_markdown_table(source_table, list(source_table.columns))}
@@ -889,10 +886,11 @@ The lowest pooled outer-OOF MAE belongs to `{best['strategy']}`, but this is des
 
 - Full experiment registry and input/configuration provenance: `results/predictive_v15/experiment_registry_v1_5.json`.
 - Independent SHA-256 index for generated outputs: `results/predictive_v15/artifact_hashes_v1_5.json`.
-- Independent verification command: `python scripts/verify_predictive_v15.py --data-root <existing read-only KUNTUR data root>`.
-- Source eligibility audit and CMR snapshot: `results/predictive_v15/issue_time_availability_audit.csv`, `results/predictive_v15/source_availability_cmr_snapshot.json`.
-- Outer OOF predictions: `results/predictive_v15/outer_fold_predictions.parquet`.
-- Inner OOF predictions and all candidate parameter scores: `results/predictive_v15/inner_selection_oof.parquet`, `results/predictive_v15/inner_tuning_scores.csv`, `results/predictive_v15/inner_candidate_scores.csv`.
+- Public aggregate verification: `python scripts/verify_predictive_v15.py --data-root <existing read-only KUNTUR data root>`.
+- Full local metric recomputation: add `--private-output-root <private run directory>`; row-level files remain outside Git.
+- Public source collection/production metadata: `results/predictive_v15/source_availability_cmr_snapshot.json`.
+- Row-level availability audits and predictions are written only to the local private output root and excluded from the public repository. Pass the run directory to the verifier for the full local recomputation.
+- Public inner candidate and parameter score summaries: `results/predictive_v15/inner_tuning_scores.csv`, `results/predictive_v15/inner_candidate_scores.csv`.
 - Model and regime metrics: `results/predictive_v15/overall_metrics.csv`, `results/predictive_v15/regime_metrics.csv`.
 - Leakage audit: `results/predictive_v15/leakage_audit.json`.
 
@@ -907,6 +905,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-root", type=Path, required=True, help="Read-only root containing the existing v1.4 data/ tree")
     parser.add_argument("--reuse-cmr-snapshot", action="store_true", help="Reuse a previously saved public CMR snapshot instead of refreshing it")
+    parser.add_argument("--private-output-root", type=Path, help="Private local parent directory for row-level audit/prediction artifacts; one run-id subdirectory is created")
     parser.add_argument("--seed", type=int, default=2026)
     return parser
 
@@ -918,6 +917,15 @@ def main(argv: list[str] | None = None) -> int:
     v14_dir = repo_root / "results" / "predictive_v14"
     result_dir = repo_root / "results" / "predictive_v15"
     report_path = repo_root / "reports" / "predictive_v15" / "PREDICTIVE_V15_REPORT.md"
+    run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    private_parent = args.private_output_root or (Path.home() / ".local" / "share" / "kuntur" / "private" / "predictive_v15")
+    private_result_dir = private_parent.resolve() / run_id
+    try:
+        private_result_dir.relative_to(repo_root.resolve())
+    except ValueError:
+        pass
+    else:
+        raise ValueError("private row-level output root must remain outside the repository")
     result_dir.mkdir(parents=True, exist_ok=True)
 
     samples, monthly, files = load_development_inputs(data_root)
@@ -929,7 +937,7 @@ def main(argv: list[str] | None = None) -> int:
     cmr_path = result_dir / "source_availability_cmr_snapshot.json"
     snapshot = load_or_fetch_cmr_snapshot(cmr_path, refresh=not args.reuse_cmr_snapshot)
     audit, source_summary = build_availability_audit(samples, snapshot, monthly)
-    atomic_csv(result_dir / "issue_time_availability_audit.csv", audit)
+    atomic_csv(private_result_dir / "issue_time_availability_audit.csv", audit)
 
     merra_id = "merra2_monthly_slv"
     merra_audit = audit[audit.source_id.eq(merra_id)]
@@ -941,23 +949,50 @@ def main(argv: list[str] | None = None) -> int:
     if eligible.empty or set(eligible.partition.astype(str)) - {"train", "validation"}:
         raise RuntimeError("no valid MERRA-2 development rows survived issue-time and Gold completeness guards")
     atomic_csv(
-        result_dir / "eligible_development_samples.csv",
+        private_result_dir / "eligible_development_samples.csv",
         eligible[["sample_id", "target_month", "issue_date_utc", "partition"]],
     )
 
-    outer_folds = chronological_outer_folds_v15(eligible, validation_years=(2019, 2020, 2021), development_end=DEV_END)
+    merra_label_production_dates = production_dates(snapshot, merra_id)
+    outer_folds = chronological_outer_folds_v15(
+        eligible,
+        validation_years=(2019, 2020, 2021),
+        development_end=DEV_END,
+        label_production_dates_utc=merra_label_production_dates,
+    )
     expected_folds = ["outer_2019", "outer_2020", "outer_2021"]
     if [fold.name for fold in outer_folds] != expected_folds:
         raise RuntimeError(f"required outer year folds unavailable: {[fold.name for fold in outer_folds]}")
     prediction_frames: list[pd.DataFrame] = []
     inner_oof_frames: list[pd.DataFrame] = []
+    label_availability_summary: list[dict[str, Any]] = []
     selection_frames: list[dict[str, Any]] = []
     candidate_frames: list[pd.DataFrame] = []
     tuning_rows: list[dict[str, Any]] = []
     timing_rows: list[dict[str, Any]] = []
     started = time.perf_counter()
     for fold_index, outer in enumerate(outer_folds):
-        inner = chronological_inner_folds_v15(outer.train, min_train_months=18)
+        inner = chronological_inner_folds_v15(
+            outer.train,
+            min_train_months=18,
+            label_production_dates_utc=merra_label_production_dates,
+        )
+        for scope, training, issue_time in [
+            ("outer", outer.train, str(outer.validation.sort_values("target_month").iloc[0].issue_date_utc)),
+            *[
+                (f"inner:{part.name}", part.train, str(part.validation.sort_values("target_month").iloc[0].issue_date_utc))
+                for part in inner
+            ],
+        ]:
+            latest_label = str(training.target_month.max())
+            label_availability_summary.append({
+                "outer_fold": outer.name,
+                "scope": scope,
+                "first_validation_issue_time_utc": issue_time,
+                "training_label_count": int(len(training)),
+                "latest_training_label_month": latest_label,
+                "latest_label_cmr_production_time_utc": merra_label_production_dates.get(latest_label),
+            })
         inner_oof, inner_timing = inner_predictions(inner, monthly, args.seed + fold_index * 100)
         inner_oof.insert(0, "outer_fold", outer.name)
         inner_oof_frames.append(inner_oof)
@@ -1005,8 +1040,8 @@ def main(argv: list[str] | None = None) -> int:
     if v14.get("status") != "RECOMPUTED_FROM_OOF_ROWS":
         raise RuntimeError(f"v1.4 result verification did not complete: {v14}")
 
-    atomic_parquet(result_dir / "outer_fold_predictions.parquet", predictions)
-    atomic_parquet(result_dir / "inner_selection_oof.parquet", inner_oof)
+    atomic_parquet(private_result_dir / "outer_fold_predictions.parquet", predictions)
+    atomic_parquet(private_result_dir / "inner_selection_oof.parquet", inner_oof)
     atomic_csv(result_dir / "overall_metrics.csv", metrics)
     atomic_csv(result_dir / "fold_metrics.csv", fold_metrics)
     atomic_csv(result_dir / "regime_metrics.csv", regime_metrics)
@@ -1047,6 +1082,12 @@ def main(argv: list[str] | None = None) -> int:
         "split_filter": "partition != test and target_month <= 2021-12 applied in Arrow before pandas conversion",
         "monthly_gold_filter": "month <= 2021-12 applied in Arrow before pandas conversion",
         "source_cmr_temporal_filter": CMR_END,
+        "target_label_availability_guard": {
+            "status": "PASS",
+            "rule": "training label MERRA-2 CMR ProductionDateTime must be no later than the earliest validation issue time; missing production timestamps are excluded",
+            "semantics": "conservative production-time proxy, not proof of first public release",
+            "fold_training_summaries": label_availability_summary,
+        },
         "outer_folds": expected_folds,
         "gate_feature_allowlist": list(sorted(ALLOWED_GATE_FEATURES)),
         "gate_features_used": list(GATE_PROXIES),
@@ -1066,7 +1107,10 @@ def main(argv: list[str] | None = None) -> int:
         "outer_folds": expected_folds,
         "selected_strategies_by_fold": selections[["outer_fold", "selected_strategy", "ridge_alpha", "smooth_alpha", "gate_proxy", "gate_strength"]].to_dict("records"),
     }
-    run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    private_output_files = [
+        {"path": path.name, "sha256": sha256_file(path), "size_bytes": path.stat().st_size}
+        for path in sorted(private_result_dir.iterdir()) if path.is_file()
+    ]
     registry = {
         "schema_version": "1.0",
         "experiment_id": "KUNTUR-PREDICTIVE-V1.5",
@@ -1095,6 +1139,7 @@ def main(argv: list[str] | None = None) -> int:
             },
         },
         "evaluation": evaluation,
+        "private_output_artifacts": private_output_files,
         "paired_mae_skill_intervals": intervals.to_dict("records"),
         "configuration": {
             "development_cutoff": DEV_END,
@@ -1124,9 +1169,8 @@ def main(argv: list[str] | None = None) -> int:
             "wall_seconds": round(time.perf_counter() - started, 6),
         },
         "output_files": [
-            "source_availability_cmr_snapshot.json", "issue_time_availability_audit.csv", "eligible_development_samples.csv",
-            "outer_fold_predictions.parquet", "overall_metrics.csv", "fold_metrics.csv", "regime_metrics.csv",
-            "inner_selection_oof.parquet", "paired_mae_skill_intervals.csv", "inner_candidate_scores.csv", "inner_tuning_scores.csv",
+            "source_availability_cmr_snapshot.json", "overall_metrics.csv", "fold_metrics.csv", "regime_metrics.csv",
+            "paired_mae_skill_intervals.csv", "inner_candidate_scores.csv", "inner_tuning_scores.csv",
             "fold_selections.csv", "fit_timings.csv",
             "fit_cost_summary.csv", "gate_diagnostic.csv", "v14_regime_recomputed.json", "leakage_audit.json",
             "experiment_registry_v1_5.json", "artifact_hashes_v1_5.json", "reports/predictive_v15/PREDICTIVE_V15_REPORT.md",
@@ -1136,10 +1180,12 @@ def main(argv: list[str] | None = None) -> int:
     atomic_json(result_dir / "experiment_registry_v1_5.json", registry)
     write_report(report_path, registry=registry, source_summary=source_summary, metrics=metrics, regimes=regime_metrics, selections=selections, costs=costs, v14=v14, gate_summary=gates)
 
-    hash_targets = sorted(
-        [path for path in result_dir.iterdir() if path.is_file() and path.name != "artifact_hashes_v1_5.json"]
-        + [report_path, verifier_path]
-    )
+    public_targets = [
+        (repo_root / Path(item)) if str(item).startswith("reports/") else (result_dir / Path(item))
+        for item in registry["output_files"]
+        if Path(item).name != "artifact_hashes_v1_5.json"
+    ]
+    hash_targets = sorted(set(public_targets + [verifier_path]), key=lambda path: str(path))
     hash_index = {
         "schema_version": "1.0",
         "algorithm": "SHA-256",
@@ -1156,6 +1202,8 @@ def main(argv: list[str] | None = None) -> int:
         "overall_metrics_path": str(result_dir / "overall_metrics.csv"),
         "report_path": str(report_path),
         "hash_index_path": str(result_dir / "artifact_hashes_v1_5.json"),
+        "private_output_run_id": run_id,
+        "private_output_files": len(private_output_files),
         "wall_seconds": registry["environment"]["wall_seconds"],
     }, indent=2, sort_keys=True))
     return 0

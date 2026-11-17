@@ -7,8 +7,10 @@ from kuntur_data.phase2.predictive_v15 import (
     ALLOWED_GATE_FEATURES,
     chronological_inner_folds_v15,
     chronological_outer_folds_v15,
+    complete_moving_blocks,
     history_months_for_target,
     history_published_by_issue,
+    labels_published_by_issue,
     metric_summary_v15,
     retrospective_regime_summary_v15,
     gate_proxy_values,
@@ -131,6 +133,41 @@ def test_nested_year_folds_are_chronological_and_do_not_include_consumed_tests()
         for part in inner:
             assert part.train.target_month.max() < part.validation.target_month.min()
             assert part.validation.target_month.max() <= fold.train.target_month.max()
+
+
+def test_outer_and_inner_training_labels_must_be_produced_by_first_validation_issue():
+    months = pd.period_range("2015-01", "2021-12", freq="M").astype(str)
+    samples = pd.DataFrame({
+        "target_month": months,
+        "issue_date_utc": [f"{pd.Period(month, freq='M') - 1}-01T00:00:00Z" for month in months],
+    })
+    production = {month: f"{month}-15T00:00:00Z" for month in months}
+    production["2018-11"] = "2018-12-15T00:00:00Z"
+
+    outer = chronological_outer_folds_v15(
+        samples, validation_years=(2019, 2020, 2021), label_production_dates_utc=production
+    )
+    assert outer[0].train.target_month.max() == "2018-10"
+    assert "2018-11" not in set(outer[0].train.target_month)
+    assert "2018-12" not in set(outer[0].train.target_month)
+
+    inner = chronological_inner_folds_v15(
+        outer[0].train, min_train_months=18, label_production_dates_utc=production
+    )
+    final_inner = inner[-1]
+    issue = final_inner.validation.sort_values("target_month").iloc[0].issue_date_utc
+    eligible = labels_published_by_issue(final_inner.train, issue, production)
+    assert set(final_inner.train.target_month) == set(eligible.target_month)
+    assert not final_inner.train.empty
+
+
+def test_moving_blocks_include_only_complete_calendar_contiguous_blocks():
+    blocks = complete_moving_blocks(
+        ["2020-01", "2020-02", "2020-03", "2020-04"], block_length=3
+    )
+
+    assert blocks == [(0, 1, 2), (1, 2, 3)]
+    assert all(len(block) == 3 for block in blocks)
 
 
 def test_outer_folds_reject_any_consumed_test_target():

@@ -66,9 +66,11 @@ def resolve_input_path(label: str, repo_root: Path, data_root: Path) -> Path:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-root", type=Path, required=True, help="Read-only existing KUNTUR data root containing gold/ and manifests/")
+    parser.add_argument("--private-output-root", type=Path, help="Optional local run directory containing private row-level outputs for full metric recomputation")
     args = parser.parse_args()
     repo_root = Path(__file__).resolve().parents[1]
     data_root = args.data_root.resolve()
+    private_output_root = args.private_output_root.resolve() if args.private_output_root else None
     result_dir = repo_root / "results" / "predictive_v15"
     registry_path = result_dir / "experiment_registry_v1_5.json"
     hash_path = result_dir / "artifact_hashes_v1_5.json"
@@ -100,11 +102,86 @@ def main() -> int:
             input_hash_failures.append(f"machine-specific absolute path leaked: {key}")
             continue
         path = resolve_input_path(label, repo_root, data_root)
+        if not path.is_file() and key == "v14_fold_predictions" and private_output_root is None:
+            # The source OOF rows are intentionally not part of the public release.
+            continue
         if not path.is_file() or sha256_file(path) != record["sha256"] or path.stat().st_size != int(record["size_bytes"]):
             input_hash_failures.append(key)
     require(not input_hash_failures, f"input/code hash check failed: {input_hash_failures}")
 
-    predictions = pd.read_parquet(result_dir / "outer_fold_predictions.parquet")
+    public_row_level_names = {
+        "eligible_development_samples.csv", "issue_time_availability_audit.csv",
+        "outer_fold_predictions.parquet", "inner_selection_oof.parquet",
+    }
+    require(
+        not any((result_dir / name).exists() for name in public_row_level_names),
+        "row-level data or predictions are present in the public results directory",
+    )
+    private_records = registry.get("private_output_artifacts", [])
+    require(
+        {str(record["path"]) for record in private_records} == public_row_level_names,
+        "private output hash index does not cover the expected row-level artifacts",
+    )
+    if private_output_root is not None:
+        try:
+            private_output_root.relative_to(repo_root.resolve())
+        except ValueError:
+            pass
+        else:
+            raise RuntimeError("private row-level output root must remain outside the repository")
+        require(private_output_root.name == str(registry["run_id"]), "private output directory does not match the registry run_id")
+
+    leakage = json.loads((result_dir / "leakage_audit.json").read_text(encoding="utf-8"))
+    guard = leakage.get("target_label_availability_guard", {})
+    require(guard.get("status") == "PASS", "training target labels lack the issue-time CMR production guard")
+    cmr_snapshot = json.loads((result_dir / "source_availability_cmr_snapshot.json").read_text(encoding="utf-8"))
+    merra_records = cmr_snapshot["source_collections"]["merra2_monthly_slv"]["records"]
+    merra_production = {
+        str(record["month"]): record.get("production_date_time_utc")
+        for record in merra_records
+        if record.get("month")
+    }
+    for summary in guard.get("fold_training_summaries", []):
+        latest_month = str(summary["latest_training_label_month"])
+        production_time = merra_production.get(latest_month)
+        require(production_time is not None, f"CMR production time missing for guarded label month {latest_month}")
+        require(
+            str(production_time) == str(summary["latest_label_cmr_production_time_utc"]),
+            f"recorded latest label production time differs from the CMR snapshot for {latest_month}",
+        )
+        require(
+            pd.to_datetime(production_time, utc=True) <= pd.to_datetime(summary["first_validation_issue_time_utc"], utc=True),
+            f"training target label {latest_month} postdates its first validation issue",
+        )
+
+    if private_output_root is None:
+        metrics = pd.read_csv(result_dir / "overall_metrics.csv")
+        require(set(metrics.strategy.astype(str)) == set(STRATEGIES), "public aggregate metrics do not contain the frozen strategy set")
+        require(metrics.sample_count.astype(int).nunique() == 1, "public strategies are not scored on the same target count")
+        require(np.isfinite(metrics[["mae", "rmse", "bias", "mae_skill_vs_baseline", "rmse_skill_vs_baseline"]].to_numpy(dtype=float)).all(), "public aggregate metrics contain non-finite scores")
+        require(registry["evaluation"]["outer_fold_count"] == 3, "public evaluation does not record all three frozen outer folds")
+        print(json.dumps({
+            "status": "PASS",
+            "verification_scope": "PUBLIC_AGGREGATES_ONLY",
+            "public_output_files_hash_verified": len(hash_index["files"]),
+            "input_and_implementation_hash_verified": len(registry["input_files"]),
+            "private_row_level_files_listed_by_hash": len(private_records),
+            "row_level_files_in_public_results": 0,
+            "outer_oof_rows": int(metrics.sample_count.iloc[0]),
+            "target_range": registry["evaluation"]["target_range"],
+            "training_label_issue_time_guard": "PASS",
+            "note": "Supply --private-output-root for local row-level and independent metric recomputation.",
+        }, indent=2, sort_keys=True))
+        return 0
+
+    private_hash_failures: list[str] = []
+    for record in private_records:
+        path = private_output_root / str(record["path"])
+        if not path.is_file() or sha256_file(path) != record["sha256"] or path.stat().st_size != int(record["size_bytes"]):
+            private_hash_failures.append(str(record["path"]))
+    require(not private_hash_failures, f"private output hash check failed: {private_hash_failures}")
+
+    predictions = pd.read_parquet(private_output_root / "outer_fold_predictions.parquet")
     target = predictions.target_month.astype(str)
     require(not predictions.empty, "outer predictions are empty")
     require(target.max() <= DEV_END, "outer predictions include a post-development target")
@@ -139,7 +216,7 @@ def main() -> int:
         require(np.allclose(group.gate_unit_weight.to_numpy(dtype=float), expected_unit, atol=1e-12, rtol=0), f"outer gate weights cannot be reproduced in {fold_name}")
         require(np.allclose(group.gate_weight, group.gate_strength * group.gate_unit_weight, atol=1e-12, rtol=0), f"outer gate strength mismatch in {fold_name}")
 
-    inner_oof = pd.read_parquet(result_dir / "inner_selection_oof.parquet")
+    inner_oof = pd.read_parquet(private_output_root / "inner_selection_oof.parquet")
     require(not inner_oof.empty and inner_oof.target_month.astype(str).max() <= DEV_END, "inner selection OOF includes empty or post-cutoff rows")
     require(not inner_oof.duplicated(["outer_fold", "target_month"]).any(), "inner selection OOF target repeats within an outer fold")
     for fold_name, group in inner_oof.groupby("outer_fold", sort=False):
@@ -195,7 +272,7 @@ def main() -> int:
             v14_failures.append(f"{name}.baseline_mae")
     require(not v14_failures, f"independent v1.4 recomputation differs: {v14_failures}")
 
-    availability = pd.read_csv(result_dir / "issue_time_availability_audit.csv")
+    availability = pd.read_csv(private_output_root / "issue_time_availability_audit.csv")
     require(availability.target_month.astype(str).max() <= DEV_END, "availability audit includes post-development forecast targets")
     require(not availability.first_publication_timestamp_verified.astype(bool).any(), "CMR production metadata was misrepresented as first-publication proof")
     require(registry["source_availability"]["first_publication_timestamp_verified"] is False, "registry overstates publication-time verification")
@@ -215,6 +292,7 @@ def main() -> int:
         "v14_development_regime_rows": len(paired),
         "v1_4_regime_recomputation": "PASS",
         "v1_4_immutability": "PASS",
+        "private_row_level_output_hashes_verified": len(private_records),
         "post_2021_target_values_read": False,
     }, indent=2, sort_keys=True))
     return 0

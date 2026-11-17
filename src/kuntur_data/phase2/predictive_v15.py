@@ -93,6 +93,61 @@ def history_published_by_issue(
     )
 
 
+def labels_published_by_issue(
+    frame: pd.DataFrame,
+    issue_time_utc: str | datetime,
+    production_dates_utc: Mapping[str, str | datetime],
+) -> pd.DataFrame:
+    """Keep target labels whose CMR production time is known by the forecast issue.
+
+    Missing or malformed production metadata fails closed and excludes that label.
+    CMR production time is a conservative availability proxy, not proof of first public release.
+    """
+    if "target_month" not in frame:
+        raise ValueError("training rows must contain target_month")
+    issue = _utc_datetime(issue_time_utc)
+    periods = pd.PeriodIndex(frame.target_month.astype(str), freq="M")
+    available: list[bool] = []
+    for period in periods:
+        raw_date = production_dates_utc.get(str(period))
+        if raw_date is None:
+            available.append(False)
+            continue
+        try:
+            available.append(_utc_datetime(raw_date) <= issue)
+        except (TypeError, ValueError):
+            available.append(False)
+    return frame.loc[np.asarray(available, dtype=bool)].copy().reset_index(drop=True)
+
+
+def complete_moving_blocks(
+    target_months: Iterable[str], *, block_length: int
+) -> list[tuple[int, ...]]:
+    """Enumerate only full moving blocks contained in contiguous calendar segments."""
+    if block_length < 1:
+        raise ValueError("block_length must be positive")
+    periods = pd.PeriodIndex([str(month) for month in target_months], freq="M")
+    if periods.duplicated().any() or not periods.is_monotonic_increasing:
+        raise ValueError("target_months must be unique and chronological for moving blocks")
+    segments: list[list[int]] = []
+    current: list[int] = []
+    previous: pd.Period | None = None
+    for index, period in enumerate(periods):
+        if previous is None or period == previous + 1:
+            current.append(index)
+        else:
+            segments.append(current)
+            current = [index]
+        previous = period
+    if current:
+        segments.append(current)
+    return [
+        tuple(segment[start : start + block_length])
+        for segment in segments
+        for start in range(max(0, len(segment) - block_length + 1))
+    ]
+
+
 def validate_gate_feature_names(feature_names: Iterable[str]) -> tuple[str, ...]:
     """Fail closed if any gate input is not in the explicit issue-time allowlist."""
     names = tuple(str(name) for name in feature_names)
@@ -213,6 +268,7 @@ def chronological_outer_folds_v15(
     *,
     validation_years: Iterable[int] = (2019, 2020, 2021),
     development_end: str = "2021-12",
+    label_production_dates_utc: Mapping[str, str | datetime] | None = None,
 ) -> list[TemporalFoldV15]:
     """Return expanding year-ahead folds and refuse all post-development rows."""
     if "target_month" not in eligible_samples:
@@ -233,6 +289,11 @@ def chronological_outer_folds_v15(
             continue
         if train.target_month.max() >= validation.target_month.min():
             raise ValueError(f"outer fold {year} is not strictly chronological")
+        if label_production_dates_utc is not None:
+            issue_time = str(validation.sort_values("target_month", kind="stable").iloc[0].issue_date_utc)
+            train = labels_published_by_issue(train, issue_time, label_production_dates_utc)
+            if train.empty:
+                raise ValueError(f"no target labels were produced by the first issue time in outer fold {year}")
         folds.append(TemporalFoldV15(f"outer_{int(year)}", train, validation))
     if not folds:
         raise ValueError("no chronological outer folds were formed")
@@ -243,6 +304,7 @@ def chronological_inner_folds_v15(
     outer_train: pd.DataFrame,
     *,
     min_train_months: int = 18,
+    label_production_dates_utc: Mapping[str, str | datetime] | None = None,
 ) -> list[TemporalFoldV15]:
     """Create expanding semiannual validation windows inside one outer training fold."""
     if "target_month" not in outer_train:
@@ -266,6 +328,11 @@ def chronological_inner_folds_v15(
                 continue
             if train.target_month.max() >= validation.target_month.min():
                 raise ValueError(f"inner window {year}-H{half} is not strictly chronological")
+            if label_production_dates_utc is not None:
+                issue_time = str(validation.sort_values("target_month", kind="stable").iloc[0].issue_date_utc)
+                train = labels_published_by_issue(train, issue_time, label_production_dates_utc)
+                if len(train) < min_train_months:
+                    continue
             folds.append(TemporalFoldV15(f"inner_{year}_h{half}", train, validation))
     if len(folds) < 2:
         raise ValueError("at least two nested chronological inner folds are required")

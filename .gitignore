@@ -19,7 +19,8 @@ reports/**
 !results/predictive_v15/
 !results/predictive_v15/*.csv
 !results/predictive_v15/*.json
-!results/predictive_v15/*.parquet
+results/predictive_v15/eligible_development_samples.csv
+results/predictive_v15/issue_time_availability_audit.csv
 !reports/predictive_v15/
 !reports/predictive_v15/*.md
 __pycache__/
