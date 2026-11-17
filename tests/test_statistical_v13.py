@@ -10,7 +10,7 @@ from kuntur_data.phase2.statistical_v13 import (
     adjust_fixed_family_fdr_v13,
     analyze_variable_v13,
 )
-from scripts.statistical_correction.render_confirmation_gate_correction_v1_3 import gate_label, render
+from scripts.statistical_correction.render_confirmation_gate_correction_v1_3 import gate_label
 from scripts.run_phase2_v13_descriptive_trends import VARIABLES, build_trend_rows
 
 
@@ -223,16 +223,20 @@ def test_confirmation_report_labels_nonzero_slope_type_i_as_not_applicable() -> 
         gate_label("type_i_rate", False, 0.5)
 
 
-def test_confirmation_correction_is_an_addendum_and_preserves_failure() -> None:
+def test_public_handoff_preserves_original_confirmation_failure() -> None:
     import json
     from pathlib import Path
 
-    metrics_path = Path(__file__).resolve().parents[1] / "results/statistical_correction/independent_confirmation_v1_3_iid/confirmation_metrics.json"
-    metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
-    report = render(metrics)
-    assert "not applicable" in report
-    assert "92.18%" in report
-    assert "candidate still fails independent confirmation" in report
+    public_path = Path(__file__).resolve().parents[1] / "results/phase2/public/statistical_validation_v1_3_2.json"
+    public = json.loads(public_path.read_text(encoding="utf-8"))
+    original = public["original_v1_3_wald_confirmation"]
+    corrected = public["v1_3_2_independent_confirmation"]
+    assert original["status"] == "FAILED_INDEPENDENT_CONFIRMATION"
+    assert original["slope_0_50_available"] == 998
+    assert original["slope_0_50_covered"] == 920
+    assert original["coverage"] == pytest.approx(0.9218436873747495)
+    assert corrected["decision"] == "INDEPENDENT_CONFIRMATION_PASS_FOR_IID_SYNTHETIC_SCOPE"
+    assert public["registry_and_protected_inputs"]["inference_registry_modified"] is False
 
 
 def test_v13_descriptive_export_contract_has_eight_slopes_and_no_inference() -> None:
