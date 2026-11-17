@@ -55,6 +55,8 @@ To run the authenticated, resumable external-source acquisition adapters, instal
 
 The summary artifacts in `results/phase2/public/` were computed from the frozen local Gold and manifests. A local rerun requires those inputs, which are delivered separately through the project’s restricted data handoff; it must not redownload or replace the frozen v1 files. `scripts/verify_phase2_release.py` checks local hashes and the frozen-input invariants when data are present.
 
+Predictive v1.5 aggregate release files can be checked with `python scripts/verify_predictive_v15.py --data-root <local KUNTUR data root>`. The experiment runner writes row-level audit/prediction files to a private local directory outside Git; provide that run directory with `--private-output-root` to independently recompute metrics.
+
 ## Provenance and source references
 
 NASA inputs and original acquisition checksums are described in the local handoff and manifests. External sources used for evaluation are NOAA/NCEI GHCN-M v4 QCU, public INAMHI yearbook tables (2002–2012 found), and CHIRPS v3 final monthly. CHIRPS blends satellite and station information, including overlapping station sources, so it is cross-product corroboration rather than independent ground truth. The bounded Landsat Collection 2 STAC asset request returned a 200 HTML login page instead of a scientific raster; no Landsat measurement was evaluated.
@@ -66,7 +68,7 @@ NASA inputs and original acquisition checksums are described in the local handof
 
 ## Security, data use, and license
 
-The GitHub repository is public. Git excludes raw data, derivatives, cache files, logs, runtime models, credentials, and machine-specific acquisition configuration. Gitleaks scans pushes and pull requests. The all-rights-reserved notice remains in force; see [LICENSE](LICENSE).
+The GitHub repository is public. Public files are limited to source code, protocols, sanitized provenance, and aggregate results. Git excludes NASA source granules, derived monthly observations, row-level predictions, station records, cache files, logs, runtime models, credentials, and machine-specific acquisition configuration or private HPC paths. Gitleaks scans pushes and pull requests. The all-rights-reserved notice remains in force; no license is granted pending contributor ownership and third-party data-rights review. See [LICENSE](LICENSE).
 
 The observed source data are not bundled. Follow the providers’ terms and the institution’s access and storage policies when using them. Coast/Andes/Amazon and external-comparison regional masks remain pending approved geographic definitions.
 
