@@ -1,152 +1,144 @@
 {
   "artifacts": {
-    "reports/predictive_v14/ANOMALY_FORECASTING.md": {
+    "outputs/anomaly_regime_metrics.csv": {
+      "bytes": 557,
+      "sha256": "373d61039a1df8c0f650810f08de1dce564f9204c522e198e5ce949ad394a4c7"
+    },
+    "outputs/baseline_comparison.csv": {
+      "bytes": 2484,
+      "sha256": "67d3c5b35dbd93f86fcbb32e43e4f882a1b3caa97c6c67b0bf8704fa31b3ade6"
+    },
+    "outputs/checkpoints/outer_2012_2014.joblib": {
+      "bytes": 211774,
+      "sha256": "a8fb10e5ff3f11d9dc41009c3e26ba28e7163dd79fb098cad7075b12465c4469"
+    },
+    "outputs/checkpoints/outer_2015_2017.joblib": {
+      "bytes": 221996,
+      "sha256": "eba5b29114c73dbe78bcc2c4ffdc88824a6dbe30f24ae68de5729f56fe125c15"
+    },
+    "outputs/checkpoints/outer_2018_2021.joblib": {
+      "bytes": 241925,
+      "sha256": "3bd317b4f21246e0f7dfa763c67b8820f5f7faf23a15aef1761765967b100114"
+    },
+    "outputs/distribution_shift.csv": {
+      "bytes": 10106,
+      "sha256": "e6ad76a44c8c614c431a09401393a46d1742e3a252b688c83389db7820e74722"
+    },
+    "outputs/experiment_registry.csv": {
+      "bytes": 2100101,
+      "sha256": "dd45511cb7c27a4c253be01ee33c4f92f7a3f039ddaf94826dda9018a9171050"
+    },
+    "outputs/feature_ablation.csv": {
+      "bytes": 2101,
+      "sha256": "b433f1bb3da9564dcdaef7bebc7db040b2906eb71330d10abc8dc56b77eefc44"
+    },
+    "outputs/fold_predictions.parquet": {
+      "bytes": 50515,
+      "sha256": "ea9f97e898086e11079a76b6ff844ace68bcd934cdeda7a56712864bcabc0cd3"
+    },
+    "outputs/interval_calibration.csv": {
+      "bytes": 563652,
+      "sha256": "91d41d547eec87bffeb1c195cf2bf74453bd04a019b498ac00d03a09506c26f5"
+    },
+    "outputs/interval_calibration_summary.csv": {
+      "bytes": 12580,
+      "sha256": "ffba13540af568b4c1a3b8a8d67c911fff7e8b6965ffece6a82d52935e82f8d6"
+    },
+    "outputs/model_metrics.csv": {
+      "bytes": 25472,
+      "sha256": "7f54a2eb98b87b9500f36479ebcfd287638cb1a3713aa54566541f8423d24b76"
+    },
+    "outputs/models/model_bundle_v14.joblib": {
+      "bytes": 15362,
+      "sha256": "0b5572c4ec4deda81bc0366296b8b9e259cbea143fd95e472965e0c5c437948e"
+    },
+    "outputs/models/preprocessing_v14.json": {
+      "bytes": 9130,
+      "sha256": "8833d00f8aeaeae4f447b4db69ab9c2bc8fbabea3fc38acf9a3b254ae684d381"
+    },
+    "outputs/residual_autocorrelation.csv": {
+      "bytes": 2110,
+      "sha256": "b7df74d0ef5fbfeaa7426d72285e6860850347db1f1937200b2f5cb2bf41ba8c"
+    },
+    "outputs/robustness_metrics.csv": {
+      "bytes": 6893,
+      "sha256": "004dccd1fe2e33ce7b3cf4cd8a4170dfafc01221b7915b028e81ca6429485b8c"
+    },
+    "outputs/robustness_predictions.parquet": {
+      "bytes": 15759,
+      "sha256": "522007f4e855c2b16efe7eff27d961ece439bbc9556a7dcbe7c19b77e1760dc5"
+    },
+    "outputs/seasonal_bias.csv": {
+      "bytes": 4172,
+      "sha256": "d487848e939aa3d5106b5daf03a1de5a88291733fdcfa5b32ccec1a6b2ee731a"
+    },
+    "reports/ANOMALY_FORECASTING.md": {
       "bytes": 6035,
-      "sha256": "6373e85f01c51eaa37ee9ad1c24e20dfc9ad4f80437e056d28f4c76feba9ff1a"
+      "sha256": "915a8c9cd50db687dce0476d2a6f31edc590d25fccf538d58aaf8d6fd5631c5c"
     },
-    "reports/predictive_v14/EXPERIMENTAL_PROTOCOL.md": {
-      "bytes": 3588,
-      "sha256": "dd946cab4f6ef7d17fd4d63a988d56739d427d1e24378cb0bf0f7cbe5f728c4d"
+    "reports/EXPERIMENTAL_PROTOCOL.md": {
+      "bytes": 3807,
+      "sha256": "d7ae4aa9b558b7c9b269696de63e78cfc034a8c1c3f0e6dc51fdc9f8698f0ab3"
     },
-    "reports/predictive_v14/FEATURE_ABLATION.md": {
-      "bytes": 2486,
-      "sha256": "e527dc21082be3e94d177e0adbbc081f508eeb57e0df53de2420fdb556a8ac37"
+    "reports/FEATURE_ABLATION.md": {
+      "bytes": 2585,
+      "sha256": "f4e0b3e8db323e294681de4912639ced074af6717ebe739d809d69e8c8b5531b"
     },
-    "reports/predictive_v14/FEATURE_CONTRACT_AUDIT.md": {
-      "bytes": 1450,
-      "sha256": "c23c41f0ee2bb1775a476094731780c4813aea233780e240ab441ec7943b62fa"
+    "reports/FEATURE_CONTRACT_AUDIT.md": {
+      "bytes": 1490,
+      "sha256": "5bbda45836e8f0a2c25d090012a482f0f034ed05447bf91d21efcce2f8c432d0"
     },
-    "reports/predictive_v14/FINAL_SCIENTIFIC_VERDICT.md": {
-      "bytes": 1737,
-      "sha256": "736809db0ee5ce9d1772bbc5184013fcb577af42c27b13bba54a75df027bdb64"
+    "reports/FINAL_SCIENTIFIC_VERDICT.md": {
+      "bytes": 1634,
+      "sha256": "665e796554f60d87be809d54e45cb5d6e731c0c590a600413aa4617701399dfc"
     },
-    "reports/predictive_v14/MODEL_COMPARISON.md": {
-      "bytes": 3348,
-      "sha256": "d54eb9115e4de87431b9c740c67a56b1b85fa2de3b8208a71b930517a00209fd"
+    "reports/MODEL_COMPARISON.md": {
+      "bytes": 3349,
+      "sha256": "7a27705d51157503ff5dfd7c99de6221d817cdd7324d6afbf968cf7498834162"
     },
-    "reports/predictive_v14/ROBUSTNESS_COMPARISON.md": {
+    "reports/ROBUSTNESS_COMPARISON.md": {
       "bytes": 2745,
-      "sha256": "f567729ecce29c2ab9693195ea8415168d1dfdbe21033bf2b340600985852689"
+      "sha256": "3d59c2317f2e5f13706a7f5cc741d9bcb0fcdb85a079194b95abce8799cacee6"
     },
-    "reports/predictive_v14/ROOT_CAUSE_DIAGNOSTIC.md": {
+    "reports/ROOT_CAUSE_DIAGNOSTIC.md": {
       "bytes": 4076,
-      "sha256": "559e8c092eeaea5c7a730f2398e876d42fcb1032aff6912622e51d1456f8ae10"
+      "sha256": "2df2c43893b208cd3f7a099b973adf5ff5c9d762c4865681b5b03f944e582c82"
     },
-    "reports/predictive_v14/UNCERTAINTY_CALIBRATION.md": {
+    "reports/UNCERTAINTY_CALIBRATION.md": {
       "bytes": 4163,
-      "sha256": "1a8c6804372586eee71173d72684a1da3f6aeceee2440b8b1eb2fca021003619"
+      "sha256": "2023bb07365c4e40396b95736b1df912bbfb948b2588beaf7b626327f0ed247f"
     },
-    "reports/predictive_v14/figures/feature_ablation_mae.png": {
-      "bytes": 55198,
-      "sha256": "ac12351825f5a751b4db80b0411677d2fe065f5f8efd85eeb8b23bc5cf4ec3a9"
+    "reports/figures/feature_ablation_mae.png": {
+      "bytes": 56339,
+      "sha256": "b1696036a2046f47da3f03fa678a54935e65c64724f45f474b151ec5579a0825"
     },
-    "reports/predictive_v14/figures/interval_coverage_vs_width.png": {
-      "bytes": 108189,
-      "sha256": "a70842efc48019dae2a3321451647fc8a447f836acc5d7171067ff6b8a0edeb4"
+    "reports/figures/interval_coverage_vs_width.png": {
+      "bytes": 118374,
+      "sha256": "5a8f90d2814f7677b1a7302b25be74d48af67b29a1150c17d76c55a0d0885b37"
     },
-    "reports/predictive_v14/figures/oof_absolute_error_timeseries.png": {
-      "bytes": 191209,
-      "sha256": "a10d0e812a5603d8e2b7404171425de6bd166362d05add9a58242bd716a83f48"
+    "reports/figures/robustness_degradation.png": {
+      "bytes": 72313,
+      "sha256": "ca89066aa3f334caf83c19baa92a0d58bd8d8bb601f87810787cca165d038795"
     },
-    "reports/predictive_v14/figures/oof_predicted_vs_observed.png": {
-      "bytes": 92970,
-      "sha256": "3ea6d2c57eebda52d6a73e67034bf830b5685fc2120072dac9cbb805355d4b0a"
+    "reports/figures/seasonal_prediction_bias.png": {
+      "bytes": 102752,
+      "sha256": "b32b7c1f5e961a78c66f87d9c435f320fbec17b5c74df761a7bdfc4d240355c2"
     },
-    "reports/predictive_v14/figures/robustness_degradation.png": {
-      "bytes": 70553,
-      "sha256": "ab5011a8c8de15844069ca8fe542e478e1e184f78b8074eae41eddea97f9601d"
-    },
-    "reports/predictive_v14/figures/seasonal_prediction_bias.png": {
-      "bytes": 94444,
-      "sha256": "2547a95a35e794dc04312001e40bd2ae080bdc6f12b4e1f22ae988881965655a"
-    },
-    "reports/predictive_v14/figures/skill_by_outer_fold.png": {
-      "bytes": 40500,
-      "sha256": "a29d7b7b5ef40253234262a7bb899dcc64760ef627e160f7a65a4a3b2dc0e5a9"
-    },
-    "results/predictive_v14/anomaly_regime_metrics.csv": {
-      "bytes": 567,
-      "sha256": "a14e07908abc02608dce6c7db46ea07524d6bdfde6c5e6c48e451a29ed867cd8"
-    },
-    "results/predictive_v14/baseline_comparison.csv": {
-      "bytes": 2516,
-      "sha256": "d383854ac20c8a08d411e8ab05fd3682165e9694fb78921ef91f76bcf750d31f"
-    },
-    "results/predictive_v14/checkpoints/outer_2012_2014.joblib": {
-      "bytes": 215078,
-      "sha256": "e2cff42d6829a6ff529133caee180b81ba15afa534c317e22faee997c16c095c"
-    },
-    "results/predictive_v14/checkpoints/outer_2015_2017.joblib": {
-      "bytes": 221077,
-      "sha256": "48af36282ab7e188ec5b2abb1ee34bec04e4b0082b58925302a1930a5e0e660e"
-    },
-    "results/predictive_v14/checkpoints/outer_2018_2021.joblib": {
-      "bytes": 243526,
-      "sha256": "27cd6df790b71c30850ef8e58b42fa3338022830b071621aecb29e4d3c1071a1"
-    },
-    "results/predictive_v14/distribution_shift.csv": {
-      "bytes": 10148,
-      "sha256": "56b72f2de1540d48e5b6351caccfe2868ec15780c8f8f08ae82776c9c2a10bb7"
-    },
-    "results/predictive_v14/experiment_registry.csv": {
-      "bytes": 2115002,
-      "sha256": "f664335d356b8817a766613f96080c1ec8e3354fd17026c129d8f91a83aa3f1e"
-    },
-    "results/predictive_v14/feature_ablation.csv": {
-      "bytes": 2100,
-      "sha256": "2e163d889359da1fb3e7994185332a234db403b32d8af83f7fcaef7a334ce440"
-    },
-    "results/predictive_v14/fold_predictions.parquet": {
-      "bytes": 51288,
-      "sha256": "4227ba155d3566331393325eac07995b0fb7f645d6d88809acfb7d8c29b1f585"
-    },
-    "results/predictive_v14/interval_calibration.csv": {
-      "bytes": 563860,
-      "sha256": "75e01c17fea7dc68f66d282eb90778ebe1cc823fdcb0baa9cc2c03f7c644d1a1"
-    },
-    "results/predictive_v14/interval_calibration_summary.csv": {
-      "bytes": 12677,
-      "sha256": "6148e0d295cb3a07c920289b0133c7eafe4e44bdaa40e9b1e90765eacc9e1980"
-    },
-    "results/predictive_v14/model_metrics.csv": {
-      "bytes": 25550,
-      "sha256": "97a3bec6a19658eccfe2ecc2655cba94a09016c94b5df14ae4822a6be3a1b2e0"
-    },
-    "results/predictive_v14/models/model_bundle_v14.joblib": {
-      "bytes": 25658,
-      "sha256": "72443dfe37d04e5feeb9c3dba0e0143ae79eab8c3cab3fa434785f92ec1174e7"
-    },
-    "results/predictive_v14/models/preprocessing_v14.json": {
-      "bytes": 8473,
-      "sha256": "9405e78ed8bbef26e14eeb5f3f6ebc940ff39c4ffbcaaee4b313444882dad9b8"
-    },
-    "results/predictive_v14/residual_autocorrelation.csv": {
-      "bytes": 2118,
-      "sha256": "9756b2fceb5676dc580d9a2c9bcacbac9a2249c26a3e49582c3f99a1d4ad18e9"
-    },
-    "results/predictive_v14/robustness_metrics.csv": {
-      "bytes": 6888,
-      "sha256": "1510371c7a5959ca30b3c07de0b1d795305d268546cb97f79fecbbf48e2a56b4"
-    },
-    "results/predictive_v14/robustness_predictions.parquet": {
-      "bytes": 16101,
-      "sha256": "a7d87aa6e07138875b181f05016747ba1385b91711a4a5335f41ee7f3a8e0670"
-    },
-    "results/predictive_v14/seasonal_bias.csv": {
-      "bytes": 4167,
-      "sha256": "57fffd48e14d4c8d3ae71e6ecdc36dee257cf5694d339d9788d25e2b66069f74"
+    "reports/figures/skill_by_outer_fold.png": {
+      "bytes": 36136,
+      "sha256": "7350900afc2561256f34078ed94d87ac2943caf17800490ca60e9653e8ed6554"
     }
   },
   "augmentation_registry": {
     "completed_inner_candidate_rows": 180,
     "failed_inner_candidate_rows": 0
   },
-  "code_commit": "b1a507b2311d63674f4f776e6c0b2bf494d8a1d9",
+  "code_commit": "0925983181fee9a8344fd4efdd4c1f945a922800",
   "code_files_sha256": {
-    "scripts/run_predictive_v14.py": "3da4c94ab1fed666895c927a6193265f1acd1ab1534ba5c96ef5578075c6d95f",
-    "src/kuntur_data/phase2/predictive_v14.py": "74d611970d04a5a99f5f92d6dd007544819ba0a4185ae432d481d5e59fd6927d"
+    "scripts/run_predictive_v14.py": "ae287ace1cd66f155b807e0bffb3c89b0217d9099cb771fbff7f09bf13aefebc",
+    "src/kuntur_data/phase2/predictive_v14.py": "f7e960cd8ae5d207f1ec00ba55c195fd2d1b3c1e3ec47a98230c3422fe5567d7"
   },
-  "created_at_utc": "2026-11-17T14:42:46.638359-05:00",
+  "created_at_utc": "2026-11-17T23:44:06.739104+00:00",
   "evaluation_scope": {
     "2025_feature_coverage": "sealed Gold schema is MERRA-2-only; cross-source candidates are not applied or scored there",
     "development_cutoff": "2021-12",
@@ -158,9 +150,9 @@
         "name": "outer_2012_2014",
         "train": [
           "2003-03",
-          "2011-12"
+          "2011-10"
         ],
-        "train_month_count": 106,
+        "train_month_count": 104,
         "validation": [
           "2012-01",
           "2014-12"
@@ -171,9 +163,9 @@
         "name": "outer_2015_2017",
         "train": [
           "2003-03",
-          "2014-12"
+          "2014-10"
         ],
-        "train_month_count": 142,
+        "train_month_count": 140,
         "validation": [
           "2015-01",
           "2017-12"
@@ -184,9 +176,9 @@
         "name": "outer_2018_2021",
         "train": [
           "2003-03",
-          "2017-12"
+          "2017-10"
         ],
-        "train_month_count": 178,
+        "train_month_count": 176,
         "validation": [
           "2018-01",
           "2021-12"
@@ -504,60 +496,59 @@
     "selection_metric": "pooled inner-validation MAE; then RMSE, feature count, model priority, config id, alpha"
   },
   "resource_usage": {
-    "elapsed_wall_seconds": 172.24962399998913,
-    "elapsed_cpu_seconds": 237.09375,
-    "peak_rss_bytes": 234668032,
-    "measurement_scope": "original complete three-fold candidate fitting run; measured before the checkpoint-only reproducibility replay"
+    "elapsed_cpu_seconds": 192.09375,
+    "elapsed_wall_seconds": 122.02727459999733,
+    "peak_rss_bytes": 236793856
   },
-  "resumed_outer_folds": [
-    "outer_2012_2014",
-    "outer_2015_2017",
-    "outer_2018_2021"
-  ],
+  "resumed_outer_folds": [],
   "selected_development_refit": {
     "augmentation_intensity": 0.05,
     "deployment_status": "development candidate only; independent temporal generalization unverified",
     "fit": {
-      "fit_cpu_seconds": 0.203125,
-      "fit_wall_seconds": 0.19265879999147728,
-      "model_sha256": "72443dfe37d04e5feeb9c3dba0e0143ae79eab8c3cab3fa434785f92ec1174e7"
+      "fit_as_of_issue_time_utc": "2021-12-01T00:00:00Z",
+      "fit_cpu_seconds": 0.09375,
+      "fit_wall_seconds": 0.09626600000774488,
+      "model_sha256": "0b5572c4ec4deda81bc0366296b8b9e259cbea143fd95e472965e0c5c437948e",
+      "training_month_count": 224,
+      "training_month_end": "2021-10",
+      "training_month_start": "2003-03"
     },
     "out_of_fold_metrics": {
       "bootstrap_replicates": 2000,
       "bootstrap_seed": 3711348517,
-      "mae": 0.31505944629018373,
-      "mae_difference_vs_training_climatology": 0.006733259777821299,
-      "mae_skill_vs_training_climatology": -0.021838105462220758,
-      "mean_bias": -0.04687282067271218,
+      "mae": 0.34091209772544023,
+      "mae_difference_vs_training_climatology": 0.03233066474620638,
+      "mae_skill_vs_training_climatology": -0.10477190553581384,
+      "mean_bias": -0.07877478656722366,
       "model_id": "nested_selected_augmentation_pipeline",
-      "monthly_win_rate_vs_training_climatology": 0.5,
+      "monthly_win_rate_vs_training_climatology": 0.45,
       "moving_block_length_months": 12,
-      "paired_mae_difference_ci95_high": 0.09061314965207108,
-      "paired_mae_difference_ci95_low": -0.05778498232224029,
-      "rmse": 0.3893806231433878,
-      "rmse_difference_vs_training_climatology": -0.010575210575770766,
-      "rmse_skill_vs_training_climatology": 0.026440945935036653,
+      "paired_mae_difference_ci95_high": 0.09725450707216454,
+      "paired_mae_difference_ci95_low": -0.011194934314855146,
+      "rmse": 0.42011866250654595,
+      "rmse_difference_vs_training_climatology": 0.019405283827945208,
+      "rmse_skill_vs_training_climatology": -0.048426842876912124,
       "sample_count": 120,
       "uncertainty_interpretation": "descriptive; serial dependence and model selection limit inferential claims",
-      "worst_fold_mae": 0.34042509816501326,
-      "worst_fold_mae_difference_vs_climatology": 0.047227587992706904
+      "worst_fold_mae": 0.43538250123879607,
+      "worst_fold_mae_difference_vs_climatology": 0.07142742406275193
     },
     "specification": {
       "alpha": 1.0,
       "config": {
-        "max_depth": 3,
+        "max_depth": 2,
         "max_features": 0.8,
-        "min_samples_leaf": 8,
+        "min_samples_leaf": 5,
         "n_estimators": 60
       },
-      "config_id": "rf_depth3",
-      "feature_group": "atmosphere_precipitation",
+      "config_id": "rf_depth2",
+      "feature_group": "all_sources",
       "model_id": "random_forest"
     },
-    "training_month_count": 226,
+    "training_month_count": 224,
     "training_month_range": [
       "2003-03",
-      "2021-12"
+      "2021-10"
     ],
     "training_policy": "mild_gaussian"
   },
@@ -575,6 +566,7 @@
       "all_oof_predictions_finite": true,
       "authentic_labels_unchanged_by_augmentation": true,
       "exact_226_development_samples": true,
+      "final_refit_uses_only_labels_available_at_first_post_development_issue": true,
       "no_2022_2024_or_2025_target_rows_loaded_for_scoring": true,
       "source_forecast_predicate_ends_at_2021_12": true,
       "source_monthly_gold_predicate_ends_at_2021_12": true,
@@ -584,10 +576,5 @@
       "training_climatology_and_preprocessing_fit_fold_locally": true
     },
     "status": "PASSED"
-  },
-  "latest_checkpoint_replay_usage": {
-    "elapsed_cpu_seconds": 9.484375,
-    "elapsed_wall_seconds": 9.764657799969427,
-    "peak_rss_bytes": 210272256
   }
 }
