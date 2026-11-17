@@ -1,0 +1,82 @@
+{
+  "schema_version": "kuntur-statistical-independent-confirmation-v1.3",
+  "protocol_id": "KUNTUR-STAT-CORRECTIVE-CONFIRMATION-V1.3-IID-ONLY",
+  "phase": "independent_confirmation",
+  "selection_freeze": "results/statistical_correction/corrective_development_v1_3/selection_freeze_iid_v1_3_r1.json",
+  "candidate": {
+    "regime_id": "iid_gaussian",
+    "method_name": "SARIMAX_SEASONAL_AR12",
+    "method_key": "seasonal_ar12",
+    "method_spec": {
+      "order": [0, 0, 0],
+      "seasonal_order": [1, 0, 0, 12],
+      "trend": "n",
+      "enforce_stationarity": true,
+      "enforce_invertibility": true,
+      "optimizer_maxiter": 200,
+      "interval": "statsmodels SARIMAX two-sided 95% Wald interval from fitted parameter covariance",
+      "p_value": "two-sided asymptotic normal Wald p-value for the trend coefficient"
+    },
+    "supported_calendar_months": 276,
+    "required_calendar_coverage": 1.0
+  },
+  "design": {
+    "n_calendar_months": 276,
+    "calendar_start": "2000-01",
+    "calendar_end": "2022-12",
+    "slopes_per_decade": [0.0, 0.25, 0.5],
+    "outer_replicates_per_cell": 1000,
+    "paired_candidate_count": 1,
+    "regimes": ["iid_gaussian"],
+    "simulation_source": "scripts/statistical_correction/run_calibration.py::make_series, frozen SHA-256 in selection manifest",
+    "series_seed_namespace": "KUNTUR-STAT-CORRECTIVE-INDEPENDENT-CONFIRMATION-V1.3-2027-01-15",
+    "seed_derivation": "SHA256(namespace + '|' + role + '|' + regime + '|' + slope formatted to 8 decimals + '|' + replicate), first 128 bits as unsigned integer"
+  },
+  "acceptance_criteria": {
+    "type_i_alpha": 0.05,
+    "type_i_rate_range": [0.035, 0.065],
+    "type_i_exact_cp95_contains_alpha": true,
+    "coverage_nominal": 0.95,
+    "coverage_rate_range": [0.935, 0.965],
+    "coverage_exact_cp95_contains_nominal_at_slopes": [0.0, 0.25, 0.5],
+    "max_absolute_slope_bias_per_decade": 0.025,
+    "max_numerical_failure_fraction": 0.01,
+    "numerical_failure_integer_gate": "100 * failure_count <= supported_count",
+    "minimum_inferential_availability": 0.99,
+    "maximum_mean_ci_width_over_known_covariance_oracle": 2.0,
+    "max_residual_dependence_failure_rate": 0.05,
+    "residual_dependence_diagnostic": "Ljung-Box at 12 and 24 calendar-month lags; p < 0.01 flags a residual-dependence failure",
+    "mc_intervals": "two-sided exact Clopper-Pearson 95% intervals for binomial rates; Student-t 95% intervals for continuous Monte Carlo means",
+    "selection_rule": "No candidate is reselected from confirmation. Every listed gate must pass in all three slope cells."
+  },
+  "resource_budget": {
+    "measured_development_cpu_seconds": 18423.578,
+    "measured_development_fits": 180000,
+    "measured_cpu_seconds_per_fit": 0.10235321111111112,
+    "planned_confirmation_fits": 3000,
+    "estimated_confirmation_cpu_seconds": 307.06,
+    "planning_reserve_multiplier": 2.0,
+    "estimated_reserved_cpu_seconds": 614.12,
+    "hard_max_cpu_seconds": 3600,
+    "hard_max_wall_seconds": 7200,
+    "hard_max_rss_bytes": 1073741824,
+    "max_processes": 1,
+    "blas_threads": 1,
+    "slurm_jobs": 0,
+    "checkpoint_every_replicates": 50
+  },
+  "protected_inputs": {
+    "v1_2_final_validation_seeds_used": false,
+    "v1_3_608_fit_pilot_seeds_used": false,
+    "v1_3_development_expansion_seeds_used": false,
+    "2025_predictive_test_rerun": false,
+    "v1_2_registry_modified": false,
+    "real_gold_series_used_for_selection": false
+  },
+  "interpretation_limits": [
+    "A passing result supports only the declared synthetic IID Gaussian error regime with 276 complete consecutive monthly observations and this exact model configuration.",
+    "It does not establish applicability to AR(1), ARMA, seasonal, missing-calendar, heavy-tailed, heteroskedastic, or real environmental series.",
+    "No real series is automatically classified as IID Gaussian; absent justified regime evidence, the analytical engine must remain exploratory and withhold inferential p-values and intervals.",
+    "The historical v1.2 selection and validation decisions remain immutable."
+  ]
+}

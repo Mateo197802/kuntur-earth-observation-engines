@@ -1,0 +1,76 @@
+{
+  "schema_version": "kuntur-statistical-interval-confirmation-v1.3.2",
+  "protocol_id": "KUNTUR-STAT-IID-SEASONAL-AR12-WALD-STUDENT-T-CONFIRMATION-V1.3.2",
+  "phase": "independent_confirmation",
+  "scope": {
+    "regime": "iid_gaussian",
+    "point_model": "SARIMAX exog=[intercept, elapsed decades, 11 monthly indicators], order=(0,0,0), seasonal_order=(1,0,0,12), trend='n', stationarity and invertibility enforced, maxiter=200",
+    "candidate_method": "wald_student_t",
+    "candidate_role": "finite-sample Student-t confidence interval and matching two-sided t test using the unchanged SARIMAX point fit and standard error",
+    "optimizer_maxiter": 200,
+    "residual_df": "n - rank(X) - estimated dynamic parameters; 262 for the frozen complete 276-month design; innovation scale is not subtracted",
+    "calendar_start": "2000-01",
+    "calendar_end": "2022-12",
+    "calendar_months": 276
+  },
+  "design": {
+    "slopes_per_decade": [0.0, 0.25, 0.5],
+    "replicates_per_slope": 1000,
+    "candidate_fit_count": 3000,
+    "series_seed_namespace": "KUNTUR-STAT-IID-AR12-T-INTERVAL-INDEPENDENT-CONFIRMATION-V1.3.2-2026-11-17",
+    "seed_derivation": "SHA256(namespace + '|series|iid_gaussian|' + slope formatted to 8 decimals + '|' + replicate), first 128 bits as unsigned integer",
+    "dgp": "run_calibration.make_series(iid_gaussian): fixed monthly effects, declared slope, IID Normal(0, 0.25^2) errors, complete monthly support",
+    "reuse_for_tuning": false,
+    "paired_to_development": false,
+    "paired_to_prior_confirmation": false
+  },
+  "acceptance_criteria": {
+    "type_i_alpha": 0.05,
+    "type_i_rate_range": [0.035, 0.065],
+    "type_i_exact_cp95_contains_alpha": true,
+    "coverage_nominal": 0.95,
+    "coverage_rate_range": [0.935, 0.965],
+    "coverage_exact_cp95_contains_nominal_at_all_slopes": true,
+    "max_absolute_slope_bias_per_decade": 0.025,
+    "max_numerical_failure_fraction": 0.01,
+    "numerical_failure_integer_gate": "100 * numerical_failure_count <= supported_count",
+    "minimum_inferential_availability": 0.99,
+    "maximum_mean_ci_width_over_known_covariance_oracle": 2.0,
+    "max_residual_dependence_failure_rate": 0.05,
+    "residual_dependence_diagnostic": "Ljung-Box at calendar-month lags 12 and 24; p < 0.01 at either lag flags a residual-dependence failure",
+    "monte_carlo_uncertainty": "two-sided exact Clopper-Pearson 95% intervals for Type-I error, coverage and power; Student-t 95% intervals for continuous means",
+    "all_applicable_gates_required_at_each_slope": true,
+    "type_i_only_at_zero_slope": true,
+    "registry_promotion_automatic": false
+  },
+  "resource_budget": {
+    "candidate_fit_count": 3000,
+    "reserve_multiplier": 2.0,
+    "measured_development_candidate_runtime": {
+      "fit_count": 3000,
+      "mean_cpu_seconds_per_fit": 0.232296875,
+      "mean_wall_seconds_per_fit": 0.23317732073333658,
+      "two_fold_projected_cpu_seconds": 1393.78125,
+      "two_fold_projected_wall_seconds": 1399.0639244000195
+    },
+    "hard_max_cpu_seconds": 3600,
+    "hard_max_active_wall_seconds": 7200,
+    "hard_max_rss_bytes": 1073741824,
+    "max_processes": 1,
+    "blas_threads": 1,
+    "slurm_jobs": 0,
+    "checkpoint_every_replicates": 50,
+    "atomic_checkpoints": true
+  },
+  "protected_evidence": {
+    "v1_2_selection_and_validation_changed": false,
+    "v1_3_608_fit_pilot_changed_or_repeated": false,
+    "v1_3_180000_fit_expansion_changed_or_repeated": false,
+    "v1_3_original_independent_confirmation_changed_or_reused": false,
+    "v1_3_1_preflight_changed_or_reused": false,
+    "v1_3_2_preflight_or_development_changed_or_reused": false,
+    "2025_predictive_test_rerun": false,
+    "real_gold_used_for_method_selection": false,
+    "registry_mutation_before_confirmation_decision": false
+  }
+}

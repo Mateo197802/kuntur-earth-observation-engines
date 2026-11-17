@@ -1,0 +1,51 @@
+{
+  "monthly_summary_rows_verified": 552,
+  "native_grid_files_hash_verified": 276,
+  "output_hashes": {
+    "monthly_summary": {
+      "bytes": 68966,
+      "path": "data/external/processed/phase2_v12_native_grid_collocation/full_2002_2024/monthly_summary.csv",
+      "sha256": "8c6374d29dea26b3983ed441807747f447e0a09c2fbe94732c7aad95a8b9a0af"
+    },
+    "station_monthly_collocation": {
+      "bytes": 3049960,
+      "path": "data/external/processed/phase2_v12_native_grid_collocation/full_2002_2024/station_monthly_collocation.csv",
+      "sha256": "c2f31333e22c1f3dca850cedc10cf2b323661be6d015d729e44455ae7f6498fd"
+    }
+  },
+  "period": [
+    "2002-01",
+    "2024-12"
+  ],
+  "sources": {
+    "INAMHI_yearbook_temperature": {
+      "bias_c": -1.2330404391889402,
+      "mae_c": 2.9822948812972796,
+      "matched_months": 132,
+      "matched_station_months": 10499,
+      "matched_stations": 151,
+      "mean_cell_distance_km": 24.015920798194575,
+      "p95_cell_distance_km": 37.054368424596454,
+      "pearson_r": 0.805223465052819,
+      "rmse_c": 3.784091392983266,
+      "unique_grid_cells": 48
+    },
+    "NOAA_GHCN_M_QCU": {
+      "bias_c": -0.8650834010725192,
+      "mae_c": 1.900332688014227,
+      "matched_months": 276,
+      "matched_station_months": 2446,
+      "matched_stations": 14,
+      "mean_cell_distance_km": 22.152170996625845,
+      "p95_cell_distance_km": 36.00647703600825,
+      "pearson_r": 0.9337437209543393,
+      "rmse_c": 2.412515465006562,
+      "unique_grid_cells": 14
+    }
+  },
+  "station_detail_rows_verified": 12945,
+  "status": "PASSED",
+  "summary_sha256": "1766aec1e5a42fea2eb5a4a2773d51ebe5ad39c12f53197952ee393be1fecea9",
+  "upstream_acquisition_and_regional_hash_links_verified": 276,
+  "validation_version": "kuntur-phase2-v12-native-grid-collocation-validation-0.1.0"
+}

@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from kuntur_data.phase2.ingestion import GlobalAnalyticalCache, PartitionedGoldStore
+from kuntur_data.phase2.ingestion import AdaptiveGoldReader, GlobalAnalyticalCache, PartitionedGoldStore
 
 
 class PartitionAndCacheTests(unittest.TestCase):
@@ -51,6 +51,34 @@ class PartitionAndCacheTests(unittest.TestCase):
             with ThreadPoolExecutor(max_workers=4) as pool:
                 list(pool.map(lambda _: cache.put_frame(key, frame), range(4)))
             pd.testing.assert_frame_equal(cache.get_frame(key), frame)
+
+    def test_adaptive_reader_uses_direct_scan_for_small_gold_and_cache(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            gold_path = root / "gold.parquet"
+            self.gold_fixture().to_parquet(gold_path, index=False)
+            cache = GlobalAnalyticalCache(root / "cache")
+            reader = AdaptiveGoldReader(gold_path, direct_scan_max_bytes=10_000, cache=cache)
+            query = {"variable_ids": ["t2m"], "start_month": "2021-01", "end_month": "2021-12", "columns": ["month", "variable_id", "value"]}
+            first = reader.query(**query)
+            self.assertEqual(reader.last_strategy, "direct_parquet_scan")
+            second = reader.query(**query)
+            self.assertEqual(reader.last_strategy, "memory_cache_or_disk_cache")
+            pd.testing.assert_frame_equal(first, second, check_exact=True)
+
+    def test_adaptive_reader_requires_validated_partition_fallback_above_threshold(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            gold_path = root / "gold.parquet"
+            self.gold_fixture().to_parquet(gold_path, index=False)
+            with self.assertRaisesRegex(RuntimeError, "validated partition store"):
+                AdaptiveGoldReader(gold_path, direct_scan_max_bytes=0).query(variable_ids=["t2m"])
+            partitions = PartitionedGoldStore(gold_path, root / "partitioned")
+            partitions.materialize()
+            reader = AdaptiveGoldReader(gold_path, direct_scan_max_bytes=0, partition_store=partitions)
+            actual = reader.query(variable_ids=["t2m"], columns=["month", "variable_id", "value"])
+            self.assertEqual(reader.last_strategy, "validated_partition_store")
+            self.assertEqual(len(actual), 2)
 
 
 if __name__ == "__main__":

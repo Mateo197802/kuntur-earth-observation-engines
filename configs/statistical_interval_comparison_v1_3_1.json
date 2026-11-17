@@ -1,0 +1,89 @@
+{
+  "schema_version": "kuntur-statistical-interval-comparison-v1.3.1",
+  "protocol_id": "KUNTUR-STAT-IID-SEASONAL-AR12-INTERVAL-COMPARISON-V1.3.1",
+  "phase": "development_only",
+  "regime": "iid_gaussian",
+  "design": {
+    "n_calendar_months": 276,
+    "optimizer_maxiter": 200,
+    "calendar_start": "2000-01",
+    "calendar_end": "2022-12",
+    "slopes_per_decade": [0.0, 0.25, 0.5],
+    "development_replicates_per_slope": 1000,
+    "preflight_replicates_per_slope": 30,
+    "paired_candidates": ["wald_normal", "wald_student_t", "profile_likelihood"],
+    "dgp": "scripts/statistical_correction/run_calibration.py::make_series(iid_gaussian): mean 12 + fixed monthly effects + slope * t/120, iid Normal(0, 0.25^2) errors, complete monthly support",
+    "point_model": "SARIMAX exog=[intercept, elapsed decades, 11 monthly indicators], order=(0,0,0), seasonal_order=(1,0,0,12), trend='n', enforce_stationarity=True, enforce_invertibility=True, maxiter=200",
+    "series_seed_namespace": "KUNTUR-STAT-IID-INTERVAL-COMPARISON-V1.3.1-DEV-2026-11-17",
+    "preflight_seed_namespace": "KUNTUR-STAT-IID-INTERVAL-COMPARISON-V1.3.1-TIMING-PREFLIGHT-2026-11-17",
+    "seed_derivation": "SHA256(namespace + '|' + role + '|iid_gaussian|' + slope formatted to 8 decimals + '|' + replicate), first 128 bits as unsigned integer",
+    "replicate_pairing": "One generated series is reused for all three interval candidates at the same slope and replicate index. Each candidate independently fits the identical unrestricted SARIMAX point model."
+  },
+  "candidates": [
+    {
+      "id": "wald_normal",
+      "role": "unchanged_comparator",
+      "optimizer_maxiter": 200,
+      "confidence_interval": "statsmodels two-sided 95% normal Wald interval from unrestricted SARIMAX parameter covariance",
+      "p_value": "two-sided asymptotic normal Wald test from the same unrestricted SARIMAX fit"
+    },
+    {
+      "id": "wald_student_t",
+      "role": "corrected_candidate",
+      "optimizer_maxiter": 200,
+      "confidence_interval": "same SARIMAX point estimate and standard error; two-sided Student-t critical value with df=n-rank(X)-k_dynamic; df=262 for the frozen design; the innovation scale parameter is not subtracted",
+      "p_value": "two-sided Student-t test using the same statistic and df as the interval"
+    },
+    {
+      "id": "profile_likelihood",
+      "role": "corrected_candidate",
+      "optimizer_maxiter": 200,
+      "confidence_interval": "95% likelihood-ratio interval obtained by inverting 2*(profile logLik(beta)-unrestricted logLik) against chi-square(1) 0.95; exact stationary Gaussian seasonal-AR(12) likelihood profiled over intercept/month effects, seasonal AR parameter and innovation scale",
+      "p_value": "two-sided likelihood-ratio test at beta=0 using the same profile likelihood and chi-square(1) cutoff as the interval"
+    }
+  ],
+  "acceptance_criteria": {
+    "type_i_alpha": 0.05,
+    "type_i_rate_range": [0.035, 0.065],
+    "type_i_exact_cp95_contains_alpha": true,
+    "coverage_nominal": 0.95,
+    "coverage_rate_range": [0.935, 0.965],
+    "coverage_exact_cp95_contains_nominal_at_all_slopes": true,
+    "max_absolute_slope_bias_per_decade": 0.025,
+    "max_numerical_failure_fraction": 0.01,
+    "numerical_failure_integer_gate": "100 * numerical_failure_count <= supported_count",
+    "minimum_inferential_availability": 0.99,
+    "maximum_mean_ci_width_over_known_covariance_oracle": 2.0,
+    "max_residual_dependence_failure_rate": 0.05,
+    "residual_dependence_diagnostic": "Ljung-Box at 12 and 24 calendar-month lags; p < 0.01 flags a residual-dependence failure",
+    "monte_carlo_intervals": "two-sided exact Clopper-Pearson 95% intervals for Type-I error, coverage and power; Student-t 95% intervals for continuous means",
+    "candidate_gate": "Every applicable frozen gate must pass at all three slopes; Type-I is evaluated only at slope zero. Power is reported with exact uncertainty but has no new acceptance threshold. Wald is a comparator and is ineligible for corrected-candidate freeze.",
+    "selection_rule": "Among corrected candidates only, freeze a candidate only if all applicable gates pass at every slope. If both corrected candidates pass, the predeclared tie-break is the lower-complexity finite-sample t interval. Development success is eligibility for independent confirmation, not validation or registry promotion."
+  },
+  "resource_budget": {
+    "preflight_candidate_replicates": 270,
+    "preflight_hard_max_cpu_seconds": 1800,
+    "preflight_hard_max_wall_seconds": 3600,
+    "development_candidate_replicates": 9000,
+    "development_hard_max_cpu_seconds": 7200,
+    "development_hard_max_wall_seconds": 14400,
+    "hard_max_rss_bytes": 1073741824,
+    "max_processes": 1,
+    "blas_threads": 1,
+    "slurm_jobs": 0,
+    "checkpoint_every_paired_replicates": 50,
+    "atomic_checkpoint": true,
+    "preflight_projection_multiplier": 2.0,
+    "preflight_decision": "Start the full development screen only if the measured two-fold projection for all 9000 candidate-replicates is below both development hard caps and the preflight completed all 90 paired series. Otherwise report NOT_VALIDATED_RESOURCE_BOUNDED and do not start the main screen."
+  },
+  "selection_and_confirmation": {
+    "prior_v1_3_confirmation_reused": false,
+    "v1_2_final_validation_seed_namespace_reused": false,
+    "v1_3_608_fit_pilot_seed_namespace_reused": false,
+    "v1_3_expansion_seed_namespace_reused": false,
+    "2025_predictive_test_rerun": false,
+    "real_gold_used_for_method_selection": false,
+    "registry_mutation": false,
+    "independent_confirmation": "Not included in this protocol. A new candidate must first pass the full development gates, then its exact method/hash, acceptance criteria, and an untouched confirmation seed namespace must be frozen in a separate protocol before any confirmation run."
+  }
+}

@@ -28,8 +28,14 @@ flowchart LR
 - [Variable dictionary](docs/data_dictionary_v1.csv)
 - [Forecast and augmentation protocol](docs/protocols/predictive_model_protocol_v1.md)
 - [External comparison protocol](docs/protocols/external_validation_protocol_v1.md)
+- [v1.3.2 statistical correction and independent confirmation](docs/audits/statistical_validation_v1_3_2_2026-11-17.md)
+- [v1.3 six-regime development expansion (aggregate metrics; no non-IID confirmation)](docs/audits/v1_3_cross_regime_development_expansion_2026-11-17.md)
+- [Frozen v1.3 cross-regime development protocol](docs/protocols/statistical_corrective_development_expansion_v1_3.md)
+- [Machine-readable public statistical evidence](results/phase2/public/statistical_validation_v1_3_2.json)
 - [Downstream Python interface](docs/phase2_api.md)
 - [Benchmark and external comparison tables](results/phase2/public/)
+
+The finite-sample Student-t interval passed independent confirmation for its declared IID Gaussian synthetic regime only. This does not validate dependent-error regimes or real NASA series; the inferential registry remains unchanged, and confirmatory p-values, confidence intervals, and FDR q-values remain withheld for real Gold data.
 
 The final test selected histogram gradient boosting using the untouched validation set, then evaluated the frozen model once on 36 months from 2022–2024. Results and the disclosed process-access caveat are in the handoff. Model intervals had 55.6% empirical coverage against a nominal 90% target and must not be treated as calibrated guarantees. Internal stress tests use 38 unique chronological months; the many perturbed records do not increase the number of independent months.
 
@@ -62,7 +68,7 @@ NASA inputs and original acquisition checksums are described in the local handof
 
 ## Security, data use, and license
 
-The repository is public. Public files are limited to source code, protocols, sanitized provenance, and aggregate results. Git excludes source granules, derived monthly observations and row-level predictions, station records, cache files, runtime models, credentials, and private HPC paths. Gitleaks scans pushes and pull requests. No license is granted pending contributor ownership and third-party data-license review; see [LICENSE](LICENSE).
+The GitHub repository is public. Public files are limited to source code, protocols, sanitized provenance, and aggregate results. Git excludes NASA source granules, derived monthly observations, row-level predictions, station records, cache files, logs, runtime models, credentials, and machine-specific acquisition configuration or private HPC paths. Gitleaks scans pushes and pull requests. The all-rights-reserved notice remains in force; no license is granted pending contributor ownership and third-party data-rights review. See [LICENSE](LICENSE).
 
 The observed source data are not bundled. Follow the providers’ terms and the institution’s access and storage policies when using them. Coast/Andes/Amazon and external-comparison regional masks remain pending approved geographic definitions.
 

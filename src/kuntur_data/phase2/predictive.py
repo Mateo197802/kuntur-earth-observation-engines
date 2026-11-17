@@ -276,11 +276,36 @@ def make_clean_matrix(frame: pd.DataFrame, location: np.ndarray, scaler: Standar
     return model_inputs(raw, missing, location, scaler), raw
 
 
+def make_clean_matrix_v1_1(frame: pd.DataFrame, location: np.ndarray, scaler: StandardScaler) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Transform clean rows and expose true missing cells to the v1.1 model."""
+    raw = history_array(frame)
+    missing = ~np.isfinite(raw)
+    return model_inputs(raw, missing, location, scaler), raw, missing
+
+
 def fit_preprocessing(train_frame: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, StandardScaler]:
     raw = history_array(train_frame)
     location, noise_scale = training_location_scale(raw)
     clean = np.nan_to_num(raw, nan=0.0).reshape(len(raw), -1)
     scaler = StandardScaler().fit(clean)
+    return location, noise_scale, scaler
+
+
+def fit_preprocessing_v1_1(train_frame: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, StandardScaler]:
+    """Fit v1.1 imputation and scaling on training rows, with imputation before scaling."""
+    raw = history_array(train_frame)
+    flat = raw.reshape(-1, len(CHANNELS))
+    observed_counts = np.isfinite(flat).sum(axis=0)
+    if np.any(observed_counts == 0):
+        raise ValueError("A predictor channel is entirely missing in the training window")
+    location = np.nanmean(flat, axis=0)
+    noise_scale = np.nanstd(flat, axis=0, ddof=1)
+    noise_scale = np.where(np.isfinite(noise_scale) & (noise_scale > 1e-12), noise_scale, 1.0)
+    filled = raw.copy()
+    missing = ~np.isfinite(filled)
+    imputation = np.broadcast_to(location.reshape(1, 1, -1), filled.shape)
+    filled[missing] = imputation[missing]
+    scaler = StandardScaler().fit(filled.reshape(len(filled), -1))
     return location, noise_scale, scaler
 
 

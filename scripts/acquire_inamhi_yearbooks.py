@@ -19,6 +19,7 @@ import psutil
 import requests
 
 from kuntur_data.phase2.inamhi_pdf import STATION_CODE, canonical_station_id, parse_monthly_station_words, parse_station_index_words
+from kuntur_data.phase2.inamhi_budget import InamhiTimeBudget, InamhiTimeBudgetExceeded
 from kuntur_data.phase2.inamhi_checkpoints import load_year_checkpoint, write_year_checkpoint
 
 
@@ -45,14 +46,45 @@ def sha256(path: Path) -> str:
 def atomic_json(path: Path, payload: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_suffix(path.suffix + ".tmp")
-    temp.write_text(json.dumps(payload, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
+    temp.write_text(json.dumps(payload, indent=2, sort_keys=True, default=str, allow_nan=False) + "\n", encoding="utf-8")
     temp.replace(path)
 
 
-def discover_pdf(year: int, session: requests.Session) -> dict[str, object] | None:
+def load_validated_year_checkpoints(
+    years: range | list[int],
+    source_records: dict[str, dict[str, object]],
+    *,
+    root: Path = ROOT,
+    checkpoint_dir: Path = CHECKPOINT_DIR,
+    manifest_path: Path = CHECKPOINT_MANIFEST_PATH,
+) -> dict[int, tuple[pd.DataFrame, dict[str, object]]]:
+    """Load each matching validated year checkpoint once for resume planning and reuse."""
+    checkpoints: dict[int, tuple[pd.DataFrame, dict[str, object]]] = {}
+    for year in years:
+        expected_sha = str(source_records.get(str(year), {}).get("sha256", ""))
+        if len(expected_sha) != 64:
+            continue
+        checkpoint = load_year_checkpoint(
+            year,
+            expected_source_sha256=expected_sha,
+            root=root,
+            checkpoint_dir=checkpoint_dir,
+            manifest_path=manifest_path,
+        )
+        if checkpoint is not None:
+            checkpoints[year] = checkpoint
+    return checkpoints
+
+
+def discover_pdf(year: int, session: requests.Session, budget: InamhiTimeBudget | None = None) -> dict[str, object] | None:
     for attempt in range(4):
         try:
-            response = session.get(QUERY_URL, params={"search": f"Am-{year}", "per_page": 20}, timeout=(15, 30))
+            if budget:
+                budget.check(f"discover yearbook {year}")
+                request_timeout = (budget.timeout(15), budget.timeout(30))
+            else:
+                request_timeout = (15, 30)
+            response = session.get(QUERY_URL, params={"search": f"Am-{year}", "per_page": 20}, timeout=request_timeout)
             response.raise_for_status()
             items = [item for item in response.json() if item.get("source_url", "").lower().endswith(".pdf")]
             if not items:
@@ -60,22 +92,30 @@ def discover_pdf(year: int, session: requests.Session) -> dict[str, object] | No
             item = next((i for i in items if i.get("slug", "").lower() == f"am-{year}"), items[0])
             return {"url": item["source_url"], "slug": item.get("slug"), "title": item.get("title", {}).get("rendered")}
         except requests.RequestException:
+            if budget and budget.remaining() <= 0:
+                raise InamhiTimeBudgetExceeded(f"INAMHI time budget exhausted while discovering yearbook {year}")
             if attempt == 3:
                 raise
-            time.sleep(2**attempt)
+            delay = 2**attempt
+            time.sleep(min(delay, budget.remaining()) if budget else delay)
     return None
 
 
-def acquire_pdf(url: str, target: Path, session: requests.Session) -> dict[str, object]:
+def acquire_pdf(url: str, target: Path, session: requests.Session, budget: InamhiTimeBudget | None = None) -> dict[str, object]:
     if target.exists() and target.stat().st_size > 1000:
         return {"path": target.relative_to(ROOT).as_posix(), "bytes": target.stat().st_size, "sha256": sha256(target), "reuse_existing": True}
     target.parent.mkdir(parents=True, exist_ok=True)
     temp = target.with_suffix(target.suffix + ".part")
     for attempt in range(4):
         try:
+            if budget:
+                budget.check(f"download {target.name}")
+                request_timeout = (budget.timeout(20), budget.timeout(90))
+            else:
+                request_timeout = (20, 90)
             digest = hashlib.sha256()
             byte_count = 0
-            with session.get(url, stream=True, timeout=(20, 90)) as response:
+            with session.get(url, stream=True, timeout=request_timeout) as response:
                 response.raise_for_status()
                 if "pdf" not in response.headers.get("Content-Type", "").lower():
                     raise ValueError(f"INAMHI source did not return PDF: {response.headers.get('Content-Type')}")
@@ -86,17 +126,25 @@ def acquire_pdf(url: str, target: Path, session: requests.Session) -> dict[str, 
                             output.write(block)
                             digest.update(block)
                             byte_count += len(block)
+                            if budget:
+                                budget.check(f"download {target.name}")
                 if expected and byte_count != int(expected):
                     raise IOError(f"PDF length mismatch for {url}: {byte_count} != {expected}")
             if temp.read_bytes()[:5] != b"%PDF-":
                 raise ValueError("Downloaded INAMHI file has no PDF signature")
             temp.replace(target)
             return {"path": target.relative_to(ROOT).as_posix(), "url": url, "bytes": byte_count, "sha256": digest.hexdigest(), "http_status": 200, "last_modified": response.headers.get("Last-Modified"), "etag": response.headers.get("ETag"), "reuse_existing": False}
+        except InamhiTimeBudgetExceeded:
+            temp.unlink(missing_ok=True)
+            raise
         except (requests.RequestException, IOError) as exc:
             temp.unlink(missing_ok=True)
+            if budget and budget.remaining() <= 0:
+                raise InamhiTimeBudgetExceeded(f"INAMHI time budget exhausted while downloading {target.name}") from exc
             if attempt == 3:
                 raise
-            time.sleep(2**attempt)
+            delay = 2**attempt
+            time.sleep(min(delay, budget.remaining()) if budget else delay)
     raise RuntimeError("unreachable")
 
 
@@ -109,13 +157,15 @@ def index_page_range(year: int, page_count: int) -> range:
     return range(70, min(page_count, 125))
 
 
-def extract_station_index(path: Path, year: int) -> tuple[dict[str, dict[str, object]], dict[str, int]]:
+def extract_station_index(path: Path, year: int, budget: InamhiTimeBudget | None = None) -> tuple[dict[str, dict[str, object]], dict[str, int]]:
     """Read all published index rows for a year, including rows outside the pilot box."""
     station_index: dict[str, dict[str, object]] = {}
     index_page_count = 0
     with pdfplumber.open(path) as pdf:
         page_count = len(pdf.pages)
         for page_index in index_page_range(year, page_count):
+            if budget:
+                budget.check(f"scan {path.name} index page {page_index + 1}")
             page = pdf.pages[page_index]
             try:
                 text = page.extract_text() or ""
@@ -143,11 +193,21 @@ def reference_station_lookup(target_year: int, reference_indexes: dict[int, dict
     return lookup
 
 
-def _station_table_codes_from_text(path: Path, station_index: dict[str, dict[str, object]]) -> tuple[dict[int, tuple[str, str]], str]:
+def _station_table_codes_from_text(
+    path: Path,
+    station_index: dict[str, dict[str, object]],
+    budget: InamhiTimeBudget | None = None,
+) -> tuple[dict[int, tuple[str, str]], str]:
     """Use searchable PDF text to locate station tables without assuming page offsets."""
     command = shutil.which("pdftotext")
     if command:
-        result = subprocess.run([command, "-layout", str(path), "-"], capture_output=True, timeout=300, check=False)
+        timeout = budget.timeout(300) if budget else 300
+        try:
+            result = subprocess.run([command, "-layout", str(path), "-"], capture_output=True, timeout=timeout, check=False)
+        except subprocess.TimeoutExpired as exc:
+            if budget:
+                budget.check(f"finish page scan for {path.name}")
+            raise exc
         if result.returncode != 0:
             raise RuntimeError(f"pdftotext failed for {path.name} with exit code {result.returncode}")
         text = result.stdout.decode("utf-8", errors="replace")
@@ -156,7 +216,9 @@ def _station_table_codes_from_text(path: Path, station_index: dict[str, dict[str
     else:
         page_texts: list[str] = []
         with pdfplumber.open(path) as pdf:
-            for page in pdf.pages:
+            for page_index, page in enumerate(pdf.pages):
+                if budget:
+                    budget.check(f"scan {path.name} page {page_index + 1}")
                 try:
                     page_texts.append(page.extract_text() or "")
                 finally:
@@ -192,24 +254,29 @@ def extract_yearbook(
     *,
     reference_index: dict[str, dict[str, object]] | None = None,
     cached_index: tuple[dict[str, dict[str, object]], dict[str, int]] | None = None,
+    budget: InamhiTimeBudget | None = None,
 ) -> tuple[list[dict[str, object]], dict[str, object]]:
+    if budget:
+        budget.check(f"start extraction of {path.name}")
     process = psutil.Process()
     peak_rss_bytes = process.memory_info().rss
     if peak_rss_bytes > MAX_RSS_BYTES:
         raise MemoryError(f"INAMHI PDF extraction exceeded the 3.5 GiB safety cap in {path.name}")
-    local_index, index_stats = cached_index or extract_station_index(path, year)
+    local_index, index_stats = cached_index or extract_station_index(path, year, budget)
     coordinate_reference_index = local_index if local_index else (reference_index or {})
     station_index = {
         station_id: station for station_id, station in coordinate_reference_index.items()
         if BBOX["west"] <= float(station["longitude"]) <= BBOX["east"]
         and BBOX["south"] <= float(station["latitude"]) <= BBOX["north"]
     }
-    candidate_pages, page_scan_method = _station_table_codes_from_text(path, station_index)
+    candidate_pages, page_scan_method = _station_table_codes_from_text(path, station_index, budget)
     observations: list[dict[str, object]] = []
     station_pages: dict[str, list[dict[str, object]]] = {}
     with pdfplumber.open(path) as pdf:
         page_count = len(pdf.pages)
         for page_index, (station_id, station_code_source) in candidate_pages.items():
+            if budget:
+                budget.check(f"extract {path.name} page {page_index + 1}")
             if not 0 <= page_index < page_count:
                 continue
             page = pdf.pages[page_index]
@@ -264,6 +331,7 @@ def extract_yearbook(
 
 
 def main() -> None:
+    budget = InamhiTimeBudget.from_environment()
     started = time.perf_counter()
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
@@ -274,18 +342,12 @@ def main() -> None:
     existing_manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.is_file() else {}
     source_records: dict[str, dict[str, object]] = dict(existing_manifest.get("yearbook_sources", {}))
     existing_frame = pd.read_parquet(source_path) if source_path.is_file() else pd.DataFrame()
-    cacheable_years: set[int] = set()
+    validated_checkpoints = load_validated_year_checkpoints(AVAILABLE_YEARS, source_records)
+    cacheable_years = set(validated_checkpoints)
     for year in AVAILABLE_YEARS:
         existing_record = source_records.get(str(year), {})
         expected_sha = str(existing_record.get("sha256", ""))
-        if len(expected_sha) == 64 and load_year_checkpoint(
-            year,
-            expected_source_sha256=expected_sha,
-            root=ROOT,
-            checkpoint_dir=CHECKPOINT_DIR,
-            manifest_path=CHECKPOINT_MANIFEST_PATH,
-        ) is not None:
-            cacheable_years.add(year)
+        if year in cacheable_years:
             continue
         prior_rows = existing_frame.loc[existing_frame.year == year] if not existing_frame.empty else pd.DataFrame()
         if (
@@ -300,6 +362,7 @@ def main() -> None:
     reference_indexes: dict[int, dict[str, dict[str, object]]] = {}
     index_cache: dict[int, tuple[dict[str, dict[str, object]], dict[str, int]]] = {}
     reference_index_errors: list[dict[str, object]] = []
+    budget_exhausted = False
     reference_year_options = [year for year in (2006, 2010, 2011, 2012) if (RAW_DIR / f"Am-{year}.pdf").is_file()]
     required_reference_years: set[int] = set()
     for year in years_requiring_parse:
@@ -311,9 +374,13 @@ def main() -> None:
     for reference_year in sorted(required_reference_years):
         reference_path = RAW_DIR / f"Am-{reference_year}.pdf"
         try:
-            index_data = extract_station_index(reference_path, reference_year)
+            budget.check(f"index reference yearbook {reference_year}")
+            index_data = extract_station_index(reference_path, reference_year, budget)
             index_cache[reference_year] = index_data
             reference_indexes[reference_year] = index_data[0]
+        except InamhiTimeBudgetExceeded:
+            budget_exhausted = True
+            break
         except Exception as exc:
             reference_index_errors.append({"year": reference_year, "error_type": type(exc).__name__})
     coordinate_lookups = {
@@ -327,19 +394,20 @@ def main() -> None:
         existing_record = source_records.get(key, {})
         prior_rows = existing_frame.loc[existing_frame.year == year] if not existing_frame.empty else pd.DataFrame()
         expected_sha = str(existing_record.get("sha256", ""))
-        if len(expected_sha) == 64:
-            checkpoint = load_year_checkpoint(
-                year,
-                expected_source_sha256=expected_sha,
-                root=ROOT,
-                checkpoint_dir=CHECKPOINT_DIR,
-                manifest_path=CHECKPOINT_MANIFEST_PATH,
-            )
-            if checkpoint is not None:
-                checkpoint_frame, checkpoint_record = checkpoint
-                source_records[key] = checkpoint_record.get("source_record", existing_record)
-                all_observations.extend(checkpoint_frame.to_dict("records"))
-                continue
+        checkpoint = validated_checkpoints.get(year)
+        if checkpoint is not None:
+            checkpoint_frame, checkpoint_record = checkpoint
+            source_records[key] = checkpoint_record.get("source_record", existing_record)
+            all_observations.extend(checkpoint_frame.to_dict("records"))
+            print(json.dumps({
+                "event": "INAMHI_YEAR_REUSED_VALIDATED_CHECKPOINT",
+                "year": year,
+                "rows": len(checkpoint_frame),
+                "checkpoint_sha256": checkpoint_record.get("sha256"),
+                "elapsed_seconds": time.perf_counter() - started,
+                "time_budget_remaining_seconds": round(budget.remaining(), 2),
+            }, sort_keys=True))
+            continue
         if (
             existing_record.get("status") == "PDF_ACQUIRED_AND_PARSED"
             and not prior_rows.empty
@@ -348,7 +416,7 @@ def main() -> None:
             and not prior_rows.duplicated(["year", "station_id", "month_number"]).any()
         ):
             cached_extraction = {k: v for k, v in existing_record.items() if k not in {"url", "slug", "title", "path", "bytes", "sha256", "reuse_existing", "status"}}
-            write_year_checkpoint(
+            record = write_year_checkpoint(
                 year,
                 prior_rows,
                 source_record=existing_record,
@@ -358,23 +426,36 @@ def main() -> None:
                 manifest_path=CHECKPOINT_MANIFEST_PATH,
             )
             all_observations.extend(prior_rows.to_dict("records"))
+            print(json.dumps({
+                "event": "INAMHI_YEAR_CHECKPOINTED_FROM_VALIDATED_EXISTING_ROWS",
+                "year": year,
+                "rows": len(prior_rows),
+                "checkpoint_sha256": record.get("sha256"),
+                "elapsed_seconds": time.perf_counter() - started,
+                "time_budget_remaining_seconds": round(budget.remaining(), 2),
+            }, sort_keys=True))
+            continue
+        if budget_exhausted:
+            failures.append({"year": year, "status": "SKIPPED_TIME_BUDGET_EXHAUSTED"})
             continue
         try:
+            budget.check(f"start yearbook {year}")
             pdf_path = RAW_DIR / f"Am-{year}.pdf"
             discovered = {
                 "url": existing_record.get("url"),
                 "slug": existing_record.get("slug"),
                 "title": existing_record.get("title"),
-            } if existing_record.get("url") else discover_pdf(year, session)
+            } if existing_record.get("url") else discover_pdf(year, session, budget)
             if discovered is None:
                 failures.append({"year": year, "status": "PDF_NOT_FOUND_IN_PUBLIC_MEDIA_CATALOG"})
                 continue
-            source = acquire_pdf(str(discovered["url"]), pdf_path, session)
+            source = acquire_pdf(str(discovered["url"]), pdf_path, session, budget)
             observations, extraction = extract_yearbook(
                 pdf_path,
                 year,
                 reference_index=coordinate_lookups.get(year),
                 cached_index=index_cache.get(year),
+                budget=budget,
             )
             for row in observations:
                 row["source_pdf_path"] = source["path"]
@@ -384,7 +465,7 @@ def main() -> None:
                 raise ValueError(f"unexpected zero bbox rows for published station-table year {year}; left without a completion checkpoint")
             source_records[key] = {**discovered, **source, **extraction, "status": "PDF_ACQUIRED_AND_PARSED" if observations else "PDF_ACQUIRED_NO_BBOX_TEMPERATURE_ROWS"}
             year_frame = pd.DataFrame(observations)
-            write_year_checkpoint(
+            checkpoint_record = write_year_checkpoint(
                 year,
                 year_frame,
                 source_record=source_records[key],
@@ -393,14 +474,52 @@ def main() -> None:
                 checkpoint_dir=CHECKPOINT_DIR,
                 manifest_path=CHECKPOINT_MANIFEST_PATH,
             )
+            print(json.dumps({
+                "event": "INAMHI_YEAR_PARSED_AND_CHECKPOINT_VALIDATED",
+                "year": year,
+                "rows": len(year_frame),
+                "pdf_pages": extraction.get("pdf_pages"),
+                "climatology_pages": extraction.get("bbox_station_climatology_pages"),
+                "checkpoint_sha256": checkpoint_record.get("sha256"),
+                "elapsed_seconds": time.perf_counter() - started,
+                "time_budget_remaining_seconds": round(budget.remaining(), 2),
+            }, sort_keys=True))
             all_observations.extend(observations)
             del observations
             gc.collect()
+        except InamhiTimeBudgetExceeded as exc:
+            failures.append({"year": year, "status": "TIME_BUDGET_EXHAUSTED", "error_message": str(exc)})
+            budget_exhausted = True
+            break
         except Exception as exc:
             if isinstance(exc, MemoryError):
                 raise
             failures.append({"year": year, "status": "FAILED", "error_type": type(exc).__name__, "error_message": str(exc)[:500]})
 
+    if not all_observations and budget_exhausted:
+        checkpoint_manifest = json.loads(CHECKPOINT_MANIFEST_PATH.read_text(encoding="utf-8")) if CHECKPOINT_MANIFEST_PATH.is_file() else {"years": {}}
+        checkpointed_years = {
+            int(year) for year, record in checkpoint_manifest.get("years", {}).items()
+            if record.get("status") in {"VALIDATED", "VALIDATED_NO_BBOX_ROWS"}
+        }
+        checkpoint_manifest["status"] = "CHECKPOINTS_VALIDATED" if set(AVAILABLE_YEARS).issubset(checkpointed_years) else "CHECKPOINTS_PARTIAL"
+        checkpoint_manifest["missing_years"] = sorted(set(AVAILABLE_YEARS) - checkpointed_years)
+        atomic_json(CHECKPOINT_MANIFEST_PATH, checkpoint_manifest)
+        progress_manifest = dict(existing_manifest)
+        progress_manifest.update({
+            "status": "TIME_BUDGET_EXHAUSTED_NO_STATION_MONTH_ROWS",
+            "yearbook_sources": source_records,
+            "failures": failures,
+            "execution": {
+                "elapsed_seconds": time.perf_counter() - started,
+                "time_budget_seconds": budget.seconds,
+                "time_budget_exhausted": True,
+                "checkpointed_years": sorted(checkpointed_years),
+            },
+        })
+        atomic_json(manifest_path, progress_manifest)
+        print(json.dumps({"status": progress_manifest["status"], "failures": failures, "checkpointed_years": sorted(checkpointed_years), "time_budget_seconds": budget.seconds}, indent=2))
+        return
     if not all_observations:
         raise RuntimeError("No INAMHI station-month rows parsed from the acquired yearbooks")
     frame = pd.DataFrame(all_observations)
@@ -462,7 +581,13 @@ def main() -> None:
         "run_history": previous_history, "artifact_hashes": artifacts,
         "independence_caveat": "INAMHI observations are a distinct national station archive from NASA gridded products; possible observation ingestion overlap with reanalysis cannot be ruled out. Spatial representativeness and changing station support prohibit claims of exact equivalence or fully independent domain transfer.",
         "validation": {"status": "PASSED_WITH_PDF_EXTRACTION_LIMITS", "checks": ["each source URL was discovered from the official INAMHI media API", "PDF signature and page count validated", "station coordinates parsed from official station index", "temperature and precipitation columns validated against rendered 2002 page sample", "physical ranges applied", "source page and source file SHA retained for every station-month", "monthly composites require >=3 stations"]},
-        "execution": {"elapsed_seconds": time.perf_counter() - started, "peak_rss_bytes": max((int(record["peak_rss_bytes"]) for record in source_records.values() if record.get("peak_rss_bytes") is not None), default=psutil.Process().memory_info().rss), "memory_safety_cap_bytes": MAX_RSS_BYTES},
+        "execution": {
+            "elapsed_seconds": time.perf_counter() - started,
+            "time_budget_seconds": budget.seconds,
+            "time_budget_exhausted": budget_exhausted,
+            "peak_rss_bytes": max((int(record["peak_rss_bytes"]) for record in source_records.values() if record.get("peak_rss_bytes") is not None), default=psutil.Process().memory_info().rss),
+            "memory_safety_cap_bytes": MAX_RSS_BYTES,
+        },
     }
     if CHECKPOINT_MANIFEST_PATH.is_file():
         checkpoint_manifest = json.loads(CHECKPOINT_MANIFEST_PATH.read_text(encoding="utf-8"))
@@ -476,7 +601,7 @@ def main() -> None:
     checkpoint_manifest["missing_years"] = sorted(set(AVAILABLE_YEARS) - checkpointed_years)
     atomic_json(CHECKPOINT_MANIFEST_PATH, checkpoint_manifest)
     atomic_json(manifest_path, manifest)
-    print(json.dumps({"status": manifest["status"], "yearbooks_acquired": len(source_records), "yearbook_years": sorted(map(int, source_records)), "bbox_station_month_rows": len(frame), "stations": int(frame.station_id.nunique()), "temperature_months_3plus_stations": manifest["counts"]["months_with_3plus_tavg_stations"], "precipitation_months_3plus_stations": manifest["counts"]["months_with_3plus_precipitation_stations"], "reference_index_years": sorted(reference_indexes), "reference_index_errors": reference_index_errors, "failures": failures, "manifest": manifest_path.relative_to(ROOT).as_posix()}, indent=2))
+    print(json.dumps({"status": manifest["status"], "yearbooks_acquired": len(source_records), "yearbook_years": sorted(map(int, source_records)), "bbox_station_month_rows": len(frame), "stations": int(frame.station_id.nunique()), "temperature_months_3plus_stations": manifest["counts"]["months_with_3plus_tavg_stations"], "precipitation_months_3plus_stations": manifest["counts"]["months_with_3plus_precipitation_stations"], "reference_index_years": sorted(reference_indexes), "reference_index_errors": reference_index_errors, "failures": failures, "time_budget_seconds": budget.seconds, "time_budget_exhausted": budget_exhausted, "manifest": manifest_path.relative_to(ROOT).as_posix()}, indent=2))
 
 
 if __name__ == "__main__":

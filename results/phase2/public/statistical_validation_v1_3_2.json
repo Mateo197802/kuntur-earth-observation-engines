@@ -1,0 +1,989 @@
+{
+  "delivery_policy": "Aggregate metrics and code only. No row-level simulation checkpoints, NASA data, private paths, credentials, or raw source records are included.",
+  "generated_utc": "2026-11-17T22:09:49.770309+00:00",
+  "historical_v1_2_reconstruction": {
+    "frozen_selections_unchanged": {
+      "ar1_rho_0_6_with_20pct_mcar": "SEASONAL_MK_YEAR2",
+      "iid_gaussian": "SEASONAL_MK_YEAR2"
+    },
+    "root_causes": [
+      "The IID score was capability-asymmetric: Seasonal MK had no interval, so coverage penalties were omitted from its score while interval-producing candidates were scored on additional terms.",
+      "The AR(1) with MCAR residual-dependence gate treated unavailable exact-calendar diagnostics as failed, excluding otherwise plausible SARIMAX candidates.",
+      "Five hundred selection replications left Monte Carlo standard error near 0.01 for a 5% rejection rate; independent validation shifts were compatible with sampling variation and winner's curse.",
+      "The saved score arithmetic reproduced exactly; a score arithmetic implementation error and model misspecification as the sole cause were not established."
+    ],
+    "score_arithmetic_reconstructed_without_error": true,
+    "selection_root_cause_report_sha256": "3de6cbf65d38bb0c77b6b2736b5f35c97418ea0da2f899110f97476e051709a6"
+  },
+  "original_v1_3_wald_confirmation": {
+    "coverage": 0.9218436873747495,
+    "coverage_exact_cp95": [
+      0.9034,
+      0.9377
+    ],
+    "method": "SARIMAX_SEASONAL_AR12 with normal-Wald interval",
+    "metrics_sha256": "1566ca78fd69d1869740bff1a7c4178f264e656389f2f7a4e7ca9a2afdc40c67",
+    "slope_0_50_available": 998,
+    "slope_0_50_covered": 920,
+    "status": "FAILED_INDEPENDENT_CONFIRMATION"
+  },
+  "public_code_hash_policy": "SHA-256 of LF-normalized text bytes, matching the Git blobs under the repository text=auto/eol=lf policy.",
+  "public_code_sha256": {
+    "configs/statistical_interval_comparison_v1_3_2.json": "842a7581a1467d5129ec7b318bd8fe8fb44079ac3df3a6a29bc32773c76a8b48",
+    "configs/statistical_interval_confirmation_v1_3_2.json": "b073e99c11ad31105b8d5799b91ccdcfe72af082a797e60c5c96745123051853",
+    "docs/protocols/statistical_interval_comparison_v1_3_2.md": "1c5c0668fc1204a626276d0fa094257fa22dba347137a5c81e3f6703392ceebd",
+    "docs/protocols/statistical_interval_confirmation_v1_3_2.md": "2f12cd5d23cfe2ba8bbb0fc83fab4a9efd171a950d3ca5237b0ea224c9f2a81a",
+    "scripts/statistical_correction/audit_confirmation_seed_disjointness_v1_3_2.py": "58288fa391eb59881f318efcec04f31e192404133dcbf505f81939ad82b5b4b6",
+    "scripts/statistical_correction/export_interval_confirmation_public_v1_3_2.py": "a34083e955099589b5b9bb75a251a5437b035d8b5dc971616871db5460769944",
+    "scripts/statistical_correction/freeze_interval_comparison_v1_3_2.py": "f9f7e1e002218fa00492cf41c3b760640cef8fde7b5befd6add3538bd7e12083",
+    "scripts/statistical_correction/freeze_interval_confirmation_v1_3_2.py": "c8ae143471e99695b3b0e2fbb3a3d82d2034eef90a4480f9b6f156f386bd5ee8",
+    "scripts/statistical_correction/interval_comparison_v1_3_2.py": "8ea1171583659254e2f81f96a3f817b60544e6a0bff7571ff7af4b4f3cf58b93",
+    "scripts/statistical_correction/run_interval_comparison_v1_3_2.py": "dd5dabe68e465da2918b18b64b8b45c08ef0019d1d219dff9a31a5f42e6bc447",
+    "scripts/statistical_correction/run_interval_confirmation_v1_3_2.py": "0d5cc8b39d19d930e8c27d853039e5f775db207ce3223e4d1a1614d4652e9274",
+    "scripts/statistical_correction/summarize_interval_comparison_v1_3_2.py": "b6023cbb1c79d0b2265e984006c6b210e9e4f7b2022e02350fd75f8456c8c07f",
+    "scripts/statistical_correction/summarize_interval_confirmation_v1_3_2.py": "986080e0fe6d017a58ae523d5c724bdb333d3bf9546d0eb54443efb75dc2898b",
+    "tests/test_interval_comparison_v13_2.py": "2ce2f3d3222585962dc91d52813973636fc0dd7b919cc9400ce0b794ba767d04",
+    "tests/test_interval_confirmation_v13_2.py": "049348d81d83abc9052c904d55d50a2444a2e5ea3014dff6d287895868c9fd17"
+  },
+  "registry_and_protected_inputs": {
+    "2025_predictive_score_sha256": "a38af9f37962f948a0af7c27b06c829adb01c78311131f764bc344f1c64c80b7",
+    "2025_predictive_test_rerun": false,
+    "inference_registry_modified": false,
+    "original_v1_3_confirmation_metrics_sha256": "1566ca78fd69d1869740bff1a7c4178f264e656389f2f7a4e7ca9a2afdc40c67",
+    "original_v1_3_failure_preserved": true,
+    "v1_2_partial_closure_sha256": "8b0677caead3ae6e3fe22999f0c6b078f9d2f596051ac670f4de2d7d313825e5",
+    "v1_2_registry_sha256": "d68ddbf8825d98699198140593a871df307d71a3edb490ca02f992bae7f13580",
+    "v1_2_registry_status": "PARTIAL_OR_EMPTY"
+  },
+  "schema_version": "kuntur-public-statistical-validation-v1.3.2",
+  "statistical_scope": "Synthetic IID Gaussian only; no real NASA series, dependent-error regime, or irregular calendar is validated.",
+  "v1_3_1_profile_preflight": {
+    "failure": "Strict 1e-6 profile maximum check rejected small optimizer stopping-precision discrepancies; an audited row differed by about 7.44e-6.",
+    "status": "ABORTED_ENGINEERING_PREFLIGHT; main development not started",
+    "v1_3_2_fix": "Evaluate the exact profile at the unrestricted estimate; use the higher of two close maxima and clip only differences up to 1e-3; reject larger mismatches."
+  },
+  "v1_3_2_development": {
+    "candidate_fits": 9000,
+    "candidate_gate_decisions": {
+      "profile_likelihood": {
+        "all_three_slopes_pass": false,
+        "eligible_corrected_candidate": false,
+        "per_slope_gate_results": [
+          {
+            "all_gates_pass": false,
+            "gates": {
+              "ci_width_over_oracle": true,
+              "coverage_rate_and_exact_interval": false,
+              "inferential_availability": true,
+              "numerical_failures_integer_gate": true,
+              "residual_dependence": true,
+              "slope_bias": true,
+              "type_i_rate": false
+            },
+            "slope_per_decade": 0.0
+          },
+          {
+            "all_gates_pass": true,
+            "gates": {
+              "ci_width_over_oracle": true,
+              "coverage_rate_and_exact_interval": true,
+              "inferential_availability": true,
+              "numerical_failures_integer_gate": true,
+              "residual_dependence": true,
+              "slope_bias": true,
+              "type_i_rate": null
+            },
+            "slope_per_decade": 0.25
+          },
+          {
+            "all_gates_pass": false,
+            "gates": {
+              "ci_width_over_oracle": true,
+              "coverage_rate_and_exact_interval": false,
+              "inferential_availability": true,
+              "numerical_failures_integer_gate": true,
+              "residual_dependence": true,
+              "slope_bias": true,
+              "type_i_rate": null
+            },
+            "slope_per_decade": 0.5
+          }
+        ]
+      },
+      "wald_normal": {
+        "all_three_slopes_pass": true,
+        "eligible_corrected_candidate": false,
+        "per_slope_gate_results": [
+          {
+            "all_gates_pass": true,
+            "gates": {
+              "ci_width_over_oracle": true,
+              "coverage_rate_and_exact_interval": true,
+              "inferential_availability": true,
+              "numerical_failures_integer_gate": true,
+              "residual_dependence": true,
+              "slope_bias": true,
+              "type_i_rate": true
+            },
+            "slope_per_decade": 0.0
+          },
+          {
+            "all_gates_pass": true,
+            "gates": {
+              "ci_width_over_oracle": true,
+              "coverage_rate_and_exact_interval": true,
+              "inferential_availability": true,
+              "numerical_failures_integer_gate": true,
+              "residual_dependence": true,
+              "slope_bias": true,
+              "type_i_rate": null
+            },
+            "slope_per_decade": 0.25
+          },
+          {
+            "all_gates_pass": true,
+            "gates": {
+              "ci_width_over_oracle": true,
+              "coverage_rate_and_exact_interval": true,
+              "inferential_availability": true,
+              "numerical_failures_integer_gate": true,
+              "residual_dependence": true,
+              "slope_bias": true,
+              "type_i_rate": null
+            },
+            "slope_per_decade": 0.5
+          }
+        ]
+      },
+      "wald_student_t": {
+        "all_three_slopes_pass": true,
+        "eligible_corrected_candidate": true,
+        "per_slope_gate_results": [
+          {
+            "all_gates_pass": true,
+            "gates": {
+              "ci_width_over_oracle": true,
+              "coverage_rate_and_exact_interval": true,
+              "inferential_availability": true,
+              "numerical_failures_integer_gate": true,
+              "residual_dependence": true,
+              "slope_bias": true,
+              "type_i_rate": true
+            },
+            "slope_per_decade": 0.0
+          },
+          {
+            "all_gates_pass": true,
+            "gates": {
+              "ci_width_over_oracle": true,
+              "coverage_rate_and_exact_interval": true,
+              "inferential_availability": true,
+              "numerical_failures_integer_gate": true,
+              "residual_dependence": true,
+              "slope_bias": true,
+              "type_i_rate": null
+            },
+            "slope_per_decade": 0.25
+          },
+          {
+            "all_gates_pass": true,
+            "gates": {
+              "ci_width_over_oracle": true,
+              "coverage_rate_and_exact_interval": true,
+              "inferential_availability": true,
+              "numerical_failures_integer_gate": true,
+              "residual_dependence": true,
+              "slope_bias": true,
+              "type_i_rate": null
+            },
+            "slope_per_decade": 0.5
+          }
+        ]
+      }
+    },
+    "cells": [
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": true,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": true
+        },
+        "all_gates_pass": true,
+        "coverage_count": 940,
+        "coverage_cp95": [
+          0.926558851101321,
+          0.9564147960224084
+        ],
+        "coverage_rate": 0.9428284854563691,
+        "inferential_availability": 0.997,
+        "inferential_output_count": 997,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.979508418383861,
+            0.9893886990784463
+          ],
+          "mcse": 0.0025174631407677804,
+          "mean": 0.9844485587311537,
+          "n": 997
+        },
+        "method": "wald_normal",
+        "numerical_failure_rate": 0.003,
+        "numerical_failures": 3,
+        "power": null,
+        "power_cp95": null,
+        "regime": "iid_gaussian",
+        "replications_completed": 1000,
+        "replications_requested": 1000,
+        "residual_ljung_box_failure_rate": 0.035,
+        "residual_ljung_box_failures": 35,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.0027979236679296386,
+            -1.7314964228987064e-06
+          ],
+          "mcse": 0.0007124606014613928,
+          "mean": -0.0013998275821762688,
+          "n": 997
+        },
+        "slope_per_decade": 0.0,
+        "supported_count": 1000,
+        "type_i_cp95": [
+          0.043585203977591615,
+          0.07344114889867902
+        ],
+        "type_i_rate": 0.05717151454363089,
+        "type_i_rejections": 57
+      },
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": true,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": true
+        },
+        "all_gates_pass": true,
+        "coverage_count": 941,
+        "coverage_cp95": [
+          0.9276771448384902,
+          0.9572954969967856
+        ],
+        "coverage_rate": 0.9438314944834504,
+        "inferential_availability": 0.997,
+        "inferential_output_count": 997,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.9840540859973614,
+            0.9939802187449998
+          ],
+          "mcse": 0.002529146093616772,
+          "mean": 0.9890171523711806,
+          "n": 997
+        },
+        "method": "wald_student_t",
+        "numerical_failure_rate": 0.003,
+        "numerical_failures": 3,
+        "power": null,
+        "power_cp95": null,
+        "regime": "iid_gaussian",
+        "replications_completed": 1000,
+        "replications_requested": 1000,
+        "residual_ljung_box_failure_rate": 0.035,
+        "residual_ljung_box_failures": 35,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.0027979236679296386,
+            -1.7314964228987064e-06
+          ],
+          "mcse": 0.0007124606014613928,
+          "mean": -0.0013998275821762688,
+          "n": 997
+        },
+        "slope_per_decade": 0.0,
+        "supported_count": 1000,
+        "type_i_cp95": [
+          0.04270450300321438,
+          0.07232285516150978
+        ],
+        "type_i_rate": 0.05616850551654965,
+        "type_i_rejections": 56
+      },
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": false,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": false
+        },
+        "all_gates_pass": false,
+        "coverage_count": 927,
+        "coverage_cp95": [
+          0.9121226441289837,
+          0.9448618183791891
+        ],
+        "coverage_rate": 0.9297893681043129,
+        "inferential_availability": 0.997,
+        "inferential_output_count": 997,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.9398002230848361,
+            0.9480526699952649
+          ],
+          "mcse": 0.0021026964273932686,
+          "mean": 0.9439264465400505,
+          "n": 997
+        },
+        "method": "profile_likelihood",
+        "numerical_failure_rate": 0.003,
+        "numerical_failures": 3,
+        "power": null,
+        "power_cp95": null,
+        "regime": "iid_gaussian",
+        "replications_completed": 1000,
+        "replications_requested": 1000,
+        "residual_ljung_box_failure_rate": 0.035,
+        "residual_ljung_box_failures": 35,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.0027979236679296386,
+            -1.7314964228987064e-06
+          ],
+          "mcse": 0.0007124606014613928,
+          "mean": -0.0013998275821762688,
+          "n": 997
+        },
+        "slope_per_decade": 0.0,
+        "supported_count": 1000,
+        "type_i_cp95": [
+          0.05513818162081083,
+          0.08787735587101629
+        ],
+        "type_i_rate": 0.07021063189568706,
+        "type_i_rejections": 70
+      },
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": true,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": null
+        },
+        "all_gates_pass": true,
+        "coverage_count": 948,
+        "coverage_cp95": [
+          0.9355421321295286,
+          0.9634225455094536
+        ],
+        "coverage_rate": 0.950852557673019,
+        "inferential_availability": 0.997,
+        "inferential_output_count": 997,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.9796046203094685,
+            0.9898879419480823
+          ],
+          "mcse": 0.0026201566524377234,
+          "mean": 0.9847462811287754,
+          "n": 997
+        },
+        "method": "wald_normal",
+        "numerical_failure_rate": 0.003,
+        "numerical_failures": 3,
+        "power": 1.0,
+        "power_cp95": [
+          0.9963068570972383,
+          1.0
+        ],
+        "regime": "iid_gaussian",
+        "replications_completed": 1000,
+        "replications_requested": 1000,
+        "residual_ljung_box_failure_rate": 0.032,
+        "residual_ljung_box_failures": 32,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.0010681944518676865,
+            0.0017061162735850911
+          ],
+          "mcse": 0.0007068852807179509,
+          "mean": 0.0003189609108587024,
+          "n": 997
+        },
+        "slope_per_decade": 0.25,
+        "supported_count": 1000,
+        "type_i_cp95": null,
+        "type_i_rate": null,
+        "type_i_rejections": null
+      },
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": true,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": null
+        },
+        "all_gates_pass": true,
+        "coverage_count": 948,
+        "coverage_cp95": [
+          0.9355421321295286,
+          0.9634225455094536
+        ],
+        "coverage_rate": 0.950852557673019,
+        "inferential_availability": 0.997,
+        "inferential_output_count": 997,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.9841507343734224,
+            0.9944817784830782
+          ],
+          "mcse": 0.002632316181660489,
+          "mean": 0.9893162564282503,
+          "n": 997
+        },
+        "method": "wald_student_t",
+        "numerical_failure_rate": 0.003,
+        "numerical_failures": 3,
+        "power": 1.0,
+        "power_cp95": [
+          0.9963068570972383,
+          1.0
+        ],
+        "regime": "iid_gaussian",
+        "replications_completed": 1000,
+        "replications_requested": 1000,
+        "residual_ljung_box_failure_rate": 0.032,
+        "residual_ljung_box_failures": 32,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.0010681944518676865,
+            0.0017061162735850911
+          ],
+          "mcse": 0.0007068852807179509,
+          "mean": 0.0003189609108587024,
+          "n": 997
+        },
+        "slope_per_decade": 0.25,
+        "supported_count": 1000,
+        "type_i_cp95": null,
+        "type_i_rate": null,
+        "type_i_rejections": null
+      },
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": true,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": null
+        },
+        "all_gates_pass": true,
+        "coverage_count": 934,
+        "coverage_cp95": [
+          0.9198737562207894,
+          0.9511053554279817
+        ],
+        "coverage_rate": 0.9368104312938816,
+        "inferential_availability": 0.997,
+        "inferential_output_count": 997,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.9398609748860351,
+            0.9484633272461993
+          ],
+          "mcse": 0.00219185118925598,
+          "mean": 0.9441621510661172,
+          "n": 997
+        },
+        "method": "profile_likelihood",
+        "numerical_failure_rate": 0.003,
+        "numerical_failures": 3,
+        "power": 1.0,
+        "power_cp95": [
+          0.9963068570972383,
+          1.0
+        ],
+        "regime": "iid_gaussian",
+        "replications_completed": 1000,
+        "replications_requested": 1000,
+        "residual_ljung_box_failure_rate": 0.032,
+        "residual_ljung_box_failures": 32,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.0010681944518676865,
+            0.0017061162735850911
+          ],
+          "mcse": 0.0007068852807179509,
+          "mean": 0.0003189609108587024,
+          "n": 997
+        },
+        "slope_per_decade": 0.25,
+        "supported_count": 1000,
+        "type_i_cp95": null,
+        "type_i_rate": null,
+        "type_i_rejections": null
+      },
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": true,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": null
+        },
+        "all_gates_pass": true,
+        "coverage_count": 936,
+        "coverage_cp95": [
+          0.9252187261659777,
+          0.9553977338820193
+        ],
+        "coverage_rate": 0.9416498993963782,
+        "inferential_availability": 0.994,
+        "inferential_output_count": 994,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.9816659224628507,
+            0.9915036667481557
+          ],
+          "mcse": 0.002506615789515789,
+          "mean": 0.9865847946055032,
+          "n": 994
+        },
+        "method": "wald_normal",
+        "numerical_failure_rate": 0.006,
+        "numerical_failures": 6,
+        "power": 1.0,
+        "power_cp95": [
+          0.9962957314606469,
+          1.0
+        ],
+        "regime": "iid_gaussian",
+        "replications_completed": 1000,
+        "replications_requested": 1000,
+        "residual_ljung_box_failure_rate": 0.021,
+        "residual_ljung_box_failures": 21,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.002064530830727946,
+            0.0007588363906116918
+          ],
+          "mcse": 0.0007193820708658345,
+          "mean": -0.0006528472200581269,
+          "n": 994
+        },
+        "slope_per_decade": 0.5,
+        "supported_count": 1000,
+        "type_i_cp95": null,
+        "type_i_rate": null,
+        "type_i_rejections": null
+      },
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": true,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": null
+        },
+        "all_gates_pass": true,
+        "coverage_count": 936,
+        "coverage_cp95": [
+          0.9252187261659777,
+          0.9553977338820193
+        ],
+        "coverage_rate": 0.9416498993963782,
+        "inferential_availability": 0.994,
+        "inferential_output_count": 994,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.9862216025440683,
+            0.9961050014809806
+          ],
+          "mcse": 0.002518248402365295,
+          "mean": 0.9911633020125244,
+          "n": 994
+        },
+        "method": "wald_student_t",
+        "numerical_failure_rate": 0.006,
+        "numerical_failures": 6,
+        "power": 1.0,
+        "power_cp95": [
+          0.9962957314606469,
+          1.0
+        ],
+        "regime": "iid_gaussian",
+        "replications_completed": 1000,
+        "replications_requested": 1000,
+        "residual_ljung_box_failure_rate": 0.021,
+        "residual_ljung_box_failures": 21,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.002064530830727946,
+            0.0007588363906116918
+          ],
+          "mcse": 0.0007193820708658345,
+          "mean": -0.0006528472200581269,
+          "n": 994
+        },
+        "slope_per_decade": 0.5,
+        "supported_count": 1000,
+        "type_i_cp95": null,
+        "type_i_rate": null,
+        "type_i_rejections": null
+      },
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": false,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": null
+        },
+        "all_gates_pass": false,
+        "coverage_count": 926,
+        "coverage_cp95": [
+          0.9140762480466017,
+          0.9464884620339831
+        ],
+        "coverage_rate": 0.93158953722334,
+        "inferential_availability": 0.994,
+        "inferential_output_count": 994,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.9389911346370696,
+            0.9470085036377571
+          ],
+          "mcse": 0.0020427918377098338,
+          "mean": 0.9429998191374134,
+          "n": 994
+        },
+        "method": "profile_likelihood",
+        "numerical_failure_rate": 0.006,
+        "numerical_failures": 6,
+        "power": 1.0,
+        "power_cp95": [
+          0.9962957314606469,
+          1.0
+        ],
+        "regime": "iid_gaussian",
+        "replications_completed": 1000,
+        "replications_requested": 1000,
+        "residual_ljung_box_failure_rate": 0.021,
+        "residual_ljung_box_failures": 21,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.002064530830727946,
+            0.0007588363906116918
+          ],
+          "mcse": 0.0007193820708658345,
+          "mean": -0.0006528472200581269,
+          "n": 994
+        },
+        "slope_per_decade": 0.5,
+        "supported_count": 1000,
+        "type_i_cp95": null,
+        "type_i_rate": null,
+        "type_i_rejections": null
+      }
+    ],
+    "decision": "CANDIDATE_ELIGIBLE_FOR_FREEZE_AND_INDEPENDENT_CONFIRMATION",
+    "metrics_sha256": "5dd7ec3b0e2ce236537dd51b58a2b10196d48bf15f256886d776229384b1cadf",
+    "paired_series": 3000,
+    "protocol_freeze_sha256": "f7d3799f5ea56592bcd202a69a5c4759c0b0956954106e96d686b0a45ab96e4a",
+    "report_sha256": "d5da67b55dd5639ecac78f7d3657d65909ea9d06781a9a8b1e1df5f40584c155",
+    "resource_usage": {
+      "cumulative_active_wall_seconds": 2205.952,
+      "cumulative_process_cpu_seconds": 2197.969,
+      "hard_caps": {
+        "active_wall_seconds": 14400,
+        "blas_threads": 1,
+        "cpu_seconds": 7200,
+        "processes": 1,
+        "rss_bytes": 1073741824,
+        "slurm_jobs": 0
+      },
+      "peak_rss_bytes_observed": 204099584,
+      "session_active_wall_seconds": 2205.952,
+      "session_process_cpu_seconds": 2197.969
+    },
+    "status": "COMPLETE_DEVELOPMENT_ONLY"
+  },
+  "v1_3_2_independent_confirmation": {
+    "all_applicable_gates_pass": true,
+    "candidate_method": "wald_student_t",
+    "cells": [
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": true,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": true
+        },
+        "all_gates_pass": true,
+        "coverage_count": 949,
+        "coverage_cp95": [
+          0.9366714161208174,
+          0.9642919714978755
+        ],
+        "coverage_rate": 0.9518555667001003,
+        "inferential_availability": 0.997,
+        "inferential_output_count": 997,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.9845774712585337,
+            0.9942878233474158
+          ],
+          "mcse": 0.0024741658889341957,
+          "mean": 0.9894326473029748,
+          "n": 997
+        },
+        "method": "wald_student_t",
+        "numerical_failure_rate": 0.003,
+        "numerical_failures": 3,
+        "power": null,
+        "power_cp95": null,
+        "regime": "iid_gaussian",
+        "residual_ljung_box_failure_rate": 0.024,
+        "residual_ljung_box_failures": 24,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.0011669962182086577,
+            0.0015996525116080559
+          ],
+          "mcse": 0.0007049330293402056,
+          "mean": 0.00021632814669969897,
+          "n": 997
+        },
+        "slope_per_decade": 0.0,
+        "supported_count": 1000,
+        "type_i_cp95": [
+          0.035708028502124484,
+          0.06332858387918265
+        ],
+        "type_i_rate": 0.048144433299899696,
+        "type_i_rejections": 48
+      },
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": true,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": null
+        },
+        "all_gates_pass": true,
+        "coverage_count": 938,
+        "coverage_cp95": [
+          0.925367575767787,
+          0.9554878989456103
+        ],
+        "coverage_rate": 0.9417670682730924,
+        "inferential_availability": 0.996,
+        "inferential_output_count": 996,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.9808969844929861,
+            0.9908670583852891
+          ],
+          "mcse": 0.002540339047025779,
+          "mean": 0.9858820214391376,
+          "n": 996
+        },
+        "method": "wald_student_t",
+        "numerical_failure_rate": 0.004,
+        "numerical_failures": 4,
+        "power": 1.0,
+        "power_cp95": [
+          0.9963031559847959,
+          1.0
+        ],
+        "regime": "iid_gaussian",
+        "residual_ljung_box_failure_rate": 0.028,
+        "residual_ljung_box_failures": 28,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.0015330100217870036,
+            0.00130503184506983
+          ],
+          "mcse": 0.0007231228824729475,
+          "mean": -0.00011398908835858684,
+          "n": 996
+        },
+        "slope_per_decade": 0.25,
+        "supported_count": 1000,
+        "type_i_cp95": null,
+        "type_i_rate": null,
+        "type_i_rejections": null
+      },
+      {
+        "acceptance_gates": {
+          "ci_width_over_oracle": true,
+          "coverage_rate_and_exact_interval": true,
+          "inferential_availability": true,
+          "numerical_failures_integer_gate": true,
+          "residual_dependence": true,
+          "slope_bias": true,
+          "type_i_rate": null
+        },
+        "all_gates_pass": true,
+        "coverage_count": 944,
+        "coverage_cp95": [
+          0.9352845911237829,
+          0.9632743077471242
+        ],
+        "coverage_rate": 0.9506545820745217,
+        "inferential_availability": 0.993,
+        "inferential_output_count": 993,
+        "mean_ci_width_over_oracle": {
+          "ci95_t": [
+            0.9881647467608309,
+            0.9978288589948979
+          ],
+          "mcse": 0.0024623720453629365,
+          "mean": 0.9929968028778644,
+          "n": 993
+        },
+        "method": "wald_student_t",
+        "numerical_failure_rate": 0.007,
+        "numerical_failures": 7,
+        "power": 1.0,
+        "power_cp95": [
+          0.9962920080041108,
+          1.0
+        ],
+        "regime": "iid_gaussian",
+        "residual_ljung_box_failure_rate": 0.022,
+        "residual_ljung_box_failures": 22,
+        "residual_ljung_box_tested_count": 1000,
+        "slope_bias_per_decade": {
+          "ci95_t": [
+            -0.000610776340066605,
+            0.0022521762160807794
+          ],
+          "mcse": 0.0007294673499969132,
+          "mean": 0.0008206999380070872,
+          "n": 993
+        },
+        "slope_per_decade": 0.5,
+        "supported_count": 1000,
+        "type_i_cp95": null,
+        "type_i_rate": null,
+        "type_i_rejections": null
+      }
+    ],
+    "decision": "INDEPENDENT_CONFIRMATION_PASS_FOR_IID_SYNTHETIC_SCOPE",
+    "development_seed_inventory": {
+      "count": 3090,
+      "disjoint_from_confirmation": true,
+      "sha256": "120a70e10ebad5167d74a3fb7b47b4d5926df40633f96baa398ac20950bf8403"
+    },
+    "metrics_sha256": "894dc5bd67b090c4ec7a9848bb1cba4480b3b4e63a8fa52fb249d6b09e6e3030",
+    "protocol_freeze_sha256": "18bb4bcf7f6ccde1ad1b34e6039a2cc96589e6bd11f940dacff402e356ec30bd",
+    "replications": 3000,
+    "report_sha256": "b2594d064f0a2fdfd477db66d08a481ba54e0f20cc5de2d3d67ea8b2c39d29c4",
+    "resource_usage": {
+      "cumulative_active_wall_seconds": 701.791,
+      "cumulative_process_cpu_seconds": 699.562,
+      "hard_caps": {
+        "active_wall_seconds": 7200,
+        "blas_threads": 1,
+        "cpu_seconds": 3600,
+        "processes": 1,
+        "rss_bytes": 1073741824,
+        "slurm_jobs": 0
+      },
+      "peak_rss_bytes_observed": 196091904,
+      "session_active_wall_seconds": 701.791,
+      "session_process_cpu_seconds": 699.562
+    },
+    "scope": {
+      "calendar_end": "2022-12",
+      "calendar_months": 276,
+      "calendar_start": "2000-01",
+      "candidate_method": "wald_student_t",
+      "candidate_role": "finite-sample Student-t confidence interval and matching two-sided t test using the unchanged SARIMAX point fit and standard error",
+      "optimizer_maxiter": 200,
+      "point_model": "SARIMAX exog=[intercept, elapsed decades, 11 monthly indicators], order=(0,0,0), seasonal_order=(1,0,0,12), trend='n', stationarity and invertibility enforced, maxiter=200",
+      "regime": "iid_gaussian",
+      "residual_df": "n - rank(X) - estimated dynamic parameters; 262 for the frozen complete 276-month design; innovation scale is not subtracted"
+    },
+    "seed_disjointness_audit": {
+      "confirmation_expected_seed_count": 3000,
+      "confirmation_seed_namespace": "KUNTUR-STAT-IID-AR12-T-INTERVAL-INDEPENDENT-CONFIRMATION-V1.3.2-2026-11-17",
+      "confirmation_unique_executed_seed_count": 3000,
+      "exact_overlap_count": 0,
+      "known_nonseed_metadata_receipts_excluded": [
+        {
+          "reason": "known malformed non-checkpoint recovery receipt; contains no seed rows",
+          "sha256": "a87fea7442dcc9755f928cf557f012f3be7a1f14e68916b58ffb65884c5471d4"
+        }
+      ],
+      "prior_json_artifacts_parsed": 342,
+      "prior_seed_values_found": 207906,
+      "protocol_id": "KUNTUR-STAT-IID-SEASONAL-AR12-WALD-STUDENT-T-CONFIRMATION-V1.3.2",
+      "schema_version": "kuntur-v1.3.2-confirmation-seed-disjointness-audit-v1",
+      "status": "SEED_DISJOINTNESS_VERIFIED"
+    },
+    "seed_inventory_sha256": "34bb92214d2c6d7798ea87816d77e9fa8634b2277b7454f433749d5a719e12de",
+    "seed_namespace": "KUNTUR-STAT-IID-AR12-T-INTERVAL-INDEPENDENT-CONFIRMATION-V1.3.2-2026-11-17",
+    "status": "COMPLETE_INDEPENDENT_CONFIRMATION"
+  },
+  "v1_3_2_preflight": {
+    "candidate_replicates": 270,
+    "decision": "PROCEED",
+    "integrity_gate": {
+      "all_candidates_meet_gate": true,
+      "interpretation": "Execution-readiness check only; not a scientific acceptance gate or method-selection result.",
+      "minimum_inferential_availability": 1.0
+    },
+    "preflight_summary_sha256": "93f1f05b0bf45b3b59836e22afa785d341179c8e385086f293af2fce8d6d4e1e",
+    "runtime_projection": {
+      "active_wall_hard_cap_seconds": 14400,
+      "cpu_hard_cap_seconds": 7200,
+      "planned_candidate_replicates": 9000,
+      "reserve_multiplier": 2.0,
+      "reserved_active_wall_seconds": 4288.763780003259,
+      "reserved_cpu_seconds": 4270.833333333333,
+      "unreserved_active_wall_seconds": 2144.3818900016295,
+      "unreserved_cpu_seconds": 2135.4166666666665
+    },
+    "status": "COMPLETE"
+  }
+}

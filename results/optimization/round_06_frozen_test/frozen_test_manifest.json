@@ -1,0 +1,113 @@
+{
+  "artifacts": {
+    "model_bundle": {
+      "bytes": 274959,
+      "path": "results/optimization/round_06_frozen_test/model_bundle.joblib",
+      "sha256": "882995a9dc4121a95159ce5034eb6a42c8fe60510214538f42c3a5ab751bcffa"
+    }
+  },
+  "code_sha256": {
+    "scripts/run_phase2_v12_round1.py": "8e19a7e75046a6b882e68d48b3a564afb9ebdc3303a268a73b3146cab243fac4",
+    "scripts/run_phase2_v12_round3_augmentation.py": "3e7cf6bdedbd6d43fec5e60f4b19da649f5ad4b5806bde1eac2134fe16306a03",
+    "src/kuntur_data/phase2/augmentation.py": "b6a510b4d681729efe8ef075388f738954fdd3fff479912ddf29ae73adcb016b",
+    "src/kuntur_data/phase2/optimization_features.py": "f4131e3ece3a39ee9a39776024d4391e61b0e5019dbe32882dfdaef39ed70ac8",
+    "src/kuntur_data/phase2/predictive.py": "7d8db60cbffe926768c8dd8ee96de040b5bd19d51bb090baeb062a46b9c3d6ba"
+  },
+  "interval_calibration": {
+    "absolute_residual_quantile_c": 0.5805256445609253,
+    "method": "expanding_symmetric_abs_residual",
+    "nominal_coverage": 0.9,
+    "residual_count": 108,
+    "residual_target_range": [
+      "2010-01",
+      "2018-12"
+    ],
+    "source_candidate_spec_sha256": "98876e3caf905353b8eadb3afc77f29fae766a2b1cf75fe8915b4c32791b54e8"
+  },
+  "interval_manifest_sha256": "cb13cf94fa75ad15892e3377bb61837de3993905c4e8788852b2b5019b631d7a",
+  "manifest_version": "kuntur-phase2-v1.2-round-6-model-freeze-0.1.0",
+  "model": {
+    "augmentation": {
+      "augmented_rows": 950,
+      "mask_indicators": true,
+      "max_variants_per_original": 4,
+      "min_variants_per_original": 4,
+      "noise_scales_source": "clean outer-fold training inputs only",
+      "rejected_variants": 0,
+      "rejection_examples": [],
+      "sample_weight_sum_by_original_sample_min": 1.0,
+      "scheme": "heteroscedastic_only",
+      "smoothed_inputs": false,
+      "source_train_months": 190,
+      "synthetic_rows": 760,
+      "targets_perturbed": false,
+      "weighting": "balanced_50_50"
+    },
+    "augmented_rows": 950,
+    "authentic_training_months": 190,
+    "candidate_spec_sha256": "98876e3caf905353b8eadb3afc77f29fae766a2b1cf75fe8915b4c32791b54e8",
+    "config": {
+      "max_depth": 4,
+      "max_features": 1.0,
+      "min_samples_leaf": 3,
+      "n_estimators": 120
+    },
+    "feature_count": 28,
+    "feature_group": "C_training_anomalies",
+    "model_id": "random_forest",
+    "seeds": [
+      20261115,
+      20261116,
+      20261117
+    ],
+    "source_forecast_sha256": "67c69236a8516b11b900b90f63926c1047aae3af991b726c567b5c85020ce2ff",
+    "synthetic_rows": 760,
+    "training_cutoff_month": "2018-12",
+    "training_rows": 190,
+    "training_scheme": "heteroscedastic_only",
+    "training_target_range": [
+      "2003-03",
+      "2018-12"
+    ]
+  },
+  "protocol_sha256": "b1a0819e24f693668548e21afb2090524febed443ad108770c64a55fdf4fc6f9",
+  "resources": {
+    "elapsed_wall_seconds": 1.6607013000175357
+  },
+  "scorer_sha256": "1ebc7df79c9e7dbb0b231aa2485dc584ca54f80b8288fa6ba43706a13b73db69",
+  "software": {
+    "joblib": "1.5.3",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "python": "3.12.10",
+    "scikit_learn": "1.9.0"
+  },
+  "status": "MODEL_AND_SCORER_FROZEN_TEST_NOT_ACCESSED",
+  "test_contract": {
+    "dataset_id": "M2TMNXSLV.5.12.4",
+    "evaluation_label": "retrospective hindcast; contemporaneous MERRA-2 release timestamps are not established",
+    "features": "MERRA-2 T-14 through T-3; latest predictor month is target-3; 12 monthly records \u00d7 five contracted channels.",
+    "paired_block_bootstrap": {
+      "block_length_months": 12,
+      "interpretation": "With only 12 test months (one full block), the interval is degenerate and is reported as non-informative; no precision claim is made.",
+      "replicates": 2000,
+      "seed": 20261127
+    },
+    "region": "ecuador_pilot_bbox",
+    "scores": [
+      "MAE",
+      "RMSE",
+      "mean prediction-minus-observation bias",
+      "paired MAE difference vs training-only monthly climatology",
+      "90% interval coverage, width and Winkler score"
+    ],
+    "target_months": [
+      "2025-01",
+      "2025-12"
+    ],
+    "target_outcome": "area-weighted Ecuador pilot-bbox monthly mean T2M converted to Celsius, minimum valid area fraction 0.8.",
+    "target_variable": "merra2_t2m_c"
+  },
+  "test_target_values_accessed": false,
+  "training_script_sha256": "0c816b1e874a3261dcb7403ccbaa0c1f892c4af957c913109983b3e3456850df"
+}
