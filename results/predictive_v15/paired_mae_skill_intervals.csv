@@ -1,7 +1,7 @@
 strategy,sample_count,mean_mae_improvement,ci_low,ci_high,block_length_months,bootstrap_replicates,resampling_scheme
-climatology,31,0.0,0.0,0.0,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
-compact_residual,31,-0.026110738181322684,-0.0792220528798568,0.029397805423002733,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
-regularized_anomaly,31,0.005544546511077232,-0.03781865044527431,0.05428981185174009,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
-smooth_shrinkage,31,-0.023383099748708294,-0.07481075905778982,0.02891231848291103,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
-regime_mixture,31,0.010018688893768536,-0.01623787290948483,0.03922353458943516,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
-nested_selected,31,0.006163711057416707,-0.021539187360341182,0.03768146504601469,3,4000,moving blocks within contiguous calendar-month segments; no block crosses an unavailable-month gap
+climatology,31,0.0,0.0,0.0,3,4000,complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded
+compact_residual,31,-0.028413819407687346,-0.06706277329178188,0.03803733908328073,3,4000,complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded
+regularized_anomaly,31,-0.0015371144635972383,-0.049346034515842845,0.060237817801258274,3,4000,complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded
+smooth_shrinkage,31,-0.026649940764305862,-0.0647064485029594,0.03428442863917998,3,4000,complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded
+regime_mixture,31,0.010341690814864673,-0.0034875141333968016,0.03830823571131145,3,4000,complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded
+nested_selected,31,-0.028438389439705523,-0.06593573427618338,0.02428390086047514,3,4000,complete moving blocks within contiguous calendar-month segments; incomplete suffixes and short segments excluded

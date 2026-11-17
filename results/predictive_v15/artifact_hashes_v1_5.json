@@ -3,88 +3,68 @@
   "files": [
     {
       "path": "reports\\predictive_v15\\PREDICTIVE_V15_REPORT.md",
-      "sha256": "9dc64885a8103c7a023c4c547ac335edf1442f2fdd3ab40c8cee9b587062f4c0",
-      "size_bytes": 10881
-    },
-    {
-      "path": "results\\predictive_v15\\eligible_development_samples.csv",
-      "sha256": "19ed2fa20ca91590e6beb50616e91f08c66c0fb52f96439e61105c79bc60a35f",
-      "size_bytes": 5447
+      "sha256": "9d2b931743c295c0c0c9b2b39653c4cc418b7a9987321841a7d1037b68e3ef40",
+      "size_bytes": 11384
     },
     {
       "path": "results\\predictive_v15\\experiment_registry_v1_5.json",
-      "sha256": "182258722f04e64600680c9f76af9f82ff40226529d8207e028c3c75518b4cf5",
-      "size_bytes": 15127
+      "sha256": "d368b8e1fa9a8ac65b712110201dc5478f7ffb628e545378d711034696f46e3b",
+      "size_bytes": 15793
     },
     {
       "path": "results\\predictive_v15\\fit_cost_summary.csv",
-      "sha256": "4b4b0d44512bb77268163a9911edcdad87fd9cfc1fefb04644b2475e9d63d20f",
-      "size_bytes": 630
+      "sha256": "d8678a4956dd9e65a7559075f9fb2ece0a11d8cc8bf487c04be56dff117eaad1",
+      "size_bytes": 635
     },
     {
       "path": "results\\predictive_v15\\fit_timings.csv",
-      "sha256": "0d6b16aa918f0821ea5c2e4d06542869a4f1a78b247943853a6c4249c8af2a08",
-      "size_bytes": 6452
+      "sha256": "04a03f4cd442ee86da2b5a91c186b3b487b592e950bc763aa765d10ab18ae9b5",
+      "size_bytes": 5243
     },
     {
       "path": "results\\predictive_v15\\fold_metrics.csv",
-      "sha256": "3374b80c43a2ed8110c97e519ed73a4b478f84b19d42868e539067df7d174239",
-      "size_bytes": 2559
+      "sha256": "3463b3c8407e0b038169fa5ea9519778204c39989d369918dcd2d5c5f413e0a9",
+      "size_bytes": 2609
     },
     {
       "path": "results\\predictive_v15\\fold_selections.csv",
-      "sha256": "b678d5503a843eef08b95782c6167718162fba418c10a964dad45816516bb1f5",
+      "sha256": "c651fcf8984273a59aa1562dbe40f11d2de0e102e54893acc50632a8f7ee685c",
       "size_bytes": 588
     },
     {
       "path": "results\\predictive_v15\\gate_diagnostic.csv",
-      "sha256": "f6bfa19985612d696267f8dfa1039b2239aacbe5025506cc99cb3ae28d4414fb",
-      "size_bytes": 565
+      "sha256": "461c2a4e399e0767ec9ef5d84d83602c823801df07f0c3d26c1aa07fd0e9deb3",
+      "size_bytes": 591
     },
     {
       "path": "results\\predictive_v15\\inner_candidate_scores.csv",
-      "sha256": "011e08cd5f1dbf204e9035dee6409a43aa9ca3435582ed4a7f07d45dc301e03c",
-      "size_bytes": 1181
-    },
-    {
-      "path": "results\\predictive_v15\\inner_selection_oof.parquet",
-      "sha256": "f06f7731347aa6051b2c38d67bb8644cc3d4d1a993821f86527f83704526abc9",
-      "size_bytes": 38863
+      "sha256": "c140022e85e5ec03932303a8d414ee1542320cb9993bdf55cac08aac70a426c1",
+      "size_bytes": 1179
     },
     {
       "path": "results\\predictive_v15\\inner_tuning_scores.csv",
-      "sha256": "81062d8d3d8d7b8b77ee3b41a1a46f96dc86da350e6c9b7856b93f9694902095",
-      "size_bytes": 11936
-    },
-    {
-      "path": "results\\predictive_v15\\issue_time_availability_audit.csv",
-      "sha256": "c60a1c32392a54343a135b525a57bd2f02ba8a4ade57f1eeef7f396988d2ec57",
-      "size_bytes": 282133
+      "sha256": "a6029ffa692059e40edb96aeebb151b2bd06248497e03b3d1a899b17e5bdc93b",
+      "size_bytes": 11929
     },
     {
       "path": "results\\predictive_v15\\leakage_audit.json",
-      "sha256": "a3e402127117e18e86a97f9c13a7ebece6ace378764b0f845b4b6870caf50627",
-      "size_bytes": 1390
-    },
-    {
-      "path": "results\\predictive_v15\\outer_fold_predictions.parquet",
-      "sha256": "83737a98a20944b933922f54b6afbf3127c1b6259352deba817495afd0f6ab33",
-      "size_bytes": 19891
+      "sha256": "c8a9463aafbac586ae1e7be2709164c81a2ffdf26de12901717a84055f4968f8",
+      "size_bytes": 6519
     },
     {
       "path": "results\\predictive_v15\\overall_metrics.csv",
-      "sha256": "4869637885f15331a0a37a4dede3b67f9152bb84d68a95cc8df06661890424df",
-      "size_bytes": 1312
+      "sha256": "a3878411ded79bf86631cbb8c84089a10a82bddf972c3df21048454f72ec455d",
+      "size_bytes": 1307
     },
     {
       "path": "results\\predictive_v15\\paired_mae_skill_intervals.csv",
-      "sha256": "932750f46ba7b868973edefb7ecbbfbb32913c97c5843ad816be753c2291e500",
-      "size_bytes": 1193
+      "sha256": "2908df760f8635f8320b02287c47ae02b0a1c1dbf78f5054234ebadfd76cc773",
+      "size_bytes": 1288
     },
     {
       "path": "results\\predictive_v15\\regime_metrics.csv",
-      "sha256": "ccd3799e7a6912fb2d7b3d385aca9d8a34e61097d18e2757c9620447cbdc875a",
-      "size_bytes": 1748
+      "sha256": "eb241842d1186a94ab00f4351c0b69287dd7e4b417c3c53b6f77e52099eb3792",
+      "size_bytes": 1755
     },
     {
       "path": "results\\predictive_v15\\source_availability_cmr_snapshot.json",
@@ -93,15 +73,15 @@
     },
     {
       "path": "results\\predictive_v15\\v14_regime_recomputed.json",
-      "sha256": "243e22824a87fc13cbc435a81c95d6a43442be011c82a2a3ce9f918199c5437d",
-      "size_bytes": 1060
+      "sha256": "e0855ef1bd239c712b15bcfbb355cd362e34e3dea762ba3f2e6334f3cad6acc3",
+      "size_bytes": 1056
     },
     {
       "path": "scripts\\verify_predictive_v15.py",
-      "sha256": "db2114ef208e31103c695ce6717d251ec3d7e3e74bf8e6fe585cbd7ba833f806",
-      "size_bytes": 13336
+      "sha256": "a5d562e998555dcb0f160547099a160a73e1d0d7e4e305cf09126b47fd0ad169",
+      "size_bytes": 18284
     }
   ],
-  "generated_at_utc": "2026-11-17T21:06:22.108854Z",
+  "generated_at_utc": "2026-11-17T23:50:51.210140Z",
   "schema_version": "1.0"
 }
