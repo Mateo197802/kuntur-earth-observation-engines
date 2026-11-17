@@ -15,6 +15,7 @@ from sklearn.preprocessing import StandardScaler
 
 DEVELOPMENT_START = "2003-03"
 DEVELOPMENT_END = "2021-12"
+SOURCE_RELEASE_LAG_MONTHS = 2
 HISTORY_VARIABLES = (
     "merra2_t2m_c",
     "merra2_qv2m",
@@ -134,6 +135,42 @@ def _periods(series: pd.Series) -> pd.PeriodIndex:
         raise ValueError("target_month must contain YYYY-MM calendar months") from exc
 
 
+def latest_available_label_month(issue_date_utc: str) -> pd.Period:
+    """Latest monthly target assumed released by a forecast issue timestamp.
+
+    The frozen two-month lag is an explicit modeling assumption; actual source
+    publication timestamps were not established for this experiment.
+    """
+    issue = pd.to_datetime(issue_date_utc, utc=True, errors="raise")
+    if issue.day != 1 or issue.hour != 0 or issue.minute != 0 or issue.second != 0:
+        raise ValueError("issue_date_utc must be midnight UTC on the first of a month")
+    issue_month = pd.Period(f"{issue.year}-{issue.month:02d}", freq="M")
+    return issue_month - SOURCE_RELEASE_LAG_MONTHS
+
+
+def labels_available_by_issue(frame: pd.DataFrame, issue_date_utc: str) -> pd.DataFrame:
+    """Keep only monthly labels available at the specified forecast issue."""
+    cutoff = latest_available_label_month(issue_date_utc)
+    return frame.loc[_periods(frame["target_month"]) <= cutoff].copy().reset_index(drop=True)
+
+
+def validate_training_labels_available(train: pd.DataFrame, validation: pd.DataFrame) -> None:
+    """Fail closed if any fit label postdates the first validation issue cutoff."""
+    if train.empty or validation.empty:
+        raise ValueError("training and validation windows must be nonempty")
+    first_validation = validation.assign(_period=_periods(validation["target_month"])).sort_values(
+        "_period", kind="stable"
+    ).iloc[0]
+    cutoff = latest_available_label_month(str(first_validation["issue_date_utc"]))
+    unavailable = _periods(train["target_month"]) > cutoff
+    if unavailable.any():
+        latest = _periods(train.loc[unavailable, "target_month"]).max()
+        raise ValueError(
+            f"training labels include outcomes unavailable at first validation issue "
+            f"{first_validation['issue_date_utc']}: latest target {latest}, allowed through {cutoff}"
+        )
+
+
 def validate_forecast_timeline(frame: pd.DataFrame) -> None:
     """Fail closed unless the frozen T, T-1, issue-time and T-14..T-3 contract holds."""
     required = {
@@ -218,7 +255,11 @@ def chronological_outer_folds(frame: pd.DataFrame) -> list[TemporalFold]:
     for name, train_end, validation_start, validation_end in specs:
         train = ordered[ordered.target_month <= train_end].copy().reset_index(drop=True)
         validation = ordered[ordered.target_month.between(validation_start, validation_end)].copy().reset_index(drop=True)
-        if not len(train) or not len(validation) or train.target_month.max() >= validation.target_month.min():
+        if not len(train) or not len(validation):
+            raise ValueError(f"invalid chronological boundary for {name}")
+        first_issue = validation.sort_values("target_month", kind="stable").iloc[0].issue_date_utc
+        train = labels_available_by_issue(train, str(first_issue))
+        if not len(train) or train.target_month.max() >= validation.target_month.min():
             raise ValueError(f"invalid chronological boundary for {name}")
         result.append(TemporalFold(name, train, validation))
     return result
@@ -229,18 +270,23 @@ def chronological_inner_folds(train: pd.DataFrame) -> list[TemporalFold]:
     validate_forecast_timeline(train)
     ordered = train.sort_values("target_month", kind="stable").reset_index(drop=True)
     end = pd.Period(str(ordered.target_month.max()), freq="M")
-    if end.month != 12 or end.year not in {2011, 2014, 2017}:
-        raise ValueError("inner folds require an outer-training cutoff at December 2011, 2014, or 2017")
+    if end.month not in {10, 12} or end.year not in {2011, 2014, 2017}:
+        raise ValueError("inner folds require an outer-training cutoff at October or December 2011, 2014, or 2017")
     years = range(end.year - 2, end.year + 1)
     result: list[TemporalFold] = []
     for year in years:
         start = pd.Period(f"{year}-01", freq="M")
-        stop = pd.Period(f"{year}-12", freq="M")
+        stop = end if year == end.year else pd.Period(f"{year}-12", freq="M")
         train_part = ordered[_periods(ordered.target_month) < start].copy().reset_index(drop=True)
         periods = _periods(ordered.target_month)
         validation = ordered[(periods >= start) & (periods <= stop)].copy().reset_index(drop=True)
-        if len(validation) != 12 or not len(train_part) or train_part.target_month.max() >= validation.target_month.min():
+        expected_validation_months = stop.month if year == end.year else 12
+        if len(validation) != expected_validation_months or not len(train_part):
             raise ValueError(f"inner validation year {year} is not fully available and chronological")
+        first_issue = validation.sort_values("target_month", kind="stable").iloc[0].issue_date_utc
+        train_part = labels_available_by_issue(train_part, str(first_issue))
+        if not len(train_part) or train_part.target_month.max() >= validation.target_month.min():
+            raise ValueError(f"inner training labels are unavailable or nonchronological for {year}")
         result.append(TemporalFold(f"inner_{year}", train_part, validation))
     return result
 
@@ -378,6 +424,7 @@ def feature_pair(
         monthly["imerg_log_precip"] = np.log1p(monthly.imerg_precip_monthly_total.clip(lower=0))
     for frame in (train, validation):
         validate_forecast_timeline(frame)
+    validate_training_labels_available(train, validation)
     train_history, train_labels = build_history_tensor(train, monthly)
     validation_history, validation_labels = build_history_tensor(validation, monthly)
     climates = _feature_history_climatology(train_labels, monthly)

@@ -40,6 +40,8 @@ from kuntur_data.phase2.predictive_v14 import (
     monthly_gold_wide,
     paired_moving_block_ci,
     load_fold_checkpoint,
+    latest_available_label_month,
+    labels_available_by_issue,
     save_fold_checkpoint,
     select_shrinkage_alpha,
     shrink_predictions,
@@ -502,12 +504,17 @@ def _augmentation_inner_search(
                 })
     selected: dict[str, dict[str, Any]] = {}
     pooled_predictions: dict[str, pd.DataFrame] = {}
+    expected_months = set().union(*(set(f.validation.target_month.astype(str)) for f in inner_folds))
     for variant, policy, intensity in variants:
         alpha_scores = []
         for alpha, frames in variant_records[variant].items():
             if not frames:
                 continue
             joined = pd.concat(frames, ignore_index=True).sort_values("target_month", kind="stable").reset_index(drop=True)
+            if joined.target_month.duplicated().any() or set(joined.target_month.astype(str)) != expected_months:
+                # A policy is comparable only when every candidate uses the same
+                # complete set of inner-validation months.
+                continue
             score = metric_summary(joined.observed_t2m_c, joined.prediction_t2m_c, joined.training_climatology_c)
             alpha_scores.append({"variant": variant, "policy": policy, "intensity": intensity, "alpha": alpha, **score})
             if variant == "clean" or frames:
@@ -575,20 +582,34 @@ def _interval_rows(
         for row in frame.sort_values("target_month", kind="stable").to_dict("records"):
             target_month = str(row["target_month"])
             month_number = int(target_month[-2:])
+            issue_month = pd.Period(target_month, freq="M") - 1
+            issue_date_utc = f"{issue_month}-01T00:00:00Z"
+            latest_available = latest_available_label_month(issue_date_utc)
             actual = float(row["observed_t2m_c"])
             prediction = float(row["prediction_t2m_c"])
-            all_errors = [abs(float(item["observed_t2m_c"]) - float(item["prediction_t2m_c"])) for item in calibration]
-            same_month = [abs(float(item["observed_t2m_c"]) - float(item["prediction_t2m_c"])) for item in calibration if int(str(item["target_month"])[-2:]) == month_number]
-            rolling_errors = all_errors[-36:]
+            available_calibration = [
+                item for item in calibration
+                if pd.Period(str(item["target_month"]), freq="M") <= latest_available
+            ]
+            same_month_records = [
+                item for item in available_calibration
+                if int(str(item["target_month"])[-2:]) == month_number
+            ]
+            pooled_records = available_calibration
+            rolling_records = available_calibration[-36:]
             methods = {
-                "expanding_pooled": all_errors,
-                "rolling36_pooled": rolling_errors,
-                "expanding_same_calendar_month": same_month if len(same_month) >= 3 else all_errors,
+                "expanding_pooled": pooled_records,
+                "rolling36_pooled": rolling_records,
+                "expanding_same_calendar_month": same_month_records if len(same_month_records) >= 3 else pooled_records,
             }
             anomaly = abs(actual - float(row["training_climatology_c"]))
-            for method, errors in methods.items():
+            for method, calibration_records in methods.items():
+                errors = [
+                    abs(float(item["observed_t2m_c"]) - float(item["prediction_t2m_c"]))
+                    for item in calibration_records
+                ]
                 calibration_n = len(errors)
-                calibration_months = [str(item["target_month"]) for item in calibration[-36:]]
+                calibration_months = [str(item["target_month"]) for item in calibration_records]
                 for coverage in (0.80, 0.90, 0.95):
                     radius = _interval_quantile(errors, coverage)
                     lower, upper = prediction - radius, prediction + radius
@@ -654,8 +675,36 @@ def _git_commit() -> str | None:
     return result.stdout.strip() if result.returncode == 0 else None
 
 
-def _file_facts(paths: list[Path], root: Path) -> dict[str, dict[str, Any]]:
-    return {path.relative_to(root).as_posix(): {"sha256": sha256_file(path), "bytes": int(path.stat().st_size)} for path in paths}
+def _file_facts(
+    paths: list[Path],
+    root: Path,
+    *,
+    artifact_roots: dict[str, Path] | None = None,
+) -> dict[str, dict[str, Any]]:
+    """Hash outputs, naming external-root files without exposing host paths."""
+    repository_root = root.resolve()
+    external_roots = {name: path.resolve() for name, path in (artifact_roots or {}).items()}
+    facts: dict[str, dict[str, Any]] = {}
+    for path in paths:
+        resolved = path.resolve()
+        try:
+            key = resolved.relative_to(repository_root).as_posix()
+        except ValueError:
+            matches: list[tuple[int, str, Path]] = []
+            for name, base in external_roots.items():
+                try:
+                    relative = resolved.relative_to(base)
+                except ValueError:
+                    continue
+                matches.append((len(str(base)), name, relative))
+            if not matches:
+                raise ValueError(f"artifact path is outside the repository and declared roots: {resolved.name}")
+            _, name, relative = max(matches, key=lambda item: item[0])
+            key = f"{name}/{relative.as_posix()}"
+        if key in facts:
+            raise ValueError(f"artifact manifest path collision: {key}")
+        facts[key] = {"sha256": sha256_file(resolved), "bytes": int(resolved.stat().st_size)}
+    return facts
 
 
 def _run_robustness(outer_fits: list[dict[str, Any]]) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -754,8 +803,9 @@ def _make_final_bundle(
     output_root: Path,
     source_hashes: dict[str, str],
 ) -> tuple[list[Path], dict[str, Any]]:
+    training_data, inference_row = _final_refit_inputs(data)
     fit = _fit_spec(
-        data, data, monthly, spec, policy=policy, intensity=intensity,
+        training_data, inference_row, monthly, spec, policy=policy, intensity=intensity,
         seed=stable_seed(SEED, "final_development_refit", spec["model_id"], spec["config_id"], policy, intensity),
     )
     pair: FeaturePair = fit["pair"]
@@ -771,9 +821,10 @@ def _make_final_bundle(
         "target_monthly_climatology_c": {str(k): v for k, v in pair.training_climatology.items()},
         "history_months": "T-14 through T-3, oldest to newest",
         "source_availability_assumption": "two-month product-release lag; NASA publication timestamps were not verified",
-        "training_month_start": str(data.target_month.min()),
-        "training_month_end": str(data.target_month.max()),
-        "training_month_count": int(len(data)),
+        "training_month_start": str(training_data.target_month.min()),
+        "training_month_end": str(training_data.target_month.max()),
+        "training_month_count": int(len(training_data)),
+        "fit_as_of_issue_time_utc": str(inference_row.issue_date_utc.iloc[0]),
     }
     bundle = {
         "model_id": "kuntur_predictive_v14_residual_shrinkage",
@@ -790,7 +841,36 @@ def _make_final_bundle(
     joblib.dump(bundle, temp, compress=3)
     temp.replace(model_path)
     _atomic_json(prep_path, prep)
-    return [model_path, prep_path], {"fit_wall_seconds": fit["timing"]["fit_wall_seconds"], "fit_cpu_seconds": fit["timing"]["fit_cpu_seconds"], "model_sha256": sha256_file(model_path)}
+    return [model_path, prep_path], {
+        "fit_wall_seconds": fit["timing"]["fit_wall_seconds"],
+        "fit_cpu_seconds": fit["timing"]["fit_cpu_seconds"],
+        "model_sha256": sha256_file(model_path),
+        "training_month_start": str(training_data.target_month.min()),
+        "training_month_end": str(training_data.target_month.max()),
+        "training_month_count": int(len(training_data)),
+        "fit_as_of_issue_time_utc": str(inference_row.issue_date_utc.iloc[0]),
+    }
+
+
+def _final_refit_inputs(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Build the final as-of refit and a label-free first post-development forecast row."""
+    target = pd.Period(DEVELOPMENT_END, freq="M") + 1
+    issue = target - 1
+    issue_date = f"{issue}-01T00:00:00Z"
+    training = labels_available_by_issue(data, issue_date)
+    if training.empty:
+        raise ValueError("no development labels were available at the final model issue time")
+    inference = pd.DataFrame([{
+        "sample_id": f"forecast:{target}",
+        "target_month": str(target),
+        "forecast_origin_month": str(target - 1),
+        "issue_date_utc": issue_date,
+        "history_start_month": str(target - 14),
+        "history_end_month": str(target - 3),
+        "target_value": np.nan,
+    }])
+    validate_forecast_timeline(inference)
+    return training, inference
 
 
 def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
@@ -1134,7 +1214,7 @@ def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
     report_paths.extend(_render_figures(report_root, prediction_frame, metrics_frame, ablation, robustness, calibration_summary))
     output_paths.extend(report_paths)
     manifest_path = output_root / "experiment_manifest.json"
-    files = _file_facts(output_paths, ROOT)
+    files = _file_facts(output_paths, ROOT, artifact_roots={"outputs": output_root, "reports": report_root})
     primary = comparison[comparison.model_id == "nested_selected_augmentation_pipeline"].iloc[0].to_dict()
     validation_checks = {
         "source_forecast_predicate_ends_at_2021_12": bool(forecast.target_month.max() == DEVELOPMENT_END),
@@ -1152,6 +1232,11 @@ def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
             not completed_augmentation_records.empty
             and completed_augmentation_records.label_integrity_verified.astype(bool).all()
             and completed_augmentation_records.authentic_month_weight_sum_verified.astype(bool).all()
+        ),
+        "final_refit_uses_only_labels_available_at_first_post_development_issue": bool(
+            final_fit_metrics["training_month_end"]
+            <= str(latest_available_label_month(final_fit_metrics["fit_as_of_issue_time_utc"]))
+            and final_fit_metrics["fit_as_of_issue_time_utc"] == "2021-12-01T00:00:00Z"
         ),
     }
     if not all(validation_checks.values()):
@@ -1197,8 +1282,8 @@ def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
         "selected_development_refit": {
             "specification": final_spec, "training_policy": final_policy,
             "augmentation_intensity": final_intensity,
-            "training_month_range": [str(samples.target_month.min()), str(samples.target_month.max())],
-            "training_month_count": int(len(samples)), "fit": final_fit_metrics,
+            "training_month_range": [final_fit_metrics["training_month_start"], final_fit_metrics["training_month_end"]],
+            "training_month_count": final_fit_metrics["training_month_count"], "fit": final_fit_metrics,
             "out_of_fold_metrics": primary,
             "deployment_status": "development candidate only; independent temporal generalization unverified",
         },

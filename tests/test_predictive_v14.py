@@ -116,7 +116,7 @@ def _with_targets(samples: pd.DataFrame) -> pd.DataFrame:
 
 def test_feature_pair_uses_training_only_climatology_and_fold_local_scaling():
     samples = _with_targets(_samples("2003-03", "2005-12"))
-    train = samples[samples.target_month <= "2004-12"].copy()
+    train = samples[samples.target_month <= "2004-10"].copy()
     validation = samples[samples.target_month >= "2005-01"].copy()
     monthly = _monthly_source()
     pair = feature_pair(train, validation, monthly, "temperature_only")
@@ -135,7 +135,7 @@ def test_feature_pair_uses_training_only_climatology_and_fold_local_scaling():
 
 def test_feature_pair_does_not_use_source_months_after_latest_allowed_predictor():
     samples = _with_targets(_samples("2003-03", "2005-12"))
-    train = samples[samples.target_month <= "2004-12"].copy()
+    train = samples[samples.target_month <= "2004-10"].copy()
     validation = samples[samples.target_month >= "2005-01"].copy()
     monthly = _monthly_source()
     altered = monthly.copy()
@@ -260,3 +260,129 @@ def test_histogram_boosting_fit_uses_bounded_native_threads_without_parallel_war
     complexity = estimator_complexity(model, "hist_gradient_boosting", x.shape[1])
     assert complexity["tree_node_count"] > 0
     assert complexity["complexity_indicator"] == complexity["tree_node_count"]
+
+
+def test_fold_training_and_inner_selection_use_only_labels_available_at_issue_time():
+    frame = _with_targets(_samples("2003-03", "2021-12"))
+    outer = chronological_outer_folds(frame)
+    assert [fold.train.target_month.max() for fold in outer] == ["2011-10", "2014-10", "2017-10"]
+    assert [fold.validation.target_month.min() for fold in outer] == ["2012-01", "2015-01", "2018-01"]
+
+    inner = chronological_inner_folds(outer[0].train)
+    assert [fold.train.target_month.max() for fold in inner] == ["2008-10", "2009-10", "2010-10"]
+    assert [fold.validation.target_month.max() for fold in inner] == ["2009-12", "2010-12", "2011-10"]
+
+
+def test_interval_calibration_excludes_residuals_not_released_by_issue_month():
+    from kuntur_data.phase2.predictive_v14 import TemporalFold
+    from scripts.run_predictive_v14 import _interval_rows
+
+    prior = [
+        {"target_month": "2017-09", "observed_t2m_c": 1.0, "prediction_t2m_c": 0.0},
+        {"target_month": "2017-10", "observed_t2m_c": 2.0, "prediction_t2m_c": 1.0},
+        {"target_month": "2017-11", "observed_t2m_c": 100.0, "prediction_t2m_c": 0.0},
+    ]
+    current = pd.DataFrame([{
+        "sample_id": "target:2018-01", "target_month": "2018-01",
+        "observed_t2m_c": 2.0, "prediction_t2m_c": 1.0,
+        "training_climatology_c": 0.0,
+    }])
+    rows, _ = _interval_rows(
+        TemporalFold("outer_test", pd.DataFrame(), pd.DataFrame()), current, current,
+        None, None, [dict(row) for row in prior], [dict(row) for row in prior],
+    )
+    pooled = next(
+        row for row in rows
+        if row["model_id"] == "nested_selected_augmentation_pipeline"
+        and row["calibration_method"] == "expanding_pooled"
+    )
+    assert pooled["calibration_residual_count"] == 2
+    assert pooled["calibration_prior_month_end"] == "2017-10"
+
+
+def test_augmentation_policy_selection_rejects_a_variant_missing_an_inner_fold(monkeypatch):
+    from types import SimpleNamespace
+
+    import scripts.run_predictive_v14 as runner
+
+    inner_folds = []
+    for index, (month, observed) in enumerate((("2010-01", 1.0), ("2011-01", 10.0)), start=1):
+        inner_folds.append(SimpleNamespace(
+            name=f"inner_{index}",
+            train=pd.DataFrame([{"sample_id": f"train:{index}", "target_month": f"200{index}-01"}]),
+            validation=pd.DataFrame([{"sample_id": f"validation:{index}", "target_month": month, "target_value": observed}]),
+        ))
+    monkeypatch.setattr(runner, "chronological_inner_folds", lambda _: inner_folds)
+
+    def make_pair(train, validation, monthly, feature_group):
+        observed = float(validation.target_value.iloc[0])
+        return SimpleNamespace(
+            x_train=np.asarray([[0.0, 0.0]]), y_train_residual=np.asarray([0.0]),
+            feature_names=("x", "missing__x"), x_validation=np.asarray([[0.0, 0.0]]),
+            y_validation=np.asarray([observed]), offset_validation=np.asarray([0.0]),
+        )
+
+    monkeypatch.setattr(runner, "feature_pair", make_pair)
+    fit_calls = 0
+
+    class ConstantModel:
+        def __init__(self, value):
+            self.value = value
+
+        def predict(self, x):
+            return np.full(len(x), self.value)
+
+    def fit_estimator(model_id, config, x, y, weights, seed):
+        nonlocal fit_calls
+        fit_calls += 1
+        if fit_calls == 6:  # second inner fold of mild_dropout_10pct
+            raise RuntimeError("simulated fit failure on one inner fold")
+        prediction_value = 1.0 if fit_calls == 2 else 0.0
+        return ConstantModel(prediction_value), {"fit_wall_seconds": 0.0, "fit_cpu_seconds": 0.0}
+
+    monkeypatch.setattr(runner, "fit_estimator", fit_estimator)
+    months = ("2010-01", "2011-01")
+    clean_frames = [pd.DataFrame([{
+        "sample_id": f"validation:{index}", "target_month": month,
+        "observed_t2m_c": observed, "training_climatology_c": 0.0,
+        "residual_prediction_c": 10.0, "prediction_t2m_c": 10.0,
+    }]) for index, (month, observed) in enumerate(zip(months, (1.0, 10.0)), start=1)]
+    spec = {"feature_group": "temperature_only", "model_id": "ridge", "config_id": "c1", "config": {}, "alpha": 1.0}
+    key = ("temperature_only", "ridge", "c1", 1.0)
+
+    selected, _ = runner._augmentation_inner_search(
+        SimpleNamespace(name="outer_test", train=pd.DataFrame()), pd.DataFrame(),
+        spec, {key: clean_frames}, key, [],
+    )
+
+    assert selected["_selected_policy"]["selected_variant"] != "mild_dropout_10pct"
+    assert selected["_selected_policy"]["sample_count"] == 2
+
+
+def test_file_facts_accepts_artifacts_in_external_output_roots_without_absolute_paths(tmp_path):
+    from scripts.run_predictive_v14 import _file_facts
+
+    repo = tmp_path / "repo"
+    external = tmp_path / "mounted-results"
+    artifact = external / "reports" / "summary.csv"
+    repo.mkdir()
+    artifact.parent.mkdir(parents=True)
+    artifact.write_bytes(b"safe output\n")
+
+    facts = _file_facts([artifact], repo, artifact_roots={"reports": external / "reports"})
+
+    assert set(facts) == {"reports/summary.csv"}
+    assert facts["reports/summary.csv"]["bytes"] == len(b"safe output\n")
+    assert str(tmp_path) not in " ".join(facts)
+
+
+def test_final_refit_uses_only_labels_available_for_first_post_development_issue():
+    from scripts.run_predictive_v14 import _final_refit_inputs
+
+    data = _with_targets(_samples("2003-03", "2021-12"))
+    training, inference = _final_refit_inputs(data)
+
+    assert training.target_month.max() == "2021-10"
+    assert inference.target_month.tolist() == ["2022-01"]
+    assert inference.issue_date_utc.tolist() == ["2021-12-01T00:00:00Z"]
+    assert inference.target_value.isna().all()
