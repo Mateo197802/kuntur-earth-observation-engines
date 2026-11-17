@@ -917,7 +917,7 @@ def main(argv: list[str] | None = None) -> int:
     v14_dir = repo_root / "results" / "predictive_v14"
     result_dir = repo_root / "results" / "predictive_v15"
     report_path = repo_root / "reports" / "predictive_v15" / "PREDICTIVE_V15_REPORT.md"
-    run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     private_parent = args.private_output_root or (Path.home() / ".local" / "share" / "kuntur" / "private" / "predictive_v15")
     private_result_dir = private_parent.resolve() / run_id
     try:

@@ -96,6 +96,7 @@ def main() -> int:
     require(not hash_failures, f"output hash index failed: {hash_failures}")
 
     input_hash_failures: list[str] = []
+    verified_input_count = 0
     for key, record in registry["input_files"].items():
         label = str(record["path"])
         if Path(label).is_absolute() or PureWindowsPath(label).is_absolute() or "\\Users\\" in label:
@@ -107,6 +108,8 @@ def main() -> int:
             continue
         if not path.is_file() or sha256_file(path) != record["sha256"] or path.stat().st_size != int(record["size_bytes"]):
             input_hash_failures.append(key)
+        else:
+            verified_input_count += 1
     require(not input_hash_failures, f"input/code hash check failed: {input_hash_failures}")
 
     public_row_level_names = {
@@ -164,7 +167,7 @@ def main() -> int:
             "status": "PASS",
             "verification_scope": "PUBLIC_AGGREGATES_ONLY",
             "public_output_files_hash_verified": len(hash_index["files"]),
-            "input_and_implementation_hash_verified": len(registry["input_files"]),
+            "input_and_implementation_hash_verified": verified_input_count,
             "private_row_level_files_listed_by_hash": len(private_records),
             "row_level_files_in_public_results": 0,
             "outer_oof_rows": int(metrics.sample_count.iloc[0]),
@@ -284,7 +287,7 @@ def main() -> int:
     print(json.dumps({
         "status": "PASS",
         "output_files_hash_verified": len(hash_index["files"]),
-        "input_and_implementation_hash_verified": len(registry["input_files"]),
+        "input_and_implementation_hash_verified": verified_input_count,
         "outer_oof_rows": len(predictions),
         "target_range": [target.min(), target.max()],
         "outer_folds": sorted(expected_folds),
